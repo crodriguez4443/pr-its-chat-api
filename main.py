@@ -246,7 +246,8 @@ app.add_middleware(
 # Google Gemini Configuration
 gemini_api_key = os.getenv("GEMINI_API_KEY")
 if not gemini_api_key:
-    raise ValueError("GEMINI_API_KEY environment variable not set.")
+    available_vars = [k for k in os.environ.keys() if 'gemini' in k.lower() or 'api' in k.lower()]
+    raise ValueError(f"GEMINI_API_KEY environment variable not set. Available env vars with 'gemini'/'api': {available_vars}")
 client = genai.Client(api_key=gemini_api_key)
 
 # ============================================================================
