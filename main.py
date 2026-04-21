@@ -223,12 +223,46 @@ def load_content_data():
     except FileNotFoundError:
         print("Error: processed_content.jsonl not found. Run content_processor.py first.")
 
+# ============================================================================
+# WIKI-FIRST: Pre-synthesized knowledge layer (replaces per-query RAG)
+# ============================================================================
+
+wiki_content = ""
+WIKI_DIR = os.path.join(os.path.dirname(__file__), 'wiki_sketch', 'wiki')
+
+def load_wiki_content():
+    """Load all wiki markdown files into a single context string.
+
+    The wiki (~28K tokens total) is a pre-synthesized knowledge layer that
+    replaces the high-token RAG retrieval path. Loaded once at startup.
+    """
+    global wiki_content
+    parts = []
+    try:
+        for root, _dirs, files in os.walk(WIKI_DIR):
+            for fname in sorted(files):
+                if fname.endswith('.md'):
+                    path = os.path.join(root, fname)
+                    rel = os.path.relpath(path, WIKI_DIR).replace('\\', '/')
+                    with open(path, 'r', encoding='utf-8') as f:
+                        parts.append(f"=== WIKI PAGE: {rel} ===\n{f.read()}")
+        wiki_content = "\n\n".join(parts)
+        approx_tokens = len(wiki_content) // 4
+        print(f"Loaded wiki: {len(parts)} pages, {len(wiki_content):,} chars (~{approx_tokens:,} tokens)")
+    except Exception as e:
+        print(f"Error loading wiki from {WIKI_DIR}: {e}")
+        wiki_content = ""
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     global content_data
+    # NOTE: RAG content loading kept active (zero token cost — in-memory only).
+    # This lets RAG be re-enabled by uncommenting the retrieval block in
+    # /api/chat without requiring a restart or data reload.
     if len(content_data) == 0:
         load_content_data()
+    load_wiki_content()
     yield
     # Shutdown (if needed)
 
@@ -1193,40 +1227,54 @@ async def chat(request: ChatRequest):
         # Track request start time for logging
         start_time = time.time()
 
-        # Step 4: Find relevant content using multi-stage retrieval
-        relevant_content = find_relevant_content_multi_stage(
-            query=actual_query,
-            user_role=user_role
-        )
+        # ====================================================================
+        # PAUSED: RAG retrieval path (high token cost — ~100-500K tokens/query)
+        # Replaced by wiki-first context below. To restore RAG: uncomment this
+        # block and delete/comment the wiki-first block that follows.
+        # Note: query expansion (expand_query_with_llm) is only called from
+        # inside find_relevant_content_multi_stage, so it is also paused.
+        # ====================================================================
+        # # Step 4: Find relevant content using multi-stage retrieval
+        # relevant_content = find_relevant_content_multi_stage(
+        #     query=actual_query,
+        #     user_role=user_role
+        # )
+        #
+        # if not relevant_content:
+        #     return ChatResponse(
+        #         response="<p>I couldn't find relevant information to answer your question. Please try rephrasing or ask about ITS architecture topics.</p>",
+        #         session_id=session_id,
+        #         remaining_queries=remaining,
+        #         query_count=session_data['query_count'],
+        #         conversation_query_count=session_data.get('conversation_query_count', 0),
+        #         remaining_in_conversation=MAX_QUERIES_PER_CONVERSATION - session_data.get('conversation_query_count', 0)
+        #     )
+        #
+        # # Step 5: Build context from relevant content
+        # context_parts = []
+        # for item in relevant_content:
+        #     # Limit content length to avoid token limits
+        #     content_preview = item['content'][:4000] + "..." if len(item['content']) > 1500 else item['content']
+        #     # Use URL directly from JSON
+        #     file_url = item['url']
+        #
+        #     # Build context with chunk metadata (JSONL format)
+        #     chunk_info = f"Chunk ID: {item.get('chunk_id', 'N/A')}"
+        #     if item.get('chunk_type'):
+        #         chunk_info += f" | Type: {item['chunk_type']}"
+        #     if item.get('chunk_index') is not None:
+        #         chunk_info += f" | Part {item['chunk_index']+1} of {item.get('total_chunks', '?')}"
+        #
+        #     context_parts.append(f"{chunk_info}\nURL: {file_url}\nTitle: {item['title']}\nContent: {content_preview}")
+        #
+        # context = "\n\n---\n\n".join(context_parts)
 
-        if not relevant_content:
-            return ChatResponse(
-                response="<p>I couldn't find relevant information to answer your question. Please try rephrasing or ask about ITS architecture topics.</p>",
-                session_id=session_id,
-                remaining_queries=remaining,
-                query_count=session_data['query_count'],
-                conversation_query_count=session_data.get('conversation_query_count', 0),
-                remaining_in_conversation=MAX_QUERIES_PER_CONVERSATION - session_data.get('conversation_query_count', 0)
-            )
-
-        # Step 5: Build context from relevant content
-        context_parts = []
-        for item in relevant_content:
-            # Limit content length to avoid token limits
-            content_preview = item['content'][:4000] + "..." if len(item['content']) > 1500 else item['content']
-            # Use URL directly from JSON
-            file_url = item['url']
-
-            # Build context with chunk metadata (JSONL format)
-            chunk_info = f"Chunk ID: {item.get('chunk_id', 'N/A')}"
-            if item.get('chunk_type'):
-                chunk_info += f" | Type: {item['chunk_type']}"
-            if item.get('chunk_index') is not None:
-                chunk_info += f" | Part {item['chunk_index']+1} of {item.get('total_chunks', '?')}"
-
-            context_parts.append(f"{chunk_info}\nURL: {file_url}\nTitle: {item['title']}\nContent: {content_preview}")
-
-        context = "\n\n---\n\n".join(context_parts)
+        # ====================================================================
+        # WIKI-FIRST: Use pre-synthesized wiki as primary context source
+        # (~28K tokens for full wiki vs. 100-500K tokens for RAG)
+        # ====================================================================
+        context = wiki_content
+        relevant_content = [{'url': 'wiki', 'title': 'wiki'}]  # placeholder for downstream len()/logging
 
         # Step 6: Generate role-specific system prompt
         system_prompt = build_role_specific_system_prompt(user_role)
