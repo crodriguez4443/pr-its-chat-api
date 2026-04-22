@@ -12,7 +12,8 @@ from enum import Enum
 from datetime import datetime, timedelta
 import uuid
 import time
-import conversation_logger
+import session_store
+from config import MAX_QUERIES_PER_DAY, MAX_QUERIES_PER_CONVERSATION, SESSION_CLEANUP_HOURS
 
 
 # ============================================================================
@@ -109,81 +110,9 @@ ROLE_CONTENT_CONFIG = {
 # ============================================================================
 # SECTION 2: SESSION MANAGEMENT
 # ============================================================================
-
-# Session storage: session_id -> session data
-sessions: Dict[str, dict] = {}
-
-# Session configuration
-MAX_QUERIES_PER_DAY = 10
-MAX_QUERIES_PER_CONVERSATION = 3  # Limit continuous conversation to 3 queries
-SESSION_CLEANUP_HOURS = 48  # Clean up sessions older than 48 hours
-
-class SessionData(BaseModel):
-    """Session data structure"""
-    session_id: str
-    conversation_history: List[dict]  # [{role: user/assistant, content: str}]
-    query_count: int  # Daily query count
-    conversation_query_count: int = 0  # Queries in current conversation
-    created_at: datetime
-    last_activity: datetime
-    user_role: Optional[str] = None
-
-def get_midnight_today():
-    """Get midnight (00:00:00) for today"""
-    now = datetime.now()
-    return datetime(now.year, now.month, now.day, 0, 0, 0)
-
-def get_or_create_session(session_id: Optional[str] = None) -> tuple[str, dict]:
-    """
-    Get existing session or create new one.
-    Returns: (session_id, session_data)
-    """
-    # Clean up old sessions first
-    cleanup_old_sessions()
-
-    # Check for midnight reset
-    reset_midnight_sessions()
-
-    if session_id and session_id in sessions:
-        # Return existing session
-        sessions[session_id]['last_activity'] = datetime.now()
-        return session_id, sessions[session_id]
-
-    # Create new session
-    new_session_id = str(uuid.uuid4())
-    sessions[new_session_id] = {
-        'session_id': new_session_id,
-        'conversation_history': [],
-        'query_count': 0,
-        'conversation_query_count': 0,
-        'created_at': datetime.now(),
-        'last_activity': datetime.now(),
-        'user_role': None
-    }
-
-    print(f"Created new session: {new_session_id}")
-    return new_session_id, sessions[new_session_id]
-
-def cleanup_old_sessions():
-    """Remove sessions older than SESSION_CLEANUP_HOURS"""
-    cutoff_time = datetime.now() - timedelta(hours=SESSION_CLEANUP_HOURS)
-    old_sessions = [sid for sid, data in sessions.items()
-                   if data['last_activity'] < cutoff_time]
-
-    for sid in old_sessions:
-        del sessions[sid]
-        print(f"Cleaned up old session: {sid}")
-
-def reset_midnight_sessions():
-    """Reset query counts for sessions that were created before today's midnight"""
-    midnight_today = get_midnight_today()
-
-    for session_id, session_data in sessions.items():
-        # If session was created before today's midnight, reset the query count
-        if session_data['created_at'] < midnight_today:
-            print(f"Resetting session {session_id} - created before midnight")
-            session_data['query_count'] = 0
-            session_data['created_at'] = datetime.now()  # Reset creation time
+# Session persistence is handled by session_store.py (SQLite on the Railway
+# volume). Session limits live in config.py. This section only keeps the
+# pure limit-check helpers that operate on an already-loaded session dict.
 
 def check_query_limit(session_data: dict) -> tuple[bool, int]:
     """
@@ -257,6 +186,7 @@ def load_wiki_content():
 async def lifespan(app: FastAPI):
     # Startup
     global content_data
+    session_store.init_db()
     # NOTE: RAG content loading kept active (zero token cost — in-memory only).
     # This lets RAG be re-enabled by uncommenting the retrieval block in
     # /api/chat without requiring a restart or data reload.
@@ -1167,8 +1097,10 @@ async def chat(request: ChatRequest):
     Parses role from the message text sent by the frontend.
     """
     try:
-        # Step 1: Get or create session
-        session_id, session_data = get_or_create_session(request.session_id)
+        # Step 1: Get or create session (SQLite-backed)
+        session_id, session_data = session_store.get_or_create_session(
+            request.session_id, SESSION_CLEANUP_HOURS
+        )
 
         # Step 2: Check daily query limit
         can_query, remaining = check_query_limit(session_data)
@@ -1332,25 +1264,26 @@ async def chat(request: ChatRequest):
         })
         session_data['query_count'] += 1
         session_data['conversation_query_count'] = session_data.get('conversation_query_count', 0) + 1
+        session_data['exchange_count'] = session_data.get('exchange_count', 0) + 1
         session_data['last_activity'] = datetime.now()
+
+        # Persist session mutations to SQLite
+        session_store.save_session(session_data)
 
         # Calculate response time
         response_time_ms = int((time.time() - start_time) * 1000)
 
-        # Log the conversation exchange
-        try:
-            conversation_logger.log_conversation(
-                session_id=session_id,
-                user_role=user_role.value,
-                user_query=actual_query,
-                assistant_response=markdown_content,  # Store markdown version for readability
-                conversation_context_length=len(session_data['conversation_history']),
-                chunks_retrieved=len(relevant_content),
-                response_time_ms=response_time_ms
-            )
-        except Exception as log_error:
-            # Don't fail the request if logging fails
-            print(f"Warning: Failed to log conversation: {log_error}")
+        # Log the exchange as an audit row (non-fatal if it fails)
+        session_store.log_exchange(
+            session_id=session_id,
+            exchange_number=session_data['exchange_count'],
+            user_role=user_role.value,
+            user_query=actual_query,
+            assistant_response=markdown_content,  # Store markdown for readability
+            conversation_context_length=len(session_data['conversation_history']),
+            chunks_retrieved=len(relevant_content),
+            response_time_ms=response_time_ms,
+        )
 
         return ChatResponse(
             response=html_content,
@@ -1391,19 +1324,11 @@ async def reset_conversation(request: ResetConversationRequest):
     Clears conversation history and resets conversation query count.
     Optionally clears the user role if clear_role is True.
     """
-    if request.session_id not in sessions:
+    session_data = session_store.reset_conversation(
+        request.session_id, clear_role=request.clear_role
+    )
+    if session_data is None:
         raise HTTPException(status_code=404, detail="Session not found")
-
-    session_data = sessions[request.session_id]
-
-    # Reset conversation-specific data
-    session_data['conversation_history'] = []
-    session_data['conversation_query_count'] = 0
-    session_data['last_activity'] = datetime.now()
-
-    # Optionally clear role
-    if request.clear_role:
-        session_data['user_role'] = None
 
     print(f"\n=== Conversation Reset ===")
     print(f"Session ID: {request.session_id}")
