@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from contextlib import asynccontextmanager
 from google import genai
 from google.genai import types
+from google.genai import errors as genai_errors
 import csv
 import io
 import json
@@ -16,7 +17,13 @@ from datetime import datetime, timedelta
 import uuid
 import time
 import session_store
-from config import MAX_QUERIES_PER_DAY, MAX_QUERIES_PER_CONVERSATION, SESSION_CLEANUP_HOURS
+from config import (
+    MAX_QUERIES_PER_DAY,
+    MAX_QUERIES_PER_CONVERSATION,
+    SESSION_CLEANUP_HOURS,
+    GEMINI_FLASH_MODEL,
+    GEMINI_PRO_MODEL,
+)
 
 
 # ============================================================================
@@ -393,11 +400,11 @@ Now generate expanded terms for: "{query}"
 
     try:
         print(f"\n=== Calling LLM for Query Expansion ===")
-        print(f"Model: gemini-3-flash-preview")
+        print(f"Model: {GEMINI_FLASH_MODEL}")
         print(f"Query being expanded: {query}")
 
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=GEMINI_FLASH_MODEL,
             contents=[
                 {
                     "role": "user",
@@ -1243,7 +1250,7 @@ async def chat(request: ChatRequest):
             })
 
         response = client.models.generate_content(
-            model="gemini-3-pro-preview",
+            model=GEMINI_PRO_MODEL,
             contents=gemini_contents,
             config={
                 "system_instruction": system_instruction,
@@ -1296,6 +1303,24 @@ async def chat(request: ChatRequest):
             conversation_query_count=session_data['conversation_query_count'],
             remaining_in_conversation=MAX_QUERIES_PER_CONVERSATION - session_data['conversation_query_count']
         )
+
+    except genai_errors.ServerError as e:
+        # Google-side outage/overload (5xx from Gemini). Surface a clear,
+        # user-facing message so users know the issue is upstream, not ours.
+        import traceback
+        print("\n=== Gemini Upstream Error ===")
+        print(f"Status: {getattr(e, 'code', 'unknown')}")
+        print("Error message:", str(e))
+        traceback.print_exc()
+        print("=============================\n")
+
+        friendly = (
+            "<p><strong>Google's Gemini service is temporarily unavailable.</strong></p>"
+            "<p>This is an issue on Google's side, not with this application. "
+            "The model is currently experiencing high demand or a brief outage. "
+            "Please wait a minute and try your question again.</p>"
+        )
+        raise HTTPException(status_code=503, detail=friendly)
 
     except Exception as e:
         import traceback
