@@ -51,6 +51,8 @@ os.environ["ARCHITECTURE_BASE_URL"] = ARCHITECTURE_BASE_URL
 # Override per deployment if cost profile differs.
 GEMINI_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3-flash-preview")
 GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-2.5-pro")
+# Fallback used when GEMINI_PRO_MODEL returns 503 after retries.
+GEMINI_PRO_FALLBACK_MODEL = os.getenv("GEMINI_PRO_FALLBACK_MODEL", "gemini-2.5-pro")
 
 # --- Session limits ---------------------------------------------------------
 MAX_QUERIES_PER_DAY = _getenv_int("MAX_QUERIES_PER_DAY", 10)

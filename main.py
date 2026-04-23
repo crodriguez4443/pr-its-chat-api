@@ -23,6 +23,7 @@ from config import (
     SESSION_CLEANUP_HOURS,
     GEMINI_FLASH_MODEL,
     GEMINI_PRO_MODEL,
+    GEMINI_PRO_FALLBACK_MODEL,
 )
 
 
@@ -1100,6 +1101,59 @@ DMS are typically controlled from Traffic Management Centers, where operators ca
 
 
 # ============================================================================
+# SECTION 8: RESILIENT GENERATION HELPER
+# ============================================================================
+
+_RETRY_DELAYS = [2, 5]  # seconds between attempts before giving up on primary model
+
+def _generate_with_retry(gemini_contents: list, system_instruction: str):
+    """
+    Call GEMINI_PRO_MODEL with up to 2 retries on 503 (overload/unavailable).
+    If all primary attempts fail, alert and try GEMINI_PRO_FALLBACK_MODEL once.
+    Raises the last exception if the fallback also fails.
+    """
+    gen_config = {
+        "system_instruction": system_instruction,
+        "max_output_tokens": 4000,
+        "temperature": 0.3,
+    }
+
+    last_exc = None
+    for attempt, delay in enumerate([0] + _RETRY_DELAYS, start=1):
+        if delay:
+            time.sleep(delay)
+        try:
+            return client.models.generate_content(
+                model=GEMINI_PRO_MODEL,
+                contents=gemini_contents,
+                config=gen_config,
+            )
+        except genai_errors.ServerError as e:
+            last_exc = e
+            code = getattr(e, 'code', None) or getattr(e, 'status_code', None)
+            print(
+                f"\n[ALERT] Gemini 503 on attempt {attempt}/{len(_RETRY_DELAYS)+1} "
+                f"(model={GEMINI_PRO_MODEL}, code={code}): {e}"
+            )
+
+    # Primary model exhausted — try fallback
+    print(
+        f"\n[ALERT] GEMINI_PRO_MODEL ({GEMINI_PRO_MODEL}) returned 503 on all "
+        f"{len(_RETRY_DELAYS)+1} attempts. Switching to fallback model: "
+        f"{GEMINI_PRO_FALLBACK_MODEL}"
+    )
+    try:
+        return client.models.generate_content(
+            model=GEMINI_PRO_FALLBACK_MODEL,
+            contents=gemini_contents,
+            config=gen_config,
+        )
+    except Exception as fallback_exc:
+        print(f"[ALERT] Fallback model {GEMINI_PRO_FALLBACK_MODEL} also failed: {fallback_exc}")
+        raise fallback_exc
+
+
+# ============================================================================
 # SECTION 8: CHAT ENDPOINT
 # ============================================================================
 
@@ -1252,14 +1306,9 @@ async def chat(request: ChatRequest):
                 "parts": [{"text": msg["content"]}]
             })
 
-        response = client.models.generate_content(
-            model=GEMINI_PRO_MODEL,
-            contents=gemini_contents,
-            config={
-                "system_instruction": system_instruction,
-                "max_output_tokens": 4000,
-                "temperature": .3,
-            }
+        response = _generate_with_retry(
+            gemini_contents=gemini_contents,
+            system_instruction=system_instruction,
         )
 
         # Step 9: Convert markdown response to HTML
