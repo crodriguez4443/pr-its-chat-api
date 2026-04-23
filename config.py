@@ -50,7 +50,7 @@ os.environ["ARCHITECTURE_BASE_URL"] = ARCHITECTURE_BASE_URL
 # --- Gemini models ----------------------------------------------------------
 # Override per deployment if cost profile differs.
 GEMINI_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3-flash-preview")
-GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-2.5-pro")
+GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-3.1-pro-preview")
 
 # --- Session limits ---------------------------------------------------------
 MAX_QUERIES_PER_DAY = _getenv_int("MAX_QUERIES_PER_DAY", 10)
