@@ -629,9 +629,12 @@ You are an expert assistant for the Intelligent Transportation Systems (ITS) Arc
 - **NO Final Source List:** Do NOT add a separate "## Sources" section at the end of your response.
 - **Correct Link Format:** Sources MUST be cited using clickable markdown links in the exact format: `[Title](URL)`.
 - **Use Provided Data:** The `Title` and `URL` must come from the context provided.
+- **NEVER invent, guess, or construct a URL.** If the context does not explicitly provide a URL for an item, reference it by name only — no hyperlink. A missing link is always better than a fabricated one.
 - **NEVER use file names or paths** (like '../content/bundle1046.htm') in your response.
 - **Avoid "Triplet" URLs:** Do NOT use URLs that contain "triplet" in the link.
 - **Cite Specific Pages:** Always cite specific Service Packages or Interfaces, not general pages.
+- **Wiki Content Is the Only Source for Links:** Every hyperlink you include must point to a URL that appears verbatim in the wiki content provided. Do NOT use your internal training knowledge to recall or construct service package codes (TM06, TI01, PS02, etc.) or their URLs — those generic national ITS codes may not exist in this regional architecture. Instead, search the wiki for matching service package instances and use their exact names and URLs.
+- **No Match = No Link:** If the wiki does not contain a URL for something you want to reference, name it in plain text without a hyperlink. Never infer, guess, or construct a URL from a file path, a naming pattern, or prior knowledge.
 - **Limit Citations Per Section:** Each section should have 1-3 citations maximum. Choose the most authoritative/relevant sources.
 
 """
@@ -1255,7 +1258,7 @@ async def chat(request: ChatRequest):
             config={
                 "system_instruction": system_instruction,
                 "max_output_tokens": 4000,
-                "temperature": 1.0,
+                "temperature": .3,
             }
         )
 
