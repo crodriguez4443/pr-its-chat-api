@@ -20,9 +20,9 @@ import json
 import os
 import sqlite3
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from threading import Lock
-from typing import Optional, Tuple
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 import config
 
@@ -263,3 +263,174 @@ def get_unique_sessions() -> int:
     with _connect() as conn:
         row = conn.execute("SELECT COUNT(*) AS n FROM sessions").fetchone()
     return row["n"] if row else 0
+
+
+# ============================================================================
+# Admin query helpers (read-only)
+# ============================================================================
+# exchanges.timestamp is written as UTC ISO with a "Z" suffix (see log_exchange).
+# Range queries build strings in that same format so lexicographic comparison
+# in SQL works correctly.
+
+def _iso_z(dt: datetime) -> str:
+    """Format a datetime as UTC ISO with trailing Z, matching exchanges.timestamp."""
+    if dt.tzinfo is not None:
+        dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
+    return dt.strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z"
+
+
+_RANGE_DAYS = {"day": 1, "week": 7, "month": 30, "year": 365}
+
+
+def parse_range(
+    preset: Optional[str],
+    date_from: Optional[str],
+    date_to: Optional[str],
+) -> Tuple[str, str]:
+    """Return (start_iso, end_iso) for an admin query range.
+
+    Presets are rolling windows ending "now": day=24h, week=7d, month=30d,
+    year=365d. If date_from or date_to are supplied (ISO date or datetime),
+    they override the preset. Unknown presets fall back to "day".
+    """
+    now = datetime.now(timezone.utc)
+
+    if date_from or date_to:
+        start_dt = datetime.fromisoformat(date_from) if date_from else now - timedelta(days=365)
+        end_dt = datetime.fromisoformat(date_to) if date_to else now
+    else:
+        days = _RANGE_DAYS.get((preset or "day").lower(), 1)
+        start_dt = now - timedelta(days=days)
+        end_dt = now
+
+    return _iso_z(start_dt), _iso_z(end_dt)
+
+
+def _row_to_exchange(row: sqlite3.Row) -> Dict[str, Any]:
+    return {
+        "id": row["id"],
+        "session_id": row["session_id"],
+        "exchange_number": row["exchange_number"],
+        "timestamp": row["timestamp"],
+        "user_role": row["user_role"],
+        "user_query": row["user_query"],
+        "assistant_response": row["assistant_response"],
+        "conversation_context_length": row["conversation_context_length"],
+        "chunks_retrieved": row["chunks_retrieved"],
+        "response_time_ms": row["response_time_ms"],
+    }
+
+
+def count_exchanges(start: str, end: str, role: Optional[str] = None) -> int:
+    params: list = [start, end]
+    sql = "SELECT COUNT(*) AS n FROM exchanges WHERE timestamp >= ? AND timestamp <= ?"
+    if role:
+        sql += " AND user_role = ?"
+        params.append(role)
+    with _connect() as conn:
+        row = conn.execute(sql, params).fetchone()
+    return row["n"] if row else 0
+
+
+def list_exchanges(
+    start: str,
+    end: str,
+    role: Optional[str] = None,
+    limit: int = 50,
+    offset: int = 0,
+) -> List[Dict[str, Any]]:
+    """Paginated list of exchanges, newest first."""
+    params: list = [start, end]
+    sql = "SELECT * FROM exchanges WHERE timestamp >= ? AND timestamp <= ?"
+    if role:
+        sql += " AND user_role = ?"
+        params.append(role)
+    sql += " ORDER BY timestamp DESC LIMIT ? OFFSET ?"
+    params.extend([limit, offset])
+    with _connect() as conn:
+        rows = conn.execute(sql, params).fetchall()
+    return [_row_to_exchange(r) for r in rows]
+
+
+def iter_exchanges(
+    start: str,
+    end: str,
+    role: Optional[str] = None,
+) -> Iterator[Dict[str, Any]]:
+    """Stream all exchanges in range one at a time. Intended for large exports.
+
+    Caller is responsible for enforcing row caps (use count_exchanges first).
+    """
+    params: list = [start, end]
+    sql = "SELECT * FROM exchanges WHERE timestamp >= ? AND timestamp <= ?"
+    if role:
+        sql += " AND user_role = ?"
+        params.append(role)
+    sql += " ORDER BY timestamp DESC"
+    conn = _connect()
+    try:
+        cursor = conn.execute(sql, params)
+        for row in cursor:
+            yield _row_to_exchange(row)
+    finally:
+        conn.close()
+
+
+def get_stats(start: str, end: str) -> Dict[str, Any]:
+    """Summary counts for the admin UI over a range."""
+    with _connect() as conn:
+        total_exchanges = conn.execute(
+            "SELECT COUNT(*) AS n FROM exchanges WHERE timestamp >= ? AND timestamp <= ?",
+            (start, end),
+        ).fetchone()["n"]
+
+        total_sessions = conn.execute(
+            """SELECT COUNT(DISTINCT session_id) AS n
+                 FROM exchanges
+                WHERE timestamp >= ? AND timestamp <= ?""",
+            (start, end),
+        ).fetchone()["n"]
+
+        avg_row = conn.execute(
+            """SELECT AVG(response_time_ms) AS avg_ms
+                 FROM exchanges
+                WHERE timestamp >= ? AND timestamp <= ?""",
+            (start, end),
+        ).fetchone()
+        avg_ms = avg_row["avg_ms"]
+
+        by_role_rows = conn.execute(
+            """SELECT user_role, COUNT(*) AS n
+                 FROM exchanges
+                WHERE timestamp >= ? AND timestamp <= ?
+                GROUP BY user_role""",
+            (start, end),
+        ).fetchall()
+
+    return {
+        "start": start,
+        "end": end,
+        "total_sessions": total_sessions,
+        "total_exchanges": total_exchanges,
+        "avg_response_time_ms": round(avg_ms, 1) if avg_ms is not None else None,
+        "exchanges_by_role": {
+            (r["user_role"] or "unknown"): r["n"] for r in by_role_rows
+        },
+    }
+
+
+def get_session_with_history(session_id: str) -> Optional[Dict[str, Any]]:
+    """Full session record including conversation_history, for detail view."""
+    session = get_session(session_id)
+    if session is None:
+        return None
+    return {
+        "session_id": session["session_id"],
+        "user_role": session["user_role"],
+        "query_count": session["query_count"],
+        "conversation_query_count": session["conversation_query_count"],
+        "exchange_count": session["exchange_count"],
+        "created_at": session["created_at"].isoformat(),
+        "last_activity": session["last_activity"].isoformat(),
+        "conversation_history": session["conversation_history"],
+    }

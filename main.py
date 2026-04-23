@@ -1,12 +1,15 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
 from google import genai
 from google.genai import types
+import csv
+import io
 import json
 import os
-from typing import List, Optional, Dict
+from typing import Any, List, Optional, Dict
 import markdown
 from enum import Enum
 from datetime import datetime, timedelta
@@ -1343,6 +1346,162 @@ async def reset_conversation(request: ResetConversationRequest):
         remaining_queries=MAX_QUERIES_PER_DAY - session_data['query_count'],
         remaining_in_conversation=MAX_QUERIES_PER_CONVERSATION
     )
+
+# ============================================================================
+# SECTION 9: ADMIN DATA ENDPOINTS
+# ============================================================================
+# Read-only endpoints for monitoring beta usage. Currently unauthenticated;
+# tradeoffs documented in ADMIN_ENDPOINT_SECURITY.md.
+
+EXPORT_ROW_CAP = 50_000
+
+
+class StatsResponse(BaseModel):
+    start: str
+    end: str
+    total_sessions: int
+    total_exchanges: int
+    avg_response_time_ms: Optional[float]
+    exchanges_by_role: Dict[str, int]
+
+
+class ExchangeItem(BaseModel):
+    id: int
+    session_id: str
+    exchange_number: int
+    timestamp: str
+    user_role: Optional[str]
+    user_query: str
+    assistant_response: str
+    conversation_context_length: Optional[int]
+    chunks_retrieved: Optional[int]
+    response_time_ms: Optional[int]
+
+
+class ExchangesListResponse(BaseModel):
+    items: List[ExchangeItem]
+    total: int
+    limit: int
+    offset: int
+
+
+class SessionDetailResponse(BaseModel):
+    session_id: str
+    user_role: Optional[str]
+    query_count: int
+    conversation_query_count: int
+    exchange_count: int
+    created_at: str
+    last_activity: str
+    conversation_history: List[dict]
+
+
+@app.get("/api/data/stats", response_model=StatsResponse)
+async def data_stats(
+    range_: str = Query("day", alias="range"),
+    date_from: Optional[str] = Query(None, alias="from"),
+    date_to: Optional[str] = Query(None, alias="to"),
+):
+    """Summary counts over a date range (day|week|month|year, or custom from/to)."""
+    start, end = session_store.parse_range(range_, date_from, date_to)
+    return session_store.get_stats(start, end)
+
+
+@app.get("/api/data/exchanges", response_model=ExchangesListResponse)
+async def data_exchanges(
+    range_: str = Query("day", alias="range"),
+    date_from: Optional[str] = Query(None, alias="from"),
+    date_to: Optional[str] = Query(None, alias="to"),
+    role: Optional[str] = None,
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+):
+    """Paginated list of exchanges, newest first. Filter by date range and role."""
+    start, end = session_store.parse_range(range_, date_from, date_to)
+    total = session_store.count_exchanges(start, end, role=role)
+    items = session_store.list_exchanges(start, end, role=role, limit=limit, offset=offset)
+    return {"items": items, "total": total, "limit": limit, "offset": offset}
+
+
+@app.get("/api/data/exchanges/export")
+async def data_exchanges_export(
+    range_: str = Query("day", alias="range"),
+    date_from: Optional[str] = Query(None, alias="from"),
+    date_to: Optional[str] = Query(None, alias="to"),
+    role: Optional[str] = None,
+    format: str = Query("csv", pattern="^(csv|json)$"),
+):
+    """Streaming export of exchanges as CSV or JSON. Hard-capped at 50k rows."""
+    start, end = session_store.parse_range(range_, date_from, date_to)
+    total = session_store.count_exchanges(start, end, role=role)
+    if total > EXPORT_ROW_CAP:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"Range contains {total} exchanges, exceeding the {EXPORT_ROW_CAP} "
+                f"row export cap. Narrow the date range or add a role filter."
+            ),
+        )
+
+    today = datetime.now().strftime("%Y%m%d")
+    filename = f"exchanges_{range_}_{today}.{format}"
+    headers = {"Content-Disposition": f'attachment; filename="{filename}"'}
+
+    rows_iter = session_store.iter_exchanges(start, end, role=role)
+
+    if format == "csv":
+        return StreamingResponse(
+            _csv_stream(rows_iter),
+            media_type="text/csv",
+            headers=headers,
+        )
+    else:
+        return StreamingResponse(
+            _json_stream(rows_iter),
+            media_type="application/json",
+            headers=headers,
+        )
+
+
+CSV_FIELDS = [
+    "id", "session_id", "exchange_number", "timestamp", "user_role",
+    "user_query", "assistant_response", "conversation_context_length",
+    "chunks_retrieved", "response_time_ms",
+]
+
+
+def _csv_stream(rows):
+    """Yield CSV chunks one row at a time. Python's csv module handles quoting."""
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=CSV_FIELDS)
+    writer.writeheader()
+    yield buf.getvalue()
+    buf.seek(0); buf.truncate()
+    for row in rows:
+        writer.writerow(row)
+        yield buf.getvalue()
+        buf.seek(0); buf.truncate()
+
+
+def _json_stream(rows):
+    """Yield a valid JSON array, one row at a time. No trailing-comma pitfalls."""
+    yield "["
+    first = True
+    for row in rows:
+        prefix = "" if first else ","
+        first = False
+        yield prefix + json.dumps(row, ensure_ascii=False, default=str)
+    yield "]"
+
+
+@app.get("/api/data/sessions/{session_id}", response_model=SessionDetailResponse)
+async def data_session_detail(session_id: str):
+    """Full session record including conversation_history. For debugging a specific chat."""
+    session = session_store.get_session_with_history(session_id)
+    if session is None:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return session
+
 
 @app.get("/")
 async def root():
