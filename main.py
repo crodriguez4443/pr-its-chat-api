@@ -632,11 +632,13 @@ You are an expert assistant for the Intelligent Transportation Systems (ITS) Arc
 - **Use Provided Data:** The `Title` and `URL` must come from the context provided.
 - **NEVER invent, guess, or construct a URL.** If the context does not explicitly provide a URL for an item, reference it by name only — no hyperlink. A missing link is always better than a fabricated one.
 - **NEVER use file names or paths** (like '../content/bundle1046.htm') in your response.
+- **NEVER reference internal .MD files** (like 'tm-traffic-management.md') in your response.
 - **Avoid "Triplet" URLs:** Do NOT use URLs that contain "triplet" in the link.
 - **Cite Specific Pages:** Always cite specific Service Packages or Interfaces, not general pages.
 - **Wiki Content Is the Only Source for Links:** Every hyperlink you include must point to a URL that appears verbatim in the wiki content provided. Do NOT use your internal training knowledge to recall or construct service package codes (TM06, TI01, PS02, etc.) or their URLs — those generic national ITS codes may not exist in this regional architecture. Instead, search the wiki for matching service package instances and use their exact names and URLs.
 - **No Match = No Link:** If the wiki does not contain a URL for something you want to reference, name it in plain text without a hyperlink. Never infer, guess, or construct a URL from a file path, a naming pattern, or prior knowledge.
 - **Limit Citations Per Section:** Each section should have 1-3 citations maximum. Choose the most authoritative/relevant sources.
+- **NEVER use tables as they do not render correctly. use bulleted lists or paragraphs instead.
 
 """
 
@@ -916,11 +918,10 @@ Dynamic Message Signs require integration with Traffic Management Center systems
   - Key Objects: dmsMessageMultiString, dmsMessageStatus, dmsControlMode
 
 ### Applicable Standards
-| Standard | Purpose | Key Sections |
-|----------|---------|--------------|
-| NTCIP 1203 | DMS object definitions | Section 4 (message objects) |
-| NTCIP 2304 | Application profile | Center-to-field communications |
-| NTCIP 2101 | Point-to-multipoint | Protocol requirements |
+
+**Standard**: NTCIP 1203 - *Purpose* DMS object definitions (section 4: message objects)
+**Standard**: NTCIP 2304 - *Purpose* Application profile for center-to-field communications
+**Standard**: NTCIP 2101 - *Purpose* Point-to-multipoint (protocol requirements)
 
 [Standards Reference](URL)
 
@@ -957,11 +958,13 @@ For effective regional coordination, agencies must:
 - Use compatible communications standards to ensure system interoperability [Interface](URL)
 
 ### Stakeholder Roles
-| Agency | Role | Coordination Need |
-|--------|------|-------------------|
-| NYSDOT | Primary DMS operator on state routes | Regional message coordination |
-| County DOTs | Local DMS operations | Data sharing with state TMC |
-| MPO | Planning coordination | Architecture consistency |
+
+**Agency** - NYSDOT -Primary DMS operator on state routes.
+- Coordination needs: Regional message coordination.
+**County DOTs** - Local DMS operations.
+- Coordination needs: Data sharing with state TMC.
+**MPO** - Planning coordination.
+- Coordination needs: Architecture consistency.
 
 ### Regional Planning Alignment
 This supports Regional ITS Architecture Goal 3.2: "Enable seamless traveler information across jurisdictions." [Planning Document](URL)
@@ -1044,12 +1047,11 @@ TMC Software ← [Status/Diagnostics] ← Field Network ← DMS Controller
 - **FR-DMS-004**: Shall automatically adjust brightness based on ambient light sensors [Funreq](URL)
 
 ### Standards Compliance
-| Standard | Version | Application |
-|----------|---------|-------------|
-| NTCIP 1203 | v03 | DMS object definitions |
-| NTCIP 1201 | v03 | Global objects (time sync, device ID) |
-| NTCIP 2101 | v01 | Point-to-multipoint subnet profile |
-| NTCIP 2301 | v02 | STMP application profile |
+
+**Standard** NTCIP 1203 - v03: DMS object definitions
+**Standard** NTCIP 1201 - v03: Global objects (time sync, device ID)
+**Standard** NTCIP 2101 - v01: Point-to-multipoint subnet profile
+**Standard** NTCIP 2301 - v02: STMP application profile
 
 ### Service Packages
 - **TM06**: Core DMS control and monitoring [SP](URL)
