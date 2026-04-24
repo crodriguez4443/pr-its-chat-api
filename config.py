@@ -50,7 +50,7 @@ os.environ["ARCHITECTURE_BASE_URL"] = ARCHITECTURE_BASE_URL
 # --- Gemini models ----------------------------------------------------------
 # Override per deployment if cost profile differs.
 GEMINI_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3-flash-preview")
-GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-2.5-pro")
+GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-3.1-pro-preview")
 # Fallback used when GEMINI_PRO_MODEL returns 503 after retries.
 GEMINI_PRO_FALLBACK_MODEL = os.getenv("GEMINI_PRO_FALLBACK_MODEL", "gemini-2.5-pro")
 
