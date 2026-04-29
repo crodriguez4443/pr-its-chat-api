@@ -1111,8 +1111,8 @@ DMS are typically controlled from Traffic Management Centers, where operators ca
 # ============================================================================
 
 _RETRY_DELAYS = [1, 2]  # seconds between primary-model attempts
-_WALLCLOCK_BUDGET_S = 50.0  # hard ceiling across all retries + fallback
-_FALLBACK_MIN_BUDGET_S = 10.0  # only attempt fallback if this much budget remains
+_WALLCLOCK_BUDGET_S = 420.0  # hard ceiling across all retries + fallback
+_FALLBACK_MIN_BUDGET_S = 60.0  # only attempt fallback if this much budget remains
 
 def _generate_with_retry(gemini_contents: list, system_instruction: str):
     """
@@ -1227,7 +1227,7 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
 # timeout) after the budget would otherwise be exhausted. The grace period
 # lets a legitimately-long final attempt finish; anything beyond this is
 # treated as a stuck SDK call and forcibly aborted.
-_HARD_DEADLINE_S = _WALLCLOCK_BUDGET_S + 10.0
+_HARD_DEADLINE_S = _WALLCLOCK_BUDGET_S + 45.0
 
 
 async def _generate_with_retry_async(gemini_contents: list, system_instruction: str):
