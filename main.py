@@ -1473,7 +1473,7 @@ async def chat(request: ChatRequest):
             f"[TIMING] /api/chat EXIT OK session={session_id} "
             f"handler_total={time.monotonic() - handler_start:.2f}s"
         )
-        return ChatResponse(
+        return ChatResponse( 
             response=html_content,
             session_id=session_id,
             remaining_queries=MAX_QUERIES_PER_DAY - session_data['query_count'],
