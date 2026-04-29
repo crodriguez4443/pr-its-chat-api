@@ -226,7 +226,7 @@ if not gemini_api_key:
     raise ValueError(f"GEMINI_API_KEY environment variable not set. Available env vars with 'gemini'/'api': {available_vars}")
 client = genai.Client(
     api_key=gemini_api_key,
-    http_options=types.HttpOptions(timeout=25_000),
+    http_options=types.HttpOptions(timeout=150_000),
 )
 
 # ============================================================================
