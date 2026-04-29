@@ -223,7 +223,10 @@ gemini_api_key = os.getenv("GEMINI_API_KEY")
 if not gemini_api_key:
     available_vars = [k for k in os.environ.keys() if 'gemini' in k.lower() or 'api' in k.lower()]
     raise ValueError(f"GEMINI_API_KEY environment variable not set. Available env vars with 'gemini'/'api': {available_vars}")
-client = genai.Client(api_key=gemini_api_key)
+client = genai.Client(
+    api_key=gemini_api_key,
+    http_options=types.HttpOptions(timeout=25_000),
+)
 
 # ============================================================================
 # SECTION 4: PYDANTIC MODELS
@@ -1106,13 +1109,17 @@ DMS are typically controlled from Traffic Management Centers, where operators ca
 # SECTION 8: RESILIENT GENERATION HELPER
 # ============================================================================
 
-_RETRY_DELAYS = [2, 5]  # seconds between attempts before giving up on primary model
+_RETRY_DELAYS = [1, 2]  # seconds between primary-model attempts
+_WALLCLOCK_BUDGET_S = 50.0  # hard ceiling across all retries + fallback
+_FALLBACK_MIN_BUDGET_S = 10.0  # only attempt fallback if this much budget remains
 
 def _generate_with_retry(gemini_contents: list, system_instruction: str):
     """
-    Call GEMINI_PRO_MODEL with up to 2 retries on 503 (overload/unavailable).
-    If all primary attempts fail, alert and try GEMINI_PRO_FALLBACK_MODEL once.
-    Raises the last exception if the fallback also fails.
+    Call GEMINI_PRO_MODEL with up to 2 retries on 503, then fallback to
+    GEMINI_PRO_FALLBACK_MODEL — but abort early if the wallclock budget is
+    spent. Per-call HTTP timeout is enforced by the client (see http_options
+    on genai.Client). Together these prevent a single chat request from
+    blocking a worker for minutes when Gemini is overloaded.
     """
     gen_config = {
         "system_instruction": system_instruction,
@@ -1120,9 +1127,25 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
         "temperature": 0.3,
     }
 
-    last_exc = None
+    start = time.monotonic()
+
+    def elapsed() -> float:
+        return time.monotonic() - start
+
+    def remaining() -> float:
+        return _WALLCLOCK_BUDGET_S - elapsed()
+
+    last_exc: Optional[Exception] = None
+    total_attempts = len(_RETRY_DELAYS) + 1
+
     for attempt, delay in enumerate([0] + _RETRY_DELAYS, start=1):
         if delay:
+            if remaining() <= delay:
+                print(
+                    f"\n[ALERT] Wallclock budget {_WALLCLOCK_BUDGET_S}s exhausted "
+                    f"after {elapsed():.1f}s; skipping primary attempt {attempt}/{total_attempts}"
+                )
+                break
             time.sleep(delay)
         try:
             return client.models.generate_content(
@@ -1134,15 +1157,23 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
             last_exc = e
             code = getattr(e, 'code', None) or getattr(e, 'status_code', None)
             print(
-                f"\n[ALERT] Gemini 503 on attempt {attempt}/{len(_RETRY_DELAYS)+1} "
-                f"(model={GEMINI_PRO_MODEL}, code={code}): {e}"
+                f"\n[ALERT] Gemini 503 on attempt {attempt}/{total_attempts} "
+                f"(model={GEMINI_PRO_MODEL}, code={code}, elapsed={elapsed():.1f}s): {e}"
             )
 
-    # Primary model exhausted — try fallback
+    if remaining() < _FALLBACK_MIN_BUDGET_S:
+        print(
+            f"\n[ALERT] Wallclock budget exhausted ({elapsed():.1f}s elapsed, "
+            f"{remaining():.1f}s remaining); skipping fallback model "
+            f"{GEMINI_PRO_FALLBACK_MODEL}"
+        )
+        if last_exc is not None:
+            raise last_exc
+        raise RuntimeError("Gemini retry budget exhausted before any attempt completed")
+
     print(
-        f"\n[ALERT] GEMINI_PRO_MODEL ({GEMINI_PRO_MODEL}) returned 503 on all "
-        f"{len(_RETRY_DELAYS)+1} attempts. Switching to fallback model: "
-        f"{GEMINI_PRO_FALLBACK_MODEL}"
+        f"\n[ALERT] GEMINI_PRO_MODEL ({GEMINI_PRO_MODEL}) failed; switching to "
+        f"fallback {GEMINI_PRO_FALLBACK_MODEL} (remaining budget: {remaining():.1f}s)"
     )
     try:
         return client.models.generate_content(
