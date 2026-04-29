@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from google import genai
 from google.genai import types
 from google.genai import errors as genai_errors
+import asyncio
 import csv
 import io
 import json
@@ -1147,18 +1148,36 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
                 )
                 break
             time.sleep(delay)
+        # [TIMING] Per-attempt stopwatch. The retry loop's wallclock budget check
+        # only runs BETWEEN attempts, so a single SDK call that hangs (e.g. when
+        # http_options.timeout isn't honored at the socket layer) won't be caught
+        # here. Logging call_dur per attempt lets us see in production whether
+        # any individual generate_content call is exceeding the 25s SDK timeout.
+        attempt_start = time.monotonic()
+        print(
+            f"[TIMING] LLM attempt {attempt}/{total_attempts} START "
+            f"model={GEMINI_PRO_MODEL} elapsed={elapsed():.2f}s"
+        )
         try:
-            return client.models.generate_content(
+            result = client.models.generate_content(
                 model=GEMINI_PRO_MODEL,
                 contents=gemini_contents,
                 config=gen_config,
             )
+            print(
+                f"[TIMING] LLM attempt {attempt}/{total_attempts} OK "
+                f"call_dur={time.monotonic() - attempt_start:.2f}s "
+                f"total_elapsed={elapsed():.2f}s"
+            )
+            return result
         except genai_errors.ServerError as e:
             last_exc = e
             code = getattr(e, 'code', None) or getattr(e, 'status_code', None)
             print(
                 f"\n[ALERT] Gemini 503 on attempt {attempt}/{total_attempts} "
-                f"(model={GEMINI_PRO_MODEL}, code={code}, elapsed={elapsed():.1f}s): {e}"
+                f"(model={GEMINI_PRO_MODEL}, code={code}, "
+                f"call_dur={time.monotonic() - attempt_start:.2f}s, "
+                f"total_elapsed={elapsed():.2f}s): {e}"
             )
 
     if remaining() < _FALLBACK_MIN_BUDGET_S:
@@ -1175,15 +1194,69 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
         f"\n[ALERT] GEMINI_PRO_MODEL ({GEMINI_PRO_MODEL}) failed; switching to "
         f"fallback {GEMINI_PRO_FALLBACK_MODEL} (remaining budget: {remaining():.1f}s)"
     )
+    fallback_start = time.monotonic()
+    print(
+        f"[TIMING] LLM fallback START model={GEMINI_PRO_FALLBACK_MODEL} "
+        f"elapsed={elapsed():.2f}s"
+    )
     try:
-        return client.models.generate_content(
+        result = client.models.generate_content(
             model=GEMINI_PRO_FALLBACK_MODEL,
             contents=gemini_contents,
             config=gen_config,
         )
+        print(
+            f"[TIMING] LLM fallback OK "
+            f"call_dur={time.monotonic() - fallback_start:.2f}s "
+            f"total_elapsed={elapsed():.2f}s"
+        )
+        return result
     except Exception as fallback_exc:
-        print(f"[ALERT] Fallback model {GEMINI_PRO_FALLBACK_MODEL} also failed: {fallback_exc}")
+        print(
+            f"[ALERT] Fallback model {GEMINI_PRO_FALLBACK_MODEL} also failed "
+            f"(call_dur={time.monotonic() - fallback_start:.2f}s, "
+            f"total_elapsed={elapsed():.2f}s): {fallback_exc}"
+        )
         raise fallback_exc
+
+
+# Hard deadline for the whole retry+fallback sequence as enforced by the async
+# wrapper below. We add a small grace period above _WALLCLOCK_BUDGET_S because
+# the budget check inside _generate_with_retry only fires BETWEEN attempts —
+# the *final* attempt can still run for up to 25s (the SDK's http_options
+# timeout) after the budget would otherwise be exhausted. The grace period
+# lets a legitimately-long final attempt finish; anything beyond this is
+# treated as a stuck SDK call and forcibly aborted.
+_HARD_DEADLINE_S = _WALLCLOCK_BUDGET_S + 10.0
+
+
+async def _generate_with_retry_async(gemini_contents: list, system_instruction: str):
+    """
+    Async wrapper around the synchronous _generate_with_retry.
+
+    Why this exists:
+      1. _generate_with_retry is fully synchronous (uses time.sleep and the
+         sync genai client). Calling it directly from an `async def` handler
+         blocks the asyncio event loop, which means a single stuck request
+         stalls every other request on the same worker. asyncio.to_thread
+         offloads it to a worker thread so the event loop stays responsive.
+
+      2. The genai SDK's http_options.timeout is not always honored at the
+         socket layer (observed in production: requests hanging for minutes
+         despite a 25s per-call timeout, and despite the 50s wallclock budget
+         in _generate_with_retry which only checks BETWEEN attempts).
+         asyncio.wait_for gives us a hard deadline at the framework level
+         that fires regardless of what the SDK is doing.
+
+    On timeout, the worker thread is left running (Python can't safely cancel
+    a thread mid-call), but the handler returns immediately with a 504 so the
+    client doesn't sit on a doomed connection until Railway's idle timeout
+    closes it as a 499.
+    """
+    return await asyncio.wait_for(
+        asyncio.to_thread(_generate_with_retry, gemini_contents, system_instruction),
+        timeout=_HARD_DEADLINE_S,
+    )
 
 
 # ============================================================================
@@ -1256,8 +1329,14 @@ async def chat(request: ChatRequest):
         print(f"Current Page: {request.current_page}")
         print("====================\n")
 
-        # Track request start time for logging
+        # Track request start time for logging.
+        # [TIMING] handler_start uses monotonic() because time.time() is wall
+        # clock and can jump on NTP sync. We pair it with a final log at the
+        # end of the success path to expose total time the handler held the
+        # connection — useful when correlating with Railway's 499s.
         start_time = time.time()
+        handler_start = time.monotonic()
+        print(f"[TIMING] /api/chat ENTER session={session_id}")
 
         # ====================================================================
         # PAUSED: RAG retrieval path (high token cost — ~100-500K tokens/query)
@@ -1339,9 +1418,19 @@ async def chat(request: ChatRequest):
                 "parts": [{"text": msg["content"]}]
             })
 
-        response = _generate_with_retry(
+        # [TIMING] Wrap the LLM call so we can measure how much of the request's
+        # wallclock is spent inside Gemini vs. surrounding code (session writes,
+        # markdown conversion, audit logging). If handler_total >> llm_total in
+        # the logs, the bottleneck is NOT the model.
+        llm_start = time.monotonic()
+        print(f"[TIMING] /api/chat -> LLM call START session={session_id}")
+        response = await _generate_with_retry_async(
             gemini_contents=gemini_contents,
             system_instruction=system_instruction,
+        )
+        print(
+            f"[TIMING] /api/chat -> LLM call OK session={session_id} "
+            f"llm_total={time.monotonic() - llm_start:.2f}s"
         )
 
         # Step 9: Convert markdown response to HTML
@@ -1380,6 +1469,10 @@ async def chat(request: ChatRequest):
             response_time_ms=response_time_ms,
         )
 
+        print(
+            f"[TIMING] /api/chat EXIT OK session={session_id} "
+            f"handler_total={time.monotonic() - handler_start:.2f}s"
+        )
         return ChatResponse(
             response=html_content,
             session_id=session_id,
@@ -1388,6 +1481,25 @@ async def chat(request: ChatRequest):
             conversation_query_count=session_data['conversation_query_count'],
             remaining_in_conversation=MAX_QUERIES_PER_CONVERSATION - session_data['conversation_query_count']
         )
+
+    except asyncio.TimeoutError:
+        # The async wrapper's hard deadline fired. The genai SDK call is still
+        # running in a worker thread (Python can't cancel it), but we return
+        # 504 immediately so the client connection isn't held open until
+        # Railway's idle timeout closes it as a 499 several minutes later.
+        # If you see this in production, the SDK is hanging — investigate
+        # http_options.timeout enforcement or upstream Gemini availability.
+        print(
+            f"\n[ALERT] /api/chat HARD TIMEOUT after {_HARD_DEADLINE_S}s "
+            f"(handler_total={time.monotonic() - handler_start:.2f}s). "
+            f"Gemini SDK call did not return within the deadline; aborting."
+        )
+        friendly = (
+            "<p><strong>The request timed out before the AI could respond.</strong></p>"
+            "<p>This usually means Google's Gemini service is overloaded. "
+            "Please wait a moment and try again.</p>"
+        )
+        raise HTTPException(status_code=504, detail=friendly)
 
     except genai_errors.ServerError as e:
         # Google-side outage/overload (5xx from Gemini). Surface a clear,
