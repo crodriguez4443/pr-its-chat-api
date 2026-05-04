@@ -77,11 +77,33 @@ def init_db() -> None:
                 conversation_context_length INTEGER,
                 chunks_retrieved INTEGER,
                 response_time_ms INTEGER,
+                input_tokens INTEGER,
+                output_tokens INTEGER,
+                total_tokens INTEGER,
+                input_cost_usd REAL,
+                output_cost_usd REAL,
+                total_cost_usd REAL,
+                model_used TEXT,
                 FOREIGN KEY (session_id) REFERENCES sessions(session_id)
             )
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_exchanges_session ON exchanges(session_id)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_sessions_activity ON sessions(last_activity)")
+        # Cheap migrations for DBs created before cost tracking existed.
+        exchange_cols = {r["name"] for r in conn.execute("PRAGMA table_info(exchanges)").fetchall()}
+        for col, definition in [
+            ("input_tokens",   "INTEGER"),
+            ("output_tokens",  "INTEGER"),
+            ("total_tokens",   "INTEGER"),
+            ("input_cost_usd", "REAL"),
+            ("output_cost_usd","REAL"),
+            ("total_cost_usd", "REAL"),
+            ("model_used",     "TEXT"),
+        ]:
+            if col not in exchange_cols:
+                conn.execute(f"ALTER TABLE exchanges ADD COLUMN {col} {definition}")
+        if "total_cost_usd" not in cols:
+            conn.execute("ALTER TABLE sessions ADD COLUMN total_cost_usd REAL NOT NULL DEFAULT 0.0")
     print(f"Session store initialized at {DATABASE_PATH}")
 
 
@@ -95,6 +117,7 @@ def _row_to_session(row: sqlite3.Row) -> dict:
         "conversation_history": json.loads(row["conversation_history"]),
         "created_at": datetime.fromisoformat(row["created_at"]),
         "last_activity": datetime.fromisoformat(row["last_activity"]),
+        "total_cost_usd": row["total_cost_usd"] if "total_cost_usd" in row.keys() else 0.0,
     }
 
 
@@ -137,6 +160,7 @@ def get_or_create_session(
         "conversation_history": [],
         "created_at": now,
         "last_activity": now,
+        "total_cost_usd": 0.0,
     }
     with _write_lock, _connect() as conn:
         conn.execute(
@@ -160,7 +184,8 @@ def save_session(session_data: dict) -> None:
                  conversation_query_count = ?,
                  exchange_count = ?,
                  conversation_history = ?,
-                 last_activity = ?
+                 last_activity = ?,
+                 total_cost_usd = ?
                WHERE session_id = ?""",
             (
                 session_data.get("user_role"),
@@ -169,6 +194,7 @@ def save_session(session_data: dict) -> None:
                 session_data.get("exchange_count", 0),
                 json.dumps(session_data["conversation_history"], ensure_ascii=False),
                 session_data["last_activity"].isoformat(),
+                session_data.get("total_cost_usd", 0.0),
                 session_data["session_id"],
             ),
         )
@@ -213,6 +239,13 @@ def log_exchange(
     conversation_context_length: int,
     chunks_retrieved: int,
     response_time_ms: int,
+    input_tokens: int = 0,
+    output_tokens: int = 0,
+    total_tokens: int = 0,
+    input_cost_usd: float = 0.0,
+    output_cost_usd: float = 0.0,
+    total_cost_usd: float = 0.0,
+    model_used: Optional[str] = None,
 ) -> None:
     """Append one audit-log row. Errors are caught so they never fail a request.
 
@@ -225,8 +258,10 @@ def log_exchange(
                 """INSERT INTO exchanges
                      (session_id, exchange_number, timestamp, user_role,
                       user_query, assistant_response, conversation_context_length,
-                      chunks_retrieved, response_time_ms)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                      chunks_retrieved, response_time_ms,
+                      input_tokens, output_tokens, total_tokens,
+                      input_cost_usd, output_cost_usd, total_cost_usd, model_used)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     session_id,
                     exchange_number,
@@ -237,9 +272,16 @@ def log_exchange(
                     conversation_context_length,
                     chunks_retrieved,
                     response_time_ms,
+                    input_tokens,
+                    output_tokens,
+                    total_tokens,
+                    input_cost_usd,
+                    output_cost_usd,
+                    total_cost_usd,
+                    model_used,
                 ),
             )
-        print(f"Logged exchange {exchange_number} for session {session_id[:8]}...")
+        print(f"Logged exchange {exchange_number} for session {session_id[:8]}... cost=${total_cost_usd:.6f}")
     except Exception as e:
         print(f"ERROR: Failed to log exchange: {e}")
 
@@ -438,4 +480,5 @@ def get_session_with_history(session_id: str) -> Optional[Dict[str, Any]]:
         "created_at": session["created_at"].isoformat(),
         "last_activity": session["last_activity"].isoformat(),
         "conversation_history": session["conversation_history"],
+        "total_cost_usd": session.get("total_cost_usd", 0.0),
     }

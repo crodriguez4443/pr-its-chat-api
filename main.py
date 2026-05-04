@@ -429,6 +429,8 @@ Now generate expanded terms for: "{query}"
         print(f"Response attributes: {dir(response)}")
         print(f"Response repr: {repr(response)}")
 
+        _log_token_usage(response, GEMINI_FLASH_MODEL, "Query Expansion")
+
         # Try to access output_text
         try:
             text = response.output_text.strip()
@@ -636,12 +638,12 @@ You are an expert assistant for the Intelligent Transportation Systems (ITS) Arc
 - **Use Provided Data:** The `Title` and `URL` must come from the context provided.
 - **NEVER invent, guess, or construct a URL.** If the context does not explicitly provide a URL for an item, reference it by name only — no hyperlink. A missing link is always better than a fabricated one.
 - **NEVER use file names or paths** (like '../content/bundle1046.htm') in your response.
-- **NEVER reference internal .MD files** (like 'tm-traffic-management.md') in your response.
+- **NEVER reference .MD files found under the /wiki repo** (like 'tm-traffic-management.md') in your response.
 - **Avoid "Triplet" URLs:** Do NOT use URLs that contain "triplet" in the link.
 - **Cite Specific Pages:** Always cite specific Service Packages or Interfaces, not general pages.
 - **Wiki Content Is the Only Source for Links:** Every hyperlink you include must point to a URL that appears verbatim in the wiki content provided. Do NOT use your internal training knowledge to recall or construct service package codes (TM06, TI01, PS02, etc.) or their URLs — those generic national ITS codes may not exist in this regional architecture. Instead, search the wiki for matching service package instances and use their exact names and URLs.
 - **No Match = No Link:** If the wiki does not contain a URL for something you want to reference, name it in plain text without a hyperlink. Never infer, guess, or construct a URL from a file path, a naming pattern, or prior knowledge.
-- **Limit Citations Per Section:** Each section should have 1-3 citations maximum. Choose the most authoritative/relevant sources.
+- **Limit Citations Per Section:** Each section should have 1-4 citations maximum. Choose the most authoritative/relevant sources.
 - **NEVER use tables as they do not render correctly. use bulleted lists or paragraphs instead.
 
 """
@@ -1107,6 +1109,67 @@ DMS are typically controlled from Traffic Management Centers, where operators ca
 
 
 # ============================================================================
+# TOKEN USAGE & COST TRACKING
+# ============================================================================
+
+# Pricing per 1,000,000 tokens. Update when Google changes rates or you
+# switch model tiers. Source: https://ai.google.dev/pricing
+_MODEL_PRICING: Dict[str, tuple] = {
+    # substring match against model name -> (input_$/M, output_$/M)
+    "flash": (0.50,  3.00),   # Gemini 2.0/3 Flash
+    "pro":   (2.00, 12.00),   # Gemini 2.5/3.1 Pro
+}
+
+def _get_model_pricing(model_name: str) -> tuple:
+    model_lower = model_name.lower()
+    for pattern, pricing in _MODEL_PRICING.items():
+        if pattern in model_lower:
+            return pricing
+    return (2.00, 12.00)  # default to pro pricing if unknown
+
+def _log_token_usage(response, model_name: str, label: str = "LLM") -> dict:
+    """Print token counts and estimated cost for a Gemini response. Returns usage dict."""
+    empty = {
+        "input_tokens": 0, "output_tokens": 0, "total_tokens": 0,
+        "input_cost_usd": 0.0, "output_cost_usd": 0.0, "total_cost_usd": 0.0,
+        "model_used": model_name,
+    }
+    try:
+        usage = getattr(response, 'usage_metadata', None)
+        if usage is None:
+            print(f"[TOKENS] {label}: usage_metadata not available")
+            return empty
+
+        input_tokens  = getattr(usage, 'prompt_token_count',     0) or 0
+        output_tokens = getattr(usage, 'candidates_token_count', 0) or 0
+        total_tokens  = getattr(usage, 'total_token_count',      0) or (input_tokens + output_tokens)
+
+        input_price, output_price = _get_model_pricing(model_name)
+        input_cost  = (input_tokens  / 1_000_000) * input_price
+        output_cost = (output_tokens / 1_000_000) * output_price
+        total_cost  = input_cost + output_cost
+
+        print(
+            f"\n[TOKENS] {label} | model={model_name}\n"
+            f"  Input:  {input_tokens:>8,} tokens  ${input_cost:.6f}\n"
+            f"  Output: {output_tokens:>8,} tokens  ${output_cost:.6f}\n"
+            f"  Total:  {total_tokens:>8,} tokens  ${total_cost:.6f}\n"
+        )
+        return {
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": total_tokens,
+            "input_cost_usd": input_cost,
+            "output_cost_usd": output_cost,
+            "total_cost_usd": total_cost,
+            "model_used": model_name,
+        }
+    except Exception as e:
+        print(f"[TOKENS] {label}: failed to read usage_metadata — {e}")
+        return empty
+
+
+# ============================================================================
 # SECTION 8: RESILIENT GENERATION HELPER
 # ============================================================================
 
@@ -1169,7 +1232,8 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
                 f"call_dur={time.monotonic() - attempt_start:.2f}s "
                 f"total_elapsed={elapsed():.2f}s"
             )
-            return result
+            usage_data = _log_token_usage(result, GEMINI_PRO_MODEL, f"Main LLM (attempt {attempt})")
+            return result, GEMINI_PRO_MODEL, usage_data
         except genai_errors.ServerError as e:
             last_exc = e
             code = getattr(e, 'code', None) or getattr(e, 'status_code', None)
@@ -1210,7 +1274,8 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
             f"call_dur={time.monotonic() - fallback_start:.2f}s "
             f"total_elapsed={elapsed():.2f}s"
         )
-        return result
+        usage_data = _log_token_usage(result, GEMINI_PRO_FALLBACK_MODEL, "Main LLM (fallback)")
+        return result, GEMINI_PRO_FALLBACK_MODEL, usage_data
     except Exception as fallback_exc:
         print(
             f"[ALERT] Fallback model {GEMINI_PRO_FALLBACK_MODEL} also failed "
@@ -1424,7 +1489,7 @@ async def chat(request: ChatRequest):
         # the logs, the bottleneck is NOT the model.
         llm_start = time.monotonic()
         print(f"[TIMING] /api/chat -> LLM call START session={session_id}")
-        response = await _generate_with_retry_async(
+        response, model_used, usage_data = await _generate_with_retry_async(
             gemini_contents=gemini_contents,
             system_instruction=system_instruction,
         )
@@ -1450,6 +1515,7 @@ async def chat(request: ChatRequest):
         session_data['conversation_query_count'] = session_data.get('conversation_query_count', 0) + 1
         session_data['exchange_count'] = session_data.get('exchange_count', 0) + 1
         session_data['last_activity'] = datetime.now()
+        session_data['total_cost_usd'] = session_data.get('total_cost_usd', 0.0) + usage_data['total_cost_usd']
 
         # Persist session mutations to SQLite
         session_store.save_session(session_data)
@@ -1467,6 +1533,13 @@ async def chat(request: ChatRequest):
             conversation_context_length=len(session_data['conversation_history']),
             chunks_retrieved=len(relevant_content),
             response_time_ms=response_time_ms,
+            input_tokens=usage_data['input_tokens'],
+            output_tokens=usage_data['output_tokens'],
+            total_tokens=usage_data['total_tokens'],
+            input_cost_usd=usage_data['input_cost_usd'],
+            output_cost_usd=usage_data['output_cost_usd'],
+            total_cost_usd=usage_data['total_cost_usd'],
+            model_used=usage_data['model_used'],
         )
 
         print(
@@ -1616,6 +1689,7 @@ class SessionDetailResponse(BaseModel):
     created_at: str
     last_activity: str
     conversation_history: List[dict]
+    total_cost_usd: Optional[float] = None
 
 
 @app.get("/api/data/stats", response_model=StatsResponse)
