@@ -365,6 +365,13 @@ def _row_to_exchange(row: sqlite3.Row) -> Dict[str, Any]:
         "conversation_context_length": row["conversation_context_length"],
         "chunks_retrieved": row["chunks_retrieved"],
         "response_time_ms": row["response_time_ms"],
+        "input_tokens": row["input_tokens"],
+        "output_tokens": row["output_tokens"],
+        "total_tokens": row["total_tokens"],
+        "input_cost_usd": row["input_cost_usd"],
+        "output_cost_usd": row["output_cost_usd"],
+        "total_cost_usd": row["total_cost_usd"],
+        "model_used": row["model_used"],
     }
 
 
@@ -454,6 +461,30 @@ def get_stats(start: str, end: str) -> Dict[str, Any]:
             (start, end),
         ).fetchall()
 
+        cost_row = conn.execute(
+            """SELECT
+                   COALESCE(SUM(input_tokens),    0) AS total_input_tokens,
+                   COALESCE(SUM(output_tokens),   0) AS total_output_tokens,
+                   COALESCE(SUM(total_tokens),    0) AS total_tokens,
+                   COALESCE(SUM(input_cost_usd),  0) AS total_input_cost_usd,
+                   COALESCE(SUM(output_cost_usd), 0) AS total_output_cost_usd,
+                   COALESCE(SUM(total_cost_usd),  0) AS total_cost_usd
+                 FROM exchanges
+                WHERE timestamp >= ? AND timestamp <= ?""",
+            (start, end),
+        ).fetchone()
+
+        by_model_rows = conn.execute(
+            """SELECT model_used,
+                      COUNT(*) AS exchanges,
+                      COALESCE(SUM(total_tokens),   0) AS total_tokens,
+                      COALESCE(SUM(total_cost_usd), 0) AS total_cost_usd
+                 FROM exchanges
+                WHERE timestamp >= ? AND timestamp <= ?
+                GROUP BY model_used""",
+            (start, end),
+        ).fetchall()
+
     return {
         "start": start,
         "end": end,
@@ -462,6 +493,20 @@ def get_stats(start: str, end: str) -> Dict[str, Any]:
         "avg_response_time_ms": round(avg_ms, 1) if avg_ms is not None else None,
         "exchanges_by_role": {
             (r["user_role"] or "unknown"): r["n"] for r in by_role_rows
+        },
+        "total_input_tokens": cost_row["total_input_tokens"],
+        "total_output_tokens": cost_row["total_output_tokens"],
+        "total_tokens": cost_row["total_tokens"],
+        "total_input_cost_usd": round(cost_row["total_input_cost_usd"], 6),
+        "total_output_cost_usd": round(cost_row["total_output_cost_usd"], 6),
+        "total_cost_usd": round(cost_row["total_cost_usd"], 6),
+        "by_model": {
+            (r["model_used"] or "unknown"): {
+                "exchanges": r["exchanges"],
+                "total_tokens": r["total_tokens"],
+                "total_cost_usd": round(r["total_cost_usd"], 6),
+            }
+            for r in by_model_rows
         },
     }
 

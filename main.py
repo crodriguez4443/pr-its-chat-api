@@ -1651,6 +1651,12 @@ async def reset_conversation(request: ResetConversationRequest):
 EXPORT_ROW_CAP = 50_000
 
 
+class ModelCostBreakdown(BaseModel):
+    exchanges: int
+    total_tokens: int
+    total_cost_usd: float
+
+
 class StatsResponse(BaseModel):
     start: str
     end: str
@@ -1658,6 +1664,13 @@ class StatsResponse(BaseModel):
     total_exchanges: int
     avg_response_time_ms: Optional[float]
     exchanges_by_role: Dict[str, int]
+    total_input_tokens: int = 0
+    total_output_tokens: int = 0
+    total_tokens: int = 0
+    total_input_cost_usd: float = 0.0
+    total_output_cost_usd: float = 0.0
+    total_cost_usd: float = 0.0
+    by_model: Dict[str, ModelCostBreakdown] = {}
 
 
 class ExchangeItem(BaseModel):
@@ -1671,6 +1684,13 @@ class ExchangeItem(BaseModel):
     conversation_context_length: Optional[int]
     chunks_retrieved: Optional[int]
     response_time_ms: Optional[int]
+    input_tokens: Optional[int] = None
+    output_tokens: Optional[int] = None
+    total_tokens: Optional[int] = None
+    input_cost_usd: Optional[float] = None
+    output_cost_usd: Optional[float] = None
+    total_cost_usd: Optional[float] = None
+    model_used: Optional[str] = None
 
 
 class ExchangesListResponse(BaseModel):
@@ -1763,6 +1783,8 @@ CSV_FIELDS = [
     "id", "session_id", "exchange_number", "timestamp", "user_role",
     "user_query", "assistant_response", "conversation_context_length",
     "chunks_retrieved", "response_time_ms",
+    "input_tokens", "output_tokens", "total_tokens",
+    "input_cost_usd", "output_cost_usd", "total_cost_usd", "model_used",
 ]
 
 
