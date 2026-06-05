@@ -23,6 +23,8 @@ Usage:
 import json
 import os
 import re
+import csv
+import shutil
 import argparse
 import sys
 from collections import defaultdict
@@ -414,6 +416,229 @@ def analyze_architecture(data):
 
 
 # ---------------------------------------------------------------------------
+# Source corpus loader
+# ---------------------------------------------------------------------------
+
+def load_documents(input_file):
+    """Load the source corpus as a list of {url, title, content} dicts.
+
+    Supports the CSV corpus (one row per page, full page text in large content
+    cells) and the legacy JSON array. The analyzer and traceability builder only
+    need url/title/content.
+    """
+    if input_file.lower().endswith('.csv'):
+        # Content cells hold whole pages; the default 128 KB field limit is too
+        # small. 10**9 stays inside a 32-bit signed long (safe on Windows).
+        csv.field_size_limit(10 ** 9)
+        docs = []
+        with open(input_file, 'r', encoding='utf-8', newline='') as f:
+            for row in csv.DictReader(f):
+                docs.append({
+                    'url': (row.get('url') or '').strip(),
+                    'title': (row.get('title') or '').strip(),
+                    'content': row.get('content') or '',
+                })
+        return docs
+    with open(input_file, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+# ---------------------------------------------------------------------------
+# Traceability enrichment (interfaces + standards from spinstance pages)
+# ---------------------------------------------------------------------------
+# The summary wiki only *links* to interfaces and standards. To inline real
+# detail we mine the "List of Interfaces" tables embedded in every service
+# package instance (spinstance) page. Each table row is
+#     <source element> <information flow> <destination element> <standard>
+# run together with no delimiters, so we segment it greedily against the known
+# vocabularies of element names (from element.htm rows) and information-flow
+# names (from flow.htm rows). Because a spinstance carries a service package
+# code (e.g. TM01) we attribute every parsed interface to the correct service
+# area — far more precise than the keyword scan used for functional requirements.
+
+# Standards bodies (NTCIP/IEEE/SAE/etc.) cited inside a solution page. Used to
+# build a one-line "purpose" for each standard.
+_STD_ID_RE = re.compile(
+    r'\b(?:NTCIP|IEEE|SAE|ISO|IETF|RFC|TMDD|ITE|APTA|OMG|ASTM|AASHTO|ANSI|EIA|TIA|NEMA|ETSI|NMEA)'
+    r'\s*[A-Z]?\d[\w.\-]*'
+)
+
+# Descriptive opening clause used when a solution names no numbered standard
+# (e.g. proprietary or "(None)" communication profiles).
+_STD_DESC_RE = re.compile(
+    r'(This std[^.]*\.|This specification[^.]*\.|A bundle of standards[^.]*\.|'
+    r'A proprietary[^.]*\.|Defines[^.]*\.|Communication profile not defined[^.]*\.|'
+    r'No Standard Needed[^.]*\.)'
+)
+
+
+def _standard_purpose(content, name):
+    """Return a one-line purpose for a solution/standard page.
+
+    Prefers the concrete standards it cites (e.g. "NTCIP 1201, NTCIP 1203").
+    When none are named (proprietary / "(None)" comm profiles) falls back to the
+    first descriptive sentence, then to a cleaned snippet.
+    """
+    body = content[len(name):] if content.startswith(name) else content
+    ids = []
+    for m in _STD_ID_RE.findall(body):
+        m = m.strip()
+        if m not in ids:
+            ids.append(m)
+    if ids:
+        return 'Specifies ' + ', '.join(ids[:8])
+    clean = re.sub(r'\b(?:Data Standards|Comm Standards)\b', ' ', body)
+    clean = re.sub(r'\s+', ' ', clean).strip()
+    m = _STD_DESC_RE.search(clean)
+    if m:
+        return m.group(1).strip()[:180]
+    return clean[:140].strip() or name
+
+
+def _match_prefix(text, candidates_sorted):
+    """Return the longest candidate that is a whole-token prefix of `text`.
+
+    `candidates_sorted` must be sorted longest-first so that, e.g.,
+    "Metropistas TMC Information Services" wins over "Metropistas TMC".
+    """
+    for c in candidates_sorted:
+        if text.startswith(c) and (len(text) == len(c) or text[len(c)] == ' '):
+            return c
+    return None
+
+
+def _parse_interface_table(segment, elem_names_sorted, flow_names_sorted):
+    """Segment a run-on '<src> <flow> <dst> <std>' table into 4-tuples.
+
+    Greedy: match the longest known element name (source), the longest known
+    flow name, the longest known element name (destination), then take the
+    standard as everything up to where the next element name begins. The
+    standard is *not* validated here — callers apply resolve-or-drop.
+    """
+    triplets = []
+    text = segment.strip()
+    guard = 0
+    while text and guard < 1000:
+        guard += 1
+        src = _match_prefix(text, elem_names_sorted)
+        if not src:
+            sp = text.find(' ')
+            if sp < 0:
+                break
+            text = text[sp + 1:]
+            continue
+        rest = text[len(src):].lstrip()
+        flow = _match_prefix(rest, flow_names_sorted)
+        if not flow:
+            sp = rest.find(' ')
+            if sp < 0:
+                break
+            text = rest[sp + 1:]
+            continue
+        rest = rest[len(flow):].lstrip()
+        dst = _match_prefix(rest, elem_names_sorted)
+        if not dst:
+            text = rest
+            continue
+        rest = rest[len(dst):].lstrip()
+        # Standard runs until the next element name begins (start of next row).
+        cut = len(rest)
+        for nm in elem_names_sorted:
+            k = rest.find(nm)
+            if 0 <= k < cut:
+                cut = k
+        std = rest[:cut].strip()
+        triplets.append((src, flow, dst, std))
+        text = rest[cut:].lstrip()
+    return triplets
+
+
+def build_traceability(data):
+    """Mine interfaces + standards from spinstance pages, keyed by service area.
+
+    Returns a dict merged into `analysis`:
+      cat_interfaces[cat] = {(src, flow, dst): record}   # deduped per category
+      cat_standards[cat]  = {std_name: {url, purpose}}
+      csv_urls            = set of every source URL (for link validation)
+    Standards are resolve-or-drop: a standard is only attached if its name
+    matches a real solution page, so every emitted standard URL is real.
+    """
+    # element name <-> id (interface URLs are keyed by element-id pairs)
+    elem_name_to_id = {}
+    for d in data:
+        m = re.search(r'/element\.htm\?id=(\d+)', d['url'])
+        if m:
+            elem_name_to_id[d['title'].strip()] = m.group(1)
+    elem_names_sorted = sorted((n for n in elem_name_to_id if n), key=len, reverse=True)
+
+    # (element-id, element-id) -> interface URL, both orderings
+    pair_to_iface = {}
+    for d in data:
+        m = re.search(r'/interface\.htm\?id=(\d+)-(\d+)', d['url'])
+        if m:
+            a, b = m.group(1), m.group(2)
+            pair_to_iface[(a, b)] = d['url']
+            pair_to_iface[(b, a)] = d['url']
+
+    # standard name -> solution page. The name is the text before "Data
+    # Standards"/"Comm Standards" in the solution body.
+    std_to_sol = {}
+    for d in data:
+        if '/solution.htm?id=' in d['url']:
+            content = d['content'].strip()
+            name = re.split(r'\s+(?:Data Standards|Comm Standards)\b', content, maxsplit=1)[0].strip()
+            if name and name.lower() != '(none)':
+                std_to_sol.setdefault(name, {'url': d['url'], 'purpose': _standard_purpose(content, name)})
+
+    flow_names_sorted = sorted(
+        {d['title'].strip() for d in data if '/flow.htm?id=' in d['url'] and d['title'].strip()},
+        key=len, reverse=True,
+    )
+
+    cat_interfaces = defaultdict(dict)   # cat -> {(src,flow,dst): record}
+    cat_standards = defaultdict(dict)    # cat -> {std_name: {url,purpose}}
+    parsed = 0
+    for d in data:
+        if '/spinstance.htm?' not in d['url']:
+            continue
+        code = extract_sp_code(d['title'])
+        if not code:
+            continue
+        cat = extract_sp_category(code)
+        idx = d['content'].find('List of Interfaces')
+        if idx < 0:
+            continue
+        seg = d['content'][idx + len('List of Interfaces'):]
+        seg = re.sub(r'^\s*Source Element Information Flow Destination Element Standards?', '', seg)
+        seg = re.sub(r'\s+end\s*$', '', seg)
+        for (src, flow, dst, std) in _parse_interface_table(seg, elem_names_sorted, flow_names_sorted):
+            parsed += 1
+            sol = std_to_sol.get(std)            # resolve-or-drop
+            iface_url = pair_to_iface.get((elem_name_to_id.get(src), elem_name_to_id.get(dst)), '')
+            key = (src, flow, dst)
+            rec = cat_interfaces[cat].get(key)
+            if rec is None:
+                cat_interfaces[cat][key] = {
+                    'src': src, 'flow': flow, 'dst': dst,
+                    'std': std if sol else '',
+                    'std_url': sol['url'] if sol else '',
+                    'iface_url': iface_url,
+                }
+            elif sol and not rec['std']:
+                rec['std'] = std
+                rec['std_url'] = sol['url']
+            if sol:
+                cat_standards[cat].setdefault(std, sol)
+
+    return {
+        'cat_interfaces': cat_interfaces,
+        'cat_standards': cat_standards,
+        'csv_urls': {d['url'] for d in data},
+        'trace_stats': {'parsed_triplets': parsed},
+    }
+
+
+# ---------------------------------------------------------------------------
 # Wiki page generators
 # ---------------------------------------------------------------------------
 
@@ -496,8 +721,25 @@ def _format_top_stakeholders(analysis):
     return '\n'.join(lines)
 
 
-def generate_service_area_page(cat_code, analysis, base_url):
-    """Generate a wiki page for one service area category."""
+def generate_service_area_page(cat_code, analysis, base_url,
+                               include_interfaces=True,
+                               include_standards=True,
+                               inline_standard_on_interface=True):
+    """Generate a wiki page for one service area category.
+
+    The detail tier is driven by flags so the same generator emits every role
+    variant (see the VARIANTS config / build_wiki):
+      include_interfaces            -> emit the Interfaces section (gated on the
+                                       'interface' content type)
+      include_standards             -> emit the Applicable Standards section
+                                       (gated on the 'solution' content type)
+      inline_standard_on_interface  -> keep the standard name on each interface
+                                       line. An interface flow inherently names
+                                       its standard, so this stays on even for
+                                       the planning tier; only the dedicated
+                                       Applicable Standards section (solution.htm
+                                       links) is withheld there.
+    """
     if cat_code not in SP_CATEGORIES:
         return None
 
@@ -569,6 +811,14 @@ def generate_service_area_page(cat_code, analysis, base_url):
             page += f"\n*... and {len(relevant_elements) - 30} more elements*\n"
         page += "\n"
 
+    # Interfaces section (real source -> flow -> destination triplets)
+    if include_interfaces:
+        page += _format_interfaces_section(cat_code, analysis, inline_standard_on_interface)
+
+    # Applicable standards section (only for tiers that may see standards)
+    if include_standards:
+        page += _format_standards_section(cat_code, analysis)
+
     # Functional requirements section
     if relevant_funreqs:
         page += f"## Related Functional Requirements ({len(relevant_funreqs)} found)\n\n"
@@ -582,6 +832,43 @@ def generate_service_area_page(cat_code, analysis, base_url):
     page += _deployment_guidance(cat_code)
 
     return page
+
+
+def _format_interfaces_section(cat_code, analysis, inline_standard):
+    """Render the deduped interface triplets for a service area."""
+    records = analysis.get('cat_interfaces', {}).get(cat_code, {})
+    if not records:
+        return ""
+    items = sorted(records.values(), key=lambda r: (r['src'], r['flow'], r['dst']))
+    lines = [
+        f"## Interfaces ({len(items)} data flows)\n",
+        "Real information flows between elements in this service area, in the form "
+        "*Source Element → information flow → Destination Element*. Each links to "
+        "its interface specification.\n",
+    ]
+    for r in items:
+        line = f"- {r['src']} → {r['flow']} → {r['dst']}"
+        if inline_standard and r['std']:
+            line += f" ({r['std']})"
+        if r['iface_url']:
+            line += f" — [interface]({r['iface_url']})"
+        lines.append(line)
+    return "\n".join(lines) + "\n\n"
+
+
+def _format_standards_section(cat_code, analysis):
+    """Render the distinct standards referenced by a service area's interfaces."""
+    stds = analysis.get('cat_standards', {}).get(cat_code, {})
+    if not stds:
+        return ""
+    lines = [
+        f"## Applicable Standards ({len(stds)})\n",
+        "Communication and data standards referenced by the interfaces above.\n",
+    ]
+    for name in sorted(stds):
+        info = stds[name]
+        lines.append(f"- **{name}** — {info['purpose']} ([standard]({info['url']}))")
+    return "\n".join(lines) + "\n\n"
 
 
 def _get_category_keywords(cat_code):
@@ -696,8 +983,14 @@ def generate_standards_page(analysis):
     return page
 
 
-def generate_index(analysis, arch_name, output_dir):
-    """Generate the master index.md that the LLM reads first."""
+def generate_index(analysis, arch_name, output_dir, include_standards_page=True):
+    """Generate the master index.md that the LLM reads first.
+
+    `include_standards_page` is threaded from the variant flags: when False
+    (planning/strategic tiers) the standards.md link is omitted so the index
+    never points at a page that variant does not emit, and never leaks standards
+    terminology to a role that should not see it.
+    """
     # List all generated pages
     service_area_files = []
     for cat_code in sorted(SP_CATEGORIES.keys()):
@@ -728,8 +1021,11 @@ def generate_index(analysis, arch_name, output_dir):
     page += f"""
 ## Cross-Cutting
 - [stakeholders.md](stakeholders.md) — {len(analysis['stakeholders'])} stakeholders by type: DOTs, MPOs, transit, toll authorities, local, private
-- [standards.md](standards.md) — Standards bundles and individual specifications (NTCIP, TMDD, SAE, IEEE, etc.)
+"""
+    if include_standards_page:
+        page += "- [standards.md](standards.md) — Standards bundles and individual specifications (NTCIP, TMDD, SAE, IEEE, etc.)\n"
 
+    page += """
 ## How the LLM Should Use This Wiki
 1. Read this index to find the relevant page(s)
 2. Open 1-2 pages for conceptual/deployment questions
@@ -742,14 +1038,54 @@ def generate_index(analysis, arch_name, output_dir):
 
 
 # ---------------------------------------------------------------------------
+# Role-tiered variant configuration
+# ---------------------------------------------------------------------------
+# Each of main.py's five roles is collapsed into one of three detail tiers,
+# derived from ROLE_CONTENT_CONFIG (HANDOFF.md §3.1). The deciding inputs are
+# whether the role's content_types include 'interface' and/or 'solution':
+#
+#   Role          interface?  solution?   Variant
+#   POLICY_MAKER   no          no          strategic
+#   PLANNER        yes         no          planning
+#   CONSULTANT     yes         yes         technical
+#   MPO_STAFF      yes         yes         technical
+#   ENGINEER       yes         yes         technical
+#   UNKNOWN        yes         yes         technical  (default)
+#
+# main.py's variant_for_role() applies the SAME rule at runtime (a pure dict
+# lookup, no I/O) so the two can't drift.
+#
+# inline_standard_on_interface stays True for the planning tier on purpose: an
+# interface data flow inherently names its standard in the Standard column, so
+# "a planner sees no standards" means no dedicated Applicable Standards section
+# and no standards.md page — NOT scrubbing the standard name off each interface
+# line. Flip planning's inline_standard_on_interface to False for a stricter
+# reading; the generator already supports it.
+VARIANTS = {
+    "technical": dict(include_interfaces=True,  include_standards=True,
+                      inline_standard_on_interface=True,  include_standards_page=True),
+    "planning":  dict(include_interfaces=True,  include_standards=False,
+                      inline_standard_on_interface=True,  include_standards_page=False),
+    "strategic": dict(include_interfaces=False, include_standards=False,
+                      inline_standard_on_interface=False, include_standards_page=False),
+}
+
+
+# ---------------------------------------------------------------------------
 # Main builder
 # ---------------------------------------------------------------------------
 
 def build_wiki(input_file, output_dir, arch_name, base_url):
-    """Build the complete wiki from processed_content.json."""
+    """Build the role-tiered wiki from the source corpus (CSV or legacy JSON).
+
+    The corpus is loaded, analyzed, and mined for interface/standard
+    traceability ONCE; then each detail tier in VARIANTS is rendered into its
+    own subdirectory (output_dir/<variant>/) by re-running the same page
+    generators with different flags. main.py picks a variant per request with a
+    pure dict lookup, so this build-time tiering adds zero runtime latency.
+    """
     print(f"Reading {input_file}...")
-    with open(input_file, 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    data = load_documents(input_file)
     print(f"  {len(data)} documents loaded")
 
     print("Analyzing architecture...")
@@ -760,54 +1096,142 @@ def build_wiki(input_file, output_dir, arch_name, base_url):
     print(f"  Functional requirements: {len(analysis['funreqs'])}")
     print(f"  Interfaces: {len(analysis['interfaces'])}")
 
-    # Create output directories
-    os.makedirs(os.path.join(output_dir, 'service-areas'), exist_ok=True)
+    print("Mining interfaces + standards from spinstance pages...")
+    analysis.update(build_traceability(data))
+    print(f"  Parsed interface flows: {analysis['trace_stats']['parsed_triplets']}")
 
-    pages_written = 0
+    # M1 wrote pages at the top level of output_dir; those are stale now that
+    # every variant lives in output_dir/<variant>/. Clear the whole tree so no
+    # stale page can linger and get merged into a runtime context.
+    if os.path.isdir(output_dir):
+        shutil.rmtree(output_dir)
+
+    # Render each variant. Keys are namespaced by variant so the URL validator
+    # can check every emitted link across all variants in one pass.
+    all_written = {}
+    for variant, flags in VARIANTS.items():
+        written = _build_variant(os.path.join(output_dir, variant), variant, flags,
+                                 analysis, arch_name, base_url)
+        for relpath, content in written.items():
+            all_written[f"{variant}/{relpath}"] = content
+
+    # --- Validate every emitted http(s) link resolves to a real source URL ---
+    violations = _validate_emitted_urls(all_written, analysis['csv_urls'])
+    if violations:
+        print(f"\nWARNING: {len(violations)} emitted URL(s) are NOT in the source corpus:")
+        for relpath, url in violations[:20]:
+            print(f"  [{relpath}] {url}")
+    else:
+        print("\nURL check: all emitted source links resolve to real corpus rows. OK")
+
+    print(f"\nDone. {len(all_written)} wiki pages written across "
+          f"{len(VARIANTS)} variants ({', '.join(VARIANTS)}) to {output_dir}/")
+
+
+def _build_variant(variant_dir, variant, flags, analysis, arch_name, base_url):
+    """Render one detail-tier variant into variant_dir.
+
+    Returns {relpath: content} for every page written, and prints the
+    per-page + total token counts for this variant.
+    """
+    os.makedirs(os.path.join(variant_dir, 'service-areas'), exist_ok=True)
+
+    written = {}
+
+    def emit(relpath, content):
+        path = os.path.join(variant_dir, relpath)
+        _write(path, content)
+        written[relpath.replace('\\', '/')] = content
+
+    print(f"\n=== Building '{variant}' variant -> {variant_dir}/ ===")
 
     # Overview
-    print("Generating overview...")
-    overview = generate_overview(analysis, arch_name, base_url)
-    _write(os.path.join(output_dir, 'overview.md'), overview)
-    pages_written += 1
+    emit('overview.md', generate_overview(analysis, arch_name, base_url))
 
-    # Service area pages
+    # Service area pages (detail tier driven by the variant flags)
     for cat_code in sorted(SP_CATEGORIES.keys()):
         if cat_code not in analysis['sp_categories']:
             continue
         cat = SP_CATEGORIES[cat_code]
         filename = f"{cat_code.lower()}-{cat['name'].lower().replace(' ', '-').replace('/', '-')}.md"
-        filepath = os.path.join(output_dir, 'service-areas', filename)
-
-        print(f"Generating {cat['name']} ({cat_code})...")
-        page = generate_service_area_page(cat_code, analysis, base_url)
+        page = generate_service_area_page(
+            cat_code, analysis, base_url,
+            include_interfaces=flags['include_interfaces'],
+            include_standards=flags['include_standards'],
+            inline_standard_on_interface=flags['inline_standard_on_interface'],
+        )
         if page:
-            _write(filepath, page)
-            pages_written += 1
+            emit(os.path.join('service-areas', filename), page)
 
     # Stakeholders
-    print("Generating stakeholders page...")
-    stakeholders_page = generate_stakeholders_page(analysis)
-    _write(os.path.join(output_dir, 'stakeholders.md'), stakeholders_page)
-    pages_written += 1
+    emit('stakeholders.md', generate_stakeholders_page(analysis))
 
-    # Standards
-    print("Generating standards page...")
-    standards_page = generate_standards_page(analysis)
-    _write(os.path.join(output_dir, 'standards.md'), standards_page)
-    pages_written += 1
+    # Standards page — only for tiers that may see standards (omitted for
+    # planning/strategic so no solution.htm links leak to those roles).
+    if flags['include_standards_page']:
+        emit('standards.md', generate_standards_page(analysis))
 
     # Index (last, since it references all pages)
-    print("Generating index...")
-    index = generate_index(analysis, arch_name, output_dir)
-    _write(os.path.join(output_dir, 'index.md'), index)
-    pages_written += 1
+    emit('index.md', generate_index(analysis, arch_name, variant_dir,
+                                    include_standards_page=flags['include_standards_page']))
 
-    print(f"\nDone. {pages_written} wiki pages written to {output_dir}/")
-    print("Next steps:")
-    print("  1. Review the generated pages for accuracy")
-    print("  2. Edit overview.md to add architecture-specific context")
-    print("  3. Point your LLM system prompt to read wiki/index.md first")
+    # --- Report per-variant token counts (approx = chars / 4) ---
+    print(f"Token counts ({variant}):")
+    total_chars = 0
+    for relpath in sorted(written):
+        chars = len(written[relpath])
+        total_chars += chars
+        print(f"  {relpath:55} {chars // 4:>7,} tok")
+    print(f"  {'TOTAL':55} {total_chars // 4:>7,} tok")
+
+    return written
+
+
+# Start of a markdown inline link to an http(s) target, e.g. [text](https://...
+# The URL itself may contain balanced parentheses (spinstance IDs look like
+# "...(PRHTA)"), so the closing ")" is found by paren-balancing, not a regex.
+_MD_HTTP_LINK_START_RE = re.compile(r'\]\((https?://)')
+
+
+def _extract_md_http_urls(content):
+    """Yield every http(s) URL used as a markdown link target in `content`.
+
+    Handles URLs containing balanced parentheses by tracking paren depth and
+    treating the first unbalanced ")" as the closing link delimiter.
+    """
+    urls = []
+    for m in _MD_HTTP_LINK_START_RE.finditer(content):
+        i = m.start(1)
+        depth = 0
+        j = i
+        while j < len(content):
+            ch = content[j]
+            if ch == '(':
+                depth += 1
+            elif ch == ')':
+                if depth == 0:
+                    break
+                depth -= 1
+            elif ch.isspace():
+                break
+            j += 1
+        urls.append(content[i:j])
+    return urls
+
+
+def _validate_emitted_urls(written, csv_urls):
+    """Return [(relpath, url)] for every emitted http(s) link not in the corpus.
+
+    Relative wiki links (e.g. overview.md) are http-less and intentionally
+    skipped — only links that claim to point at the source architecture are
+    checked, per the "no fabricated links" guardrail.
+    """
+    violations = []
+    for relpath, content in written.items():
+        for url in _extract_md_http_urls(content):
+            if url not in csv_urls:
+                violations.append((relpath, url))
+    return violations
 
 
 def _write(path, content):
@@ -821,7 +1245,7 @@ def _write(path, content):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Build a wiki knowledge layer from an ITS architecture.')
-    parser.add_argument('--input', default='../processed_content.json', help='Path to processed_content.json')
+    parser.add_argument('--input', default='../processed_content.csv', help='Path to the source corpus (.csv with url,title,content; legacy .json array also supported)')
     parser.add_argument('--output', default='wiki', help='Output directory for wiki pages')
     parser.add_argument('--architecture-name', default=DOT_NAME, help='Name of the architecture (default: DOT_NAME from config)')
     parser.add_argument('--base-url', default=ARCHITECTURE_BASE_URL, help='Base URL for the architecture website (default: ARCHITECTURE_BASE_URL from config)')

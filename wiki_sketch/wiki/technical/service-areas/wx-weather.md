@@ -34,12 +34,37 @@ Road weather information systems, mobile weather observations. (also: winter mai
 | [Private Weather Support Services System](https://www.consystec.com/pr2026proto/web/element.htm?id=248) | Existing | Private Weather Information Provider |
 | [State Emergency Management Agency Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=102) | Existing | State Emergency Management Agency |
 
-## Related Functional Requirements (21 found)
+## Interfaces (11 data flows)
+
+Real information flows between elements in this service area, in the form *Source Element → information flow → Destination Element*. Each links to its interface specification.
+
+- Municipal ITS Field Equipment → environmental sensor data → Municipal SMCs (US: NTCIP Environmental Sensors - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=45-51)
+- Municipal SMCs → environmental sensor control → Municipal ITS Field Equipment (US: NTCIP Environmental Sensors - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=45-51)
+- National Weather Service → qualified environmental conditions data → Municipal SMCs — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-96)
+- PRHTA ITS Field Devices → environmental sensor data → PRHTA TMC (US: NTCIP Environmental Sensors - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-264)
+- PRHTA ITS Field Devices → environmental sensor data → Private Weather Support Services System (US: NTCIP Environmental Sensors - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=248-264)
+- PRHTA ITS Field Devices → variable speed limit status → PRHTA TMC (US: NTCIP Message Sign - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-264)
+- PRHTA TMC → environmental sensor control → PRHTA ITS Field Devices (US: NTCIP Environmental Sensors - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-264)
+- PRHTA TMC → variable speed limit control → PRHTA ITS Field Devices (US: NTCIP Message Sign - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-264)
+- Private Weather Information Provider → qualified environmental conditions data → Municipal SMCs — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-189)
+- Private Weather Support Services System → environmental sensor control → PRHTA ITS Field Devices (US: NTCIP Environmental Sensors - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=248-264)
+- Private Weather Support Services System → qualified environmental conditions data → PRHTA TMC ((None-Data) - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-248)
+
+## Applicable Standards (3)
+
+Communication and data standards referenced by the interfaces above.
+
+- **(None-Data) - Secure Internet (ITS)** — A bundle of standards (RFCs) that groups the common mgmt info bases (MIBs) used to manage IP networks at the transport layer and below using SNMPv3. ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=12106))
+- **US: NTCIP Environmental Sensors - SNMPv1** — Specifies NTCIP 1201, NTCIP 1204, NTCIP 2301 ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=62))
+- **US: NTCIP Message Sign - SNMPv1** — Specifies NTCIP 1201, NTCIP 1203, NTCIP 2301 ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=54))
+
+## Related Functional Requirements (23 found)
 
 - [Functional Requirements: TMC Roadway Warning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=108)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=177)
 - [Functional Requirements: MCM Winter Maintenance Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=214)
 - [Functional Requirements: Emergency Environmental Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=225)
+- [Functional Requirements: Vehicle Traveler Information Reception](https://www.consystec.com/pr2026proto/web/funreq.htm?id=23)
 - [Functional Requirements: TIC Road Weather Advisories and Warnings](https://www.consystec.com/pr2026proto/web/funreq.htm?id=32)
 - [Functional Requirements: Roadway Environmental Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=33)
 - [Functional Requirements: MCV Environmental Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=34)
@@ -50,9 +75,8 @@ Road weather information systems, mobile weather observations. (also: winter mai
 - [Functional Requirements: Transit Center Environmental Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=431)
 - [Functional Requirements: TIC Traveler Information Broadcast](https://www.consystec.com/pr2026proto/web/funreq.htm?id=55)
 - [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=83)
-- [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el104)
 
-*... and 6 more*
+*... and 8 more*
 
 ## Deployment Guidance
 

@@ -119,6 +119,27 @@ ROLE_CONTENT_CONFIG = {
     }
 }
 
+
+def variant_for_role(user_role: "UserRole") -> str:
+    """Map a role to its pre-built wiki variant via ROLE_CONTENT_CONFIG.
+
+    Pure (no I/O, no LLM) so it adds zero per-query latency. Derived from the
+    same content_types config that drives content filtering, so the runtime
+    choice can't drift from how the variants are built in build_wiki.py:
+      interface + solution -> technical   (CONSULTANT, MPO_STAFF, ENGINEER, UNKNOWN)
+      interface only       -> planning    (PLANNER)
+      neither              -> strategic   (POLICY_MAKER)
+    """
+    cfg = ROLE_CONTENT_CONFIG.get(user_role, ROLE_CONTENT_CONFIG[UserRole.UNKNOWN])
+    types = cfg['content_types']
+    has_iface = 'interface' in types
+    has_std = 'solution' in types
+    if has_iface and has_std:
+        return "technical"
+    if has_iface:
+        return "planning"
+    return "strategic"
+
 # ============================================================================
 # SECTION 2: SESSION MANAGEMENT
 # ============================================================================
@@ -168,31 +189,46 @@ def load_content_data():
 # WIKI-FIRST: Pre-synthesized knowledge layer (replaces per-query RAG)
 # ============================================================================
 
-wiki_content = ""
+# The wiki is built offline by wiki_sketch/build_wiki.py into one subdirectory
+# per role-detail tier (wiki/technical, wiki/planning, wiki/strategic). Each is
+# loaded once at startup into wiki_variants; a request picks one by a pure dict
+# lookup (variant_for_role), adding zero per-query latency.
+wiki_variants = {}                 # variant name -> concatenated markdown blob
+DEFAULT_VARIANT = "technical"      # richest tier; fallback when a role/variant is missing
+WIKI_VARIANTS = ("technical", "planning", "strategic")
 WIKI_DIR = os.path.join(os.path.dirname(__file__), 'wiki_sketch', 'wiki')
 
 def load_wiki_content():
-    """Load all wiki markdown files into a single context string.
+    """Load each pre-built wiki variant into wiki_variants (variant -> blob).
 
-    The wiki (~28K tokens total) is a pre-synthesized knowledge layer that
-    replaces the high-token RAG retrieval path. Loaded once at startup.
+    Iterates the explicit variant subdirs (NOT a recursive walk of the whole
+    wiki/ tree, which would merge every tier into one blob). Variants share the
+    same page layout; only their detail depth differs (interfaces/standards).
     """
-    global wiki_content
-    parts = []
-    try:
-        for root, _dirs, files in os.walk(WIKI_DIR):
-            for fname in sorted(files):
-                if fname.endswith('.md'):
-                    path = os.path.join(root, fname)
-                    rel = os.path.relpath(path, WIKI_DIR).replace('\\', '/')
-                    with open(path, 'r', encoding='utf-8') as f:
-                        parts.append(f"=== WIKI PAGE: {rel} ===\n{f.read()}")
-        wiki_content = "\n\n".join(parts)
-        approx_tokens = len(wiki_content) // 4
-        print(f"Loaded wiki: {len(parts)} pages, {len(wiki_content):,} chars (~{approx_tokens:,} tokens)")
-    except Exception as e:
-        print(f"Error loading wiki from {WIKI_DIR}: {e}")
-        wiki_content = ""
+    global wiki_variants
+    wiki_variants = {}
+    for variant in WIKI_VARIANTS:
+        vdir = os.path.join(WIKI_DIR, variant)
+        if not os.path.isdir(vdir):
+            continue
+        parts = []
+        try:
+            for root, _dirs, files in os.walk(vdir):
+                for fname in sorted(files):
+                    if fname.endswith('.md'):
+                        path = os.path.join(root, fname)
+                        rel = os.path.relpath(path, vdir).replace('\\', '/')
+                        with open(path, 'r', encoding='utf-8') as f:
+                            parts.append(f"=== WIKI PAGE: {rel} ===\n{f.read()}")
+        except Exception as e:
+            print(f"Error loading wiki variant '{variant}' from {vdir}: {e}")
+            continue
+        blob = "\n\n".join(parts)
+        wiki_variants[variant] = blob
+        print(f"Loaded wiki variant '{variant}': {len(parts)} pages, "
+              f"{len(blob):,} chars (~{len(blob)//4:,} tokens)")
+    if not wiki_variants:
+        print(f"WARNING: no wiki variants found under {WIKI_DIR}")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -1446,10 +1482,14 @@ async def chat(request: ChatRequest):
         # context = "\n\n---\n\n".join(context_parts)
 
         # ====================================================================
-        # WIKI-FIRST: Use pre-synthesized wiki as primary context source
-        # (~28K tokens for full wiki vs. 100-500K tokens for RAG)
+        # WIKI-FIRST: Use the pre-synthesized, role-tiered wiki as context.
+        # Variant selection is a pure dict lookup (no network/LLM/file I/O), so
+        # it adds zero latency. Falls back to the default (technical) variant,
+        # then to "" so the app still runs if the wiki is missing.
         # ====================================================================
-        context = wiki_content
+        variant = variant_for_role(user_role)
+        context = wiki_variants.get(variant) or wiki_variants.get(DEFAULT_VARIANT, "")
+        print(f"Wiki variant: {variant} ({len(context):,} chars)")
         relevant_content = [{'url': 'wiki', 'title': 'wiki'}]  # placeholder for downstream len()/logging
 
         # Step 6: Generate role-specific system prompt

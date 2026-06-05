@@ -37,7 +37,37 @@
 | [Private Weather Support Services System](https://www.consystec.com/pr2026proto/web/element.htm?id=248) | Existing | Private Weather Information Provider |
 | [State Emergency Management Agency Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=102) | Existing | State Emergency Management Agency |
 
-## Related Functional Requirements (23 found)
+## Interfaces (14 data flows)
+
+Real information flows between elements in this service area, in the form *Source Element → information flow → Destination Element*. Each links to its interface specification.
+
+- Municipal Local Transit Operations Centers → transit and fare schedules → Municipal Public Information Office (US: TCIP - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=46-69)
+- Municipal Local Transit Operations Centers → transit and fare schedules → PR Travel and Tourism Website (US: TCIP - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-104)
+- Municipal Public Information Office → road network conditions → Municipal Website (US: TMDD - NTCIP Messaging) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=46-52)
+- Municipal SMCs → current infrastructure restrictions → Municipal Website (US: TMDD - NTCIP Messaging) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-52)
+- Municipal SMCs → maint and constr work plans → Municipal Website (US: TMDD - NTCIP Messaging) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-52)
+- Municipal SMCs → road network conditions → Municipal Public Information Office (US: TMDD - NTCIP Messaging) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=46-51)
+- Municipal SMCs → road network conditions → Municipal Website (US: TMDD - NTCIP Messaging) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-52)
+- Municipal SMCs → roadway maintenance status → Municipal Website ((None-Data) - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-52)
+- Municipal SMCs → traffic images → Municipal Website — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=51-52)
+- Municipal Website → road network conditions → PR Travel and Tourism Website (US: TMDD - NTCIP Messaging) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=52-104)
+- PRHTA ITS Field Devices → roadway dynamic signage status → PRHTA TMC (US: NTCIP Message Sign - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-264)
+- PRHTA TMC → roadway dynamic signage data → PRHTA ITS Field Devices (US: NTCIP Message Sign - SNMPv1) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=154-264)
+- Private Travelers Personal Computing Devices → traveler request → Municipal Website (US: ATIS - Secure Wireless Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=52-187)
+- Private Travelers Personal Computing Devices → user profile → Municipal Website ((None-Data) - Secure Wireless Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=52-187)
+
+## Applicable Standards (6)
+
+Communication and data standards referenced by the interfaces above.
+
+- **(None-Data) - Secure Internet (ITS)** — A bundle of standards (RFCs) that groups the common mgmt info bases (MIBs) used to manage IP networks at the transport layer and below using SNMPv3. ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=12106))
+- **(None-Data) - Secure Wireless Internet (ITS)** — A bundle of standards (RFCs) that groups the common mgmt info bases (MIBs) used to manage IP networks at the transport layer and below using SNMPv3. ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=55280))
+- **US: ATIS - Secure Wireless Internet (ITS)** — Specifies SAE J2353, SAE J2354, RFC 9110, RFC 9112 ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=55285))
+- **US: NTCIP Message Sign - SNMPv1** — Specifies NTCIP 1201, NTCIP 1203, NTCIP 2301 ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=54))
+- **US: TCIP - Secure Internet (ITS)** — This std def the data concepts used by the TCIP standard. ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=58659))
+- **US: TMDD - NTCIP Messaging** — Specifies RFC 9293 ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=142))
+
+## Related Functional Requirements (24 found)
 
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=116)
 - [Functional Requirements: TIC Situation Data Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=172)
@@ -47,15 +77,15 @@
 - [Functional Requirements: Vehicle Traveler Information Reception](https://www.consystec.com/pr2026proto/web/funreq.htm?id=23)
 - [Functional Requirements: Emergency Early Warning System](https://www.consystec.com/pr2026proto/web/funreq.htm?id=305)
 - [Functional Requirements: TIC Operations Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=318)
+- [Functional Requirements: Parking Coordination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=337)
 - [Functional Requirements: TIC Traveler Telephone Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=400)
 - [Functional Requirements: Transit Center Park and Ride Operations](https://www.consystec.com/pr2026proto/web/funreq.htm?id=425)
 - [Functional Requirements: MCM Work Zone Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=53)
 - [Functional Requirements: TIC Traveler Information Broadcast](https://www.consystec.com/pr2026proto/web/funreq.htm?id=55)
 - [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=83)
 - [Functional Requirements: Personal Trip Planning and Route Guidance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=9)
-- [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 
-*... and 8 more*
+*... and 9 more*
 
 ## Deployment Guidance
 

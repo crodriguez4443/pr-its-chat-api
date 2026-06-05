@@ -28,12 +28,30 @@ Regional planning data, scenario modeling, emissions monitoring.
 | [Municipal Local Transit Stations and Shelters](https://www.consystec.com/pr2026proto/web/element.htm?id=273) | Planned | Municipal Local Transit Agencies |
 | [Municipal Local Transit Traveler Information Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=70) | Planned | Municipal Local Transit Agencies |
 
-## Related Functional Requirements (9 found)
+## Interfaces (6 data flows)
+
+Real information flows between elements in this service area, in the form *Source Element → information flow → Destination Element*. Each links to its interface specification.
+
+- Financial Institution → settlement → Municipal Local Transit Operations Centers — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=60-69)
+- Municipal Local Transit Operations Centers → parking area transit information_ud → Municipal Local Transit Stations and Shelters — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-273)
+- Municipal Local Transit Operations Centers → parking payment instructions → Municipal Local Transit Parking Systems ((None-Data) - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-290)
+- Municipal Local Transit Operations Centers → payment request → Financial Institution — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=60-69)
+- Municipal Local Transit Parking Systems → parking payment transactions → Municipal Local Transit Operations Centers ((None-Data) - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-290)
+- Municipal Local Transit Parking Systems → request for payment → Municipal Local Transit Payment Device — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=290-292)
+
+## Applicable Standards (1)
+
+Communication and data standards referenced by the interfaces above.
+
+- **(None-Data) - Secure Internet (ITS)** — A bundle of standards (RFCs) that groups the common mgmt info bases (MIBs) used to manage IP networks at the transport layer and below using SNMPv3. ([standard](https://www.consystec.com/pr2026proto/web/solution.htm?id=12106))
+
+## Related Functional Requirements (10 found)
 
 - [Functional Requirements: Transit Center Paratransit Operations](https://www.consystec.com/pr2026proto/web/funreq.htm?id=165)
 - [Functional Requirements: RSE Situation Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=180)
 - [Functional Requirements: TIC Freight-Specific Travel Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=196)
 - [Functional Requirements: Archive Situation Data Archival](https://www.consystec.com/pr2026proto/web/funreq.htm?id=219)
+- [Functional Requirements: Parking Coordination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=337)
 - [Functional Requirements: Roadway Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=350)
 - [Functional Requirements: TMC Traffic Network Performance Evaluation](https://www.consystec.com/pr2026proto/web/funreq.htm?id=384)
 - [Functional Requirements: Personal Trip Planning and Route Guidance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=9)
