@@ -203,14 +203,13 @@ def save_session(session_data: dict) -> None:
 def cleanup_old_sessions(cleanup_hours: int) -> None:
     cutoff = (datetime.now() - timedelta(hours=cleanup_hours)).isoformat()
     with _write_lock, _connect() as conn:
-        conn.execute(
-            "DELETE FROM exchanges WHERE session_id IN "
-            "(SELECT session_id FROM sessions WHERE last_activity < ?)",
-            (cutoff,)
-        )
+        # Disable FK enforcement so sessions can be removed while their
+        # exchanges are kept permanently as the audit log.
+        conn.execute("PRAGMA foreign_keys=OFF")
         cursor = conn.execute(
             "DELETE FROM sessions WHERE last_activity < ?", (cutoff,)
         )
+        conn.execute("PRAGMA foreign_keys=ON")
         if cursor.rowcount:
             print(f"Cleaned up {cursor.rowcount} old sessions (inactive > {cleanup_hours}h)")
 
