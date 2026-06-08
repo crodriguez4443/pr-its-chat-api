@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git ls-tree *)",
-      "WebFetch(domain:ai.google.dev)"
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:consystec.com)"
     ]
   }
 }

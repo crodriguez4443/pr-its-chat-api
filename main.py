@@ -1223,7 +1223,7 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
     """
     gen_config = {
         "system_instruction": system_instruction,
-        "max_output_tokens": 4000,
+        "max_output_tokens": 6000,
         "temperature": 0.3,
     }
 
