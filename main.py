@@ -11,6 +11,7 @@ import csv
 import io
 import json
 import os
+import re
 from typing import Any, List, Optional, Dict
 import markdown
 from enum import Enum
@@ -193,10 +194,42 @@ def load_content_data():
 # per role-detail tier (wiki/technical, wiki/planning, wiki/strategic). Each is
 # loaded once at startup into wiki_variants; a request picks one by a pure dict
 # lookup (variant_for_role), adding zero per-query latency.
-wiki_variants = {}                 # variant name -> concatenated markdown blob
+wiki_variants = {}                 # variant name -> concatenated markdown blob (full, for fallback)
+wiki_pages = {}                    # variant name -> {relpath -> page markdown} (for page-level routing)
 DEFAULT_VARIANT = "technical"      # richest tier; fallback when a role/variant is missing
 WIKI_VARIANTS = ("technical", "planning", "strategic")
-WIKI_DIR = os.path.join(os.path.dirname(__file__), 'wiki_sketch', 'wiki')
+WIKI_DIR = os.path.join(os.path.dirname(__file__), 'wiki', 'wiki')
+
+# --- Page-level wiki routing (see select_wiki_context) ---------------------
+# The whole variant blob (~55-95K tokens) used to be sent on EVERY request even
+# though a typical question touches one or two service areas. We now route the
+# query to the relevant service-area page(s) and send only those, plus a small
+# always-on core. Citation safety is untouched: page contents (and their
+# verbatim URLs) are unchanged — we only choose WHICH pages to include. When the
+# match is not confident, we fall back to the full blob, so recall is never
+# worse than the previous wiki-first behavior.
+WIKI_CORE_PAGES = ("index.md", "overview.md")  # always included: the "map" + deployment guidance
+WIKI_MAX_AREAS = 5            # cap on service-area pages sent for a focused query
+WIKI_BROAD_AREA_LIMIT = 6     # if more areas STRONGLY match, treat as broad -> send full blob
+WIKI_STOPWORDS = {
+    "the", "and", "for", "are", "with", "what", "which", "how", "does", "this",
+    "that", "from", "you", "your", "can", "will", "would", "should", "have",
+    "has", "was", "were", "all", "any", "into", "out", "about", "they", "them",
+    "their", "there", "here", "more", "most", "some", "other", "than", "then",
+    "when", "where", "who", "whom", "why", "use", "used", "using", "need", "needs",
+    "want", "list", "show", "tell", "give", "please", "between", "within",
+    "service", "services", "package", "packages", "architecture", "system",
+    "systems", "information", "data", "maine", "its",
+}
+# Cross-cutting pages pulled in only when the query clearly calls for them.
+WIKI_STAKEHOLDER_TRIGGERS = {
+    "stakeholder", "stakeholders", "agency", "agencies", "operator", "operators",
+    "owner", "owners", "dot", "mpo", "municipal", "county", "authority",
+}
+WIKI_STANDARDS_TRIGGERS = {
+    "standard", "standards", "ntcip", "tmdd", "sae", "ieee", "iso", "protocol",
+    "protocols", "specification", "specifications", "j2735", "bundle", "bundles",
+}
 
 def load_wiki_content():
     """Load each pre-built wiki variant into wiki_variants (variant -> blob).
@@ -205,13 +238,15 @@ def load_wiki_content():
     wiki/ tree, which would merge every tier into one blob). Variants share the
     same page layout; only their detail depth differs (interfaces/standards).
     """
-    global wiki_variants
+    global wiki_variants, wiki_pages
     wiki_variants = {}
+    wiki_pages = {}
     for variant in WIKI_VARIANTS:
         vdir = os.path.join(WIKI_DIR, variant)
         if not os.path.isdir(vdir):
             continue
         parts = []
+        pages = {}
         try:
             for root, _dirs, files in os.walk(vdir):
                 for fname in sorted(files):
@@ -219,16 +254,79 @@ def load_wiki_content():
                         path = os.path.join(root, fname)
                         rel = os.path.relpath(path, vdir).replace('\\', '/')
                         with open(path, 'r', encoding='utf-8') as f:
-                            parts.append(f"=== WIKI PAGE: {rel} ===\n{f.read()}")
+                            content = f.read()
+                        block = f"=== WIKI PAGE: {rel} ===\n{content}"
+                        parts.append(block)
+                        pages[rel] = block
         except Exception as e:
             print(f"Error loading wiki variant '{variant}' from {vdir}: {e}")
             continue
         blob = "\n\n".join(parts)
         wiki_variants[variant] = blob
+        wiki_pages[variant] = pages
         print(f"Loaded wiki variant '{variant}': {len(parts)} pages, "
               f"{len(blob):,} chars (~{len(blob)//4:,} tokens)")
     if not wiki_variants:
         print(f"WARNING: no wiki variants found under {WIKI_DIR}")
+
+
+def select_wiki_context(query: str, variant: str) -> str:
+    """Return only the wiki pages relevant to `query` for the given variant.
+
+    Routing is page-level over the ~12 service-area pages: we score each page by
+    how many distinctive query terms appear in its header (title + synonym-
+    expanded description, which build_wiki already writes — so the routing index
+    stays in sync with the wiki automatically). The small core pages (index +
+    overview) are always included as the architecture "map".
+
+    Safe-by-default: if nothing matches confidently, or the query is broad enough
+    to hit many areas, we return the FULL variant blob — identical to the old
+    wiki-first behavior. Page contents and their verbatim URLs are never altered,
+    so citation safety is unaffected; we only choose which pages to send.
+    """
+    pages = wiki_pages.get(variant)
+    full = wiki_variants.get(variant) or wiki_variants.get(DEFAULT_VARIANT, "")
+    if not pages:
+        return full
+
+    terms = {w for w in re.findall(r"[a-z0-9]{3,}", (query or "").lower())
+             if w not in WIKI_STOPWORDS}
+    if not terms:
+        return full  # nothing to route on (e.g. empty/very short query)
+
+    scored = []  # (score, relpath) for matching service-area pages
+    for rel, block in pages.items():
+        if not rel.startswith("service-areas/"):
+            continue
+        header = block[:700].lower()  # title + description + synonyms
+        score = sum(1 for t in terms if t in header)
+        if score:
+            scored.append((score, rel))
+
+    # "Confident" routing requires at least one STRONG match (>=2 distinctive
+    # query terms in a page header). Common single words (signal, weather,
+    # vehicle) graze many headers, so single-term matches alone are not enough to
+    # trust the route — without a strong match we send the full blob. Strong
+    # matches are selected first; weak (single-term) matches only fill leftover
+    # slots, which keeps a relevant secondary area (e.g. Public Transportation on
+    # a "transit signal priority" query) without letting noise dominate.
+    strong = sorted((x for x in scored if x[0] >= 2), reverse=True)
+    weak = sorted((x for x in scored if x[0] == 1), reverse=True)
+    if not strong or len(strong) > WIKI_BROAD_AREA_LIMIT:
+        return full  # no confident match, or a broad cross-cutting query
+
+    ordered = [r for _s, r in strong] + [r for _s, r in weak]
+    selected = ordered[:WIKI_MAX_AREAS]
+
+    # Pull in cross-cutting pages only when the query clearly asks for them.
+    extras = []
+    if "stakeholders.md" in pages and (terms & WIKI_STAKEHOLDER_TRIGGERS):
+        extras.append("stakeholders.md")
+    if "standards.md" in pages and (terms & WIKI_STANDARDS_TRIGGERS):
+        extras.append("standards.md")
+
+    order = [p for p in WIKI_CORE_PAGES if p in pages] + selected + extras
+    return "\n\n".join(pages[r] for r in order)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -262,7 +360,7 @@ if not gemini_api_key:
     raise ValueError(f"GEMINI_API_KEY environment variable not set. Available env vars with 'gemini'/'api': {available_vars}")
 client = genai.Client(
     api_key=gemini_api_key,
-    http_options=types.HttpOptions(timeout=150_000),
+    http_options=types.HttpOptions(timeout=120_000),
 )
 
 # ============================================================================
@@ -464,8 +562,6 @@ Now generate expanded terms for: "{query}"
         print(f"Response type: {type(response)}")
         print(f"Response attributes: {dir(response)}")
         print(f"Response repr: {repr(response)}")
-
-        _log_token_usage(response, GEMINI_FLASH_MODEL, "Query Expansion")
 
         # Try to access output_text
         try:
@@ -674,12 +770,12 @@ You are an expert assistant for the Intelligent Transportation Systems (ITS) Arc
 - **Use Provided Data:** The `Title` and `URL` must come from the context provided.
 - **NEVER invent, guess, or construct a URL.** If the context does not explicitly provide a URL for an item, reference it by name only — no hyperlink. A missing link is always better than a fabricated one.
 - **NEVER use file names or paths** (like '../content/bundle1046.htm') in your response.
-- **NEVER reference .MD files found under the /wiki repo** (like 'tm-traffic-management.md') in your response.
+- **NEVER reference internal .MD files** (like 'tm-traffic-management.md') in your response.
 - **Avoid "Triplet" URLs:** Do NOT use URLs that contain "triplet" in the link.
 - **Cite Specific Pages:** Always cite specific Service Packages or Interfaces, not general pages.
 - **Wiki Content Is the Only Source for Links:** Every hyperlink you include must point to a URL that appears verbatim in the wiki content provided. Do NOT use your internal training knowledge to recall or construct service package codes (TM06, TI01, PS02, etc.) or their URLs — those generic national ITS codes may not exist in this regional architecture. Instead, search the wiki for matching service package instances and use their exact names and URLs.
 - **No Match = No Link:** If the wiki does not contain a URL for something you want to reference, name it in plain text without a hyperlink. Never infer, guess, or construct a URL from a file path, a naming pattern, or prior knowledge.
-- **Limit Citations Per Section:** Each section should have 1-4 citations maximum. Choose the most authoritative/relevant sources.
+- **Limit Citations Per Section:** Each section should have 1-3 citations maximum. Choose the most authoritative/relevant sources.
 - **NEVER use tables as they do not render correctly. use bulleted lists or paragraphs instead.
 
 """
@@ -1145,73 +1241,12 @@ DMS are typically controlled from Traffic Management Centers, where operators ca
 
 
 # ============================================================================
-# TOKEN USAGE & COST TRACKING
-# ============================================================================
-
-# Pricing per 1,000,000 tokens. Update when Google changes rates or you
-# switch model tiers. Source: https://ai.google.dev/pricing
-_MODEL_PRICING: Dict[str, tuple] = {
-    # substring match against model name -> (input_$/M, output_$/M)
-    "flash": (0.50,  3.00),   # Gemini 2.0/3 Flash
-    "pro":   (2.00, 12.00),   # Gemini 2.5/3.1 Pro
-}
-
-def _get_model_pricing(model_name: str) -> tuple:
-    model_lower = model_name.lower()
-    for pattern, pricing in _MODEL_PRICING.items():
-        if pattern in model_lower:
-            return pricing
-    return (2.00, 12.00)  # default to pro pricing if unknown
-
-def _log_token_usage(response, model_name: str, label: str = "LLM") -> dict:
-    """Print token counts and estimated cost for a Gemini response. Returns usage dict."""
-    empty = {
-        "input_tokens": 0, "output_tokens": 0, "total_tokens": 0,
-        "input_cost_usd": 0.0, "output_cost_usd": 0.0, "total_cost_usd": 0.0,
-        "model_used": model_name,
-    }
-    try:
-        usage = getattr(response, 'usage_metadata', None)
-        if usage is None:
-            print(f"[TOKENS] {label}: usage_metadata not available")
-            return empty
-
-        input_tokens  = getattr(usage, 'prompt_token_count',     0) or 0
-        output_tokens = getattr(usage, 'candidates_token_count', 0) or 0
-        total_tokens  = getattr(usage, 'total_token_count',      0) or (input_tokens + output_tokens)
-
-        input_price, output_price = _get_model_pricing(model_name)
-        input_cost  = (input_tokens  / 1_000_000) * input_price
-        output_cost = (output_tokens / 1_000_000) * output_price
-        total_cost  = input_cost + output_cost
-
-        print(
-            f"\n[TOKENS] {label} | model={model_name}\n"
-            f"  Input:  {input_tokens:>8,} tokens  ${input_cost:.6f}\n"
-            f"  Output: {output_tokens:>8,} tokens  ${output_cost:.6f}\n"
-            f"  Total:  {total_tokens:>8,} tokens  ${total_cost:.6f}\n"
-        )
-        return {
-            "input_tokens": input_tokens,
-            "output_tokens": output_tokens,
-            "total_tokens": total_tokens,
-            "input_cost_usd": input_cost,
-            "output_cost_usd": output_cost,
-            "total_cost_usd": total_cost,
-            "model_used": model_name,
-        }
-    except Exception as e:
-        print(f"[TOKENS] {label}: failed to read usage_metadata — {e}")
-        return empty
-
-
-# ============================================================================
 # SECTION 8: RESILIENT GENERATION HELPER
 # ============================================================================
 
 _RETRY_DELAYS = [1, 2]  # seconds between primary-model attempts
-_WALLCLOCK_BUDGET_S = 420.0  # hard ceiling across all retries + fallback
-_FALLBACK_MIN_BUDGET_S = 60.0  # only attempt fallback if this much budget remains
+_WALLCLOCK_BUDGET_S = 300.0  # hard ceiling across all retries + fallback
+_FALLBACK_MIN_BUDGET_S = 10.0  # only attempt fallback if this much budget remains
 
 def _generate_with_retry(gemini_contents: list, system_instruction: str):
     """
@@ -1223,7 +1258,7 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
     """
     gen_config = {
         "system_instruction": system_instruction,
-        "max_output_tokens": 6000,
+        "max_output_tokens": 4000,
         "temperature": 0.3,
     }
 
@@ -1268,17 +1303,27 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
                 f"call_dur={time.monotonic() - attempt_start:.2f}s "
                 f"total_elapsed={elapsed():.2f}s"
             )
-            usage_data = _log_token_usage(result, GEMINI_PRO_MODEL, f"Main LLM (attempt {attempt})")
-            return result, GEMINI_PRO_MODEL, usage_data
+            return result
         except genai_errors.ServerError as e:
             last_exc = e
             code = getattr(e, 'code', None) or getattr(e, 'status_code', None)
             print(
-                f"\n[ALERT] Gemini 503 on attempt {attempt}/{total_attempts} "
+                f"\n[ALERT] Gemini server error on attempt {attempt}/{total_attempts} "
                 f"(model={GEMINI_PRO_MODEL}, code={code}, "
                 f"call_dur={time.monotonic() - attempt_start:.2f}s, "
                 f"total_elapsed={elapsed():.2f}s): {e}"
             )
+            # Only 503 UNAVAILABLE is a transient overload signal worth retrying on
+            # the same model. A 504 DEADLINE_EXCEEDED (or any other server error) is
+            # deterministic for this prompt + deadline — retrying the same model with
+            # identical params just burns the budget for a guaranteed repeat failure.
+            # Break out of the primary loop and let the fallback model take one shot.
+            if code != 503:
+                print(
+                    f"[ALERT] Non-retryable server error (code={code}); "
+                    f"skipping remaining primary attempts, proceeding to fallback"
+                )
+                break
 
     if remaining() < _FALLBACK_MIN_BUDGET_S:
         print(
@@ -1310,8 +1355,7 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
             f"call_dur={time.monotonic() - fallback_start:.2f}s "
             f"total_elapsed={elapsed():.2f}s"
         )
-        usage_data = _log_token_usage(result, GEMINI_PRO_FALLBACK_MODEL, "Main LLM (fallback)")
-        return result, GEMINI_PRO_FALLBACK_MODEL, usage_data
+        return result
     except Exception as fallback_exc:
         print(
             f"[ALERT] Fallback model {GEMINI_PRO_FALLBACK_MODEL} also failed "
@@ -1328,7 +1372,7 @@ def _generate_with_retry(gemini_contents: list, system_instruction: str):
 # timeout) after the budget would otherwise be exhausted. The grace period
 # lets a legitimately-long final attempt finish; anything beyond this is
 # treated as a stuck SDK call and forcibly aborted.
-_HARD_DEADLINE_S = _WALLCLOCK_BUDGET_S + 45.0
+_HARD_DEADLINE_S = _WALLCLOCK_BUDGET_S + 10.0
 
 
 async def _generate_with_retry_async(gemini_contents: list, system_instruction: str):
@@ -1482,14 +1526,24 @@ async def chat(request: ChatRequest):
         # context = "\n\n---\n\n".join(context_parts)
 
         # ====================================================================
-        # WIKI-FIRST: Use the pre-synthesized, role-tiered wiki as context.
-        # Variant selection is a pure dict lookup (no network/LLM/file I/O), so
-        # it adds zero latency. Falls back to the default (technical) variant,
-        # then to "" so the app still runs if the wiki is missing.
+        # WIKI-FIRST (page-level routing): Use the pre-synthesized, role-tiered
+        # wiki as context, but send only the service-area page(s) relevant to the
+        # query instead of the whole variant blob. Variant selection is a pure
+        # dict lookup; routing is a cheap in-memory keyword scan (no network/LLM/
+        # file I/O), so per-query latency stays ~zero. select_wiki_context falls
+        # back to the full variant blob when the match is not confident, so recall
+        # is never worse than sending everything. Falls back to the default
+        # (technical) variant, then to "" so the app still runs if the wiki is
+        # missing.
         # ====================================================================
         variant = variant_for_role(user_role)
-        context = wiki_variants.get(variant) or wiki_variants.get(DEFAULT_VARIANT, "")
-        print(f"Wiki variant: {variant} ({len(context):,} chars)")
+        context = select_wiki_context(actual_query, variant)
+        if not context:  # variant present but routed to nothing should not happen; belt-and-suspenders
+            context = wiki_variants.get(variant) or wiki_variants.get(DEFAULT_VARIANT, "")
+        full_blob = wiki_variants.get(variant, "")
+        pct = (100 * len(context) / len(full_blob)) if full_blob else 100
+        print(f"Wiki variant: {variant} — sent {len(context):,} chars "
+              f"(~{len(context)//4:,} tok, {pct:.0f}% of full {len(full_blob):,})")
         relevant_content = [{'url': 'wiki', 'title': 'wiki'}]  # placeholder for downstream len()/logging
 
         # Step 6: Generate role-specific system prompt
@@ -1529,7 +1583,7 @@ async def chat(request: ChatRequest):
         # the logs, the bottleneck is NOT the model.
         llm_start = time.monotonic()
         print(f"[TIMING] /api/chat -> LLM call START session={session_id}")
-        response, model_used, usage_data = await _generate_with_retry_async(
+        response = await _generate_with_retry_async(
             gemini_contents=gemini_contents,
             system_instruction=system_instruction,
         )
@@ -1555,7 +1609,6 @@ async def chat(request: ChatRequest):
         session_data['conversation_query_count'] = session_data.get('conversation_query_count', 0) + 1
         session_data['exchange_count'] = session_data.get('exchange_count', 0) + 1
         session_data['last_activity'] = datetime.now()
-        session_data['total_cost_usd'] = session_data.get('total_cost_usd', 0.0) + usage_data['total_cost_usd']
 
         # Persist session mutations to SQLite
         session_store.save_session(session_data)
@@ -1573,20 +1626,13 @@ async def chat(request: ChatRequest):
             conversation_context_length=len(session_data['conversation_history']),
             chunks_retrieved=len(relevant_content),
             response_time_ms=response_time_ms,
-            input_tokens=usage_data['input_tokens'],
-            output_tokens=usage_data['output_tokens'],
-            total_tokens=usage_data['total_tokens'],
-            input_cost_usd=usage_data['input_cost_usd'],
-            output_cost_usd=usage_data['output_cost_usd'],
-            total_cost_usd=usage_data['total_cost_usd'],
-            model_used=usage_data['model_used'],
         )
 
         print(
             f"[TIMING] /api/chat EXIT OK session={session_id} "
             f"handler_total={time.monotonic() - handler_start:.2f}s"
         )
-        return ChatResponse( 
+        return ChatResponse(
             response=html_content,
             session_id=session_id,
             remaining_queries=MAX_QUERIES_PER_DAY - session_data['query_count'],
@@ -1691,12 +1737,6 @@ async def reset_conversation(request: ResetConversationRequest):
 EXPORT_ROW_CAP = 50_000
 
 
-class ModelCostBreakdown(BaseModel):
-    exchanges: int
-    total_tokens: int
-    total_cost_usd: float
-
-
 class StatsResponse(BaseModel):
     start: str
     end: str
@@ -1704,13 +1744,6 @@ class StatsResponse(BaseModel):
     total_exchanges: int
     avg_response_time_ms: Optional[float]
     exchanges_by_role: Dict[str, int]
-    total_input_tokens: int = 0
-    total_output_tokens: int = 0
-    total_tokens: int = 0
-    total_input_cost_usd: float = 0.0
-    total_output_cost_usd: float = 0.0
-    total_cost_usd: float = 0.0
-    by_model: Dict[str, ModelCostBreakdown] = {}
 
 
 class ExchangeItem(BaseModel):
@@ -1724,13 +1757,6 @@ class ExchangeItem(BaseModel):
     conversation_context_length: Optional[int]
     chunks_retrieved: Optional[int]
     response_time_ms: Optional[int]
-    input_tokens: Optional[int] = None
-    output_tokens: Optional[int] = None
-    total_tokens: Optional[int] = None
-    input_cost_usd: Optional[float] = None
-    output_cost_usd: Optional[float] = None
-    total_cost_usd: Optional[float] = None
-    model_used: Optional[str] = None
 
 
 class ExchangesListResponse(BaseModel):
@@ -1749,7 +1775,6 @@ class SessionDetailResponse(BaseModel):
     created_at: str
     last_activity: str
     conversation_history: List[dict]
-    total_cost_usd: Optional[float] = None
 
 
 @app.get("/api/data/stats", response_model=StatsResponse)
@@ -1823,8 +1848,6 @@ CSV_FIELDS = [
     "id", "session_id", "exchange_number", "timestamp", "user_role",
     "user_query", "assistant_response", "conversation_context_length",
     "chunks_retrieved", "response_time_ms",
-    "input_tokens", "output_tokens", "total_tokens",
-    "input_cost_usd", "output_cost_usd", "total_cost_usd", "model_used",
 ]
 
 

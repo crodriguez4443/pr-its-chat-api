@@ -1,4 +1,4 @@
-# Stakeholders (29 total)
+# Stakeholders (28 total)
 
 ## MPOs & Planning Agencies (1)
 - [PR Metropolitan Planning Organization](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=74)
@@ -24,7 +24,7 @@
 - [Private Travelers](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=5)
 - [Private Weather Information Provider](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=7)
 
-## Other (15)
+## Other (14)
 - [Airport Authorities](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=60)
 - [Archive Data Users](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=20)
 - [Electric Vehicle Charging Organizations](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=109)
@@ -36,7 +36,6 @@
 - [PR Department of Motor Vehicles](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=75)
 - [PR Police](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=68)
 - [Regional Event Coordinators](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=4)
-- [Service Package stakeholder](https://www.consystec.com/pr2026proto/web/stakeholder.htm)
 - [State Emergency Management Agency](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=64)
 - [US Department of Homeland Security](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=72)
 - [US Government Agencies](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=108)

@@ -5,14 +5,44 @@ Road weather information systems, mobile weather observations. (also: winter mai
 ## Service Packages in This Architecture
 
 ### Weather Services
-*RWIS, mobile observations, weather alerts (also: road weather information system, ESS, environmental sensor station, weather station, road weather station)*
+*RWIS, mobile observations, weather alerts, spot weather impact warning, roadway micro-prediction (also: road weather information system, ESS, environmental sensor station, weather station, road weather station)*
 
-- [Service Package mpSH1_WX01-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX01-02(Municipal))
-- [Service Package mpSH1_WX01-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX01-02(MunicipalTrafficDPW))
-- [Service Package mpSH28_WX01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_WX01-01(PRHTA))
-- [Service Package mpSH112_WX02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_WX02-01(PRHTA))
-- [Service Package mpSH1_WX02-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX02-04(Municipal))
-- [Service Package mpSH1_WX02-04(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX02-04(MunicipalTrafficDPW))
+- [mpSH1_WX01-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX01-02(Municipal))
+- [mpSH1_WX01-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX01-02(MunicipalTrafficDPW))
+- [mpSH28_WX01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_WX01-01(PRHTA))
+- [mpSH28_WX01-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_WX01-02(Municipal))
+- [mpSH28_WX01-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_WX01-02(MunicipalTrafficDPW))
+- [mpSH3_WX01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_WX01-01(PRHTA))
+- [mpSH7_WX01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_WX01-01(PRHTA))
+- [mpSH7_WX01-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_WX01-02(Municipal))
+- [mpSH7_WX01-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_WX01-02(MunicipalTrafficDPW))
+- [mpSH112_WX02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_WX02-01(PRHTA))
+- [mpSH1_WX02-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX02-04(Municipal))
+- [mpSH1_WX02-04(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX02-04(MunicipalTrafficDPW))
+- [mpSH1_WX02-05(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX02-05(Municipal))
+- [mpSH1_WX02-05(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX02-05(MunicipalTrafficDPW))
+- [mpSH21_WX02-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_WX02-02(PRHTA))
+- [mpSH21_WX02-05(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_WX02-05(Municipal))
+- [mpSH28_WX02-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_WX02-04(Municipal))
+- [mpSH28_WX02-04(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_WX02-04(MunicipalTrafficDPW))
+- [mpSH3_WX02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_WX02-01(PRHTA))
+- [mpSH3_WX02-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_WX02-02(PRHTA))
+- [mpSH3_WX02-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_WX02-03(PRHTA))
+- [mpSH64_WX02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_WX02-01(PRHTA))
+- [mpSH64_WX02-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_WX02-04(Municipal))
+- [mpSH64_WX02-04(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_WX02-04(MunicipalTrafficDPW))
+- [mpSH68_WX02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_WX02-01(PRHTA))
+- [mpSH68_WX02-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_WX02-04(Municipal))
+- [mpSH68_WX02-04(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_WX02-04(MunicipalTrafficDPW))
+- [mpSH7_WX02-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_WX02-03(PRHTA))
+- [mpSH7_WX02-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_WX02-04(Municipal))
+- [mpSH7_WX02-04(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_WX02-04(MunicipalTrafficDPW))
+- [mpSH92_WX02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_WX02-01(PRHTA))
+- [mpSH1_WX03-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX03-02(Municipal))
+- [mpSH1_WX03-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_WX03-02(MunicipalTrafficDPW))
+- [mpSH3_WX03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_WX03-01(PRHTA))
+- [mpSH3_WX03-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_WX03-02(Municipal))
+- [mpSH5_WX03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_WX03-01(PRHTA))
 
 ## Key Elements (15 total)
 
@@ -67,17 +97,12 @@ Real information flows between elements in this service area, in the form *Sourc
 - [Functional Requirements: Transit Center Environmental Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=431)
 - [Functional Requirements: TIC Traveler Information Broadcast](https://www.consystec.com/pr2026proto/web/funreq.htm?id=55)
 - [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=83)
+- [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el104)
+- [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el172)
+- [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el177)
+- [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el248)
+- [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el263)
+- [Functional Requirements: Vehicle Traveler Information Reception](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el275)
+- [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el47)
+- [Functional Requirements: MCV Environmental Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el48)
 
-*... and 8 more*
-
-## Deployment Guidance
-
-When planning a deployment in Weather:
-
-1. **Identify the service packages** that apply to your use case from the list above.
-2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
-3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
-4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
-5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
-
-For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

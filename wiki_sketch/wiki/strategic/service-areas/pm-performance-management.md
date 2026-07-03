@@ -5,17 +5,18 @@ Regional planning data, scenario modeling, emissions monitoring.
 ## Service Packages in This Architecture
 
 ### Performance Management
-*Planning data, performance dashboards, emissions tracking*
+*Planning data, performance dashboards, emissions tracking, loading zone management*
 
-- [Service Package mpSH21_PM01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(MunicipalTransit))
-- [Service Package mpSH21_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(Transit))
-- [Service Package mpSH3_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM01-01(Transit))
-- [Service Package mpSH21_PM02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(MunicipalTransit))
-- [Service Package mpSH21_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(Transit))
-- [Service Package mpSH3_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM02-01(Transit))
-- [Service Package mpSH21_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(MunicipalTransit))
-- [Service Package mpSH21_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(Transit))
-- [Service Package mpSH26_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(MunicipalTransit))
+- [mpSH21_PM01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(MunicipalTransit))
+- [mpSH21_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(Transit))
+- [mpSH3_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM01-01(Transit))
+- [mpSH21_PM02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(MunicipalTransit))
+- [mpSH21_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(Transit))
+- [mpSH3_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM02-01(Transit))
+- [mpSH21_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(MunicipalTransit))
+- [mpSH21_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(Transit))
+- [mpSH26_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(MunicipalTransit))
+- [mpSH26_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(Transit))
 
 ## Key Elements (6 total)
 
@@ -41,14 +42,3 @@ Regional planning data, scenario modeling, emissions monitoring.
 - [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 - [Functional Requirements: Roadway Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el82)
 
-## Deployment Guidance
-
-When planning a deployment in Performance Management:
-
-1. **Identify the service packages** that apply to your use case from the list above.
-2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
-3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
-4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
-5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
-
-For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

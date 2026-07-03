@@ -5,30 +5,44 @@ Freight credentialing, electronic screening, HAZMAT tracking, oversize/overweigh
 ## Service Packages in This Architecture
 
 ### Commercial Vehicle Operations
-*Credentialing, screening, HAZMAT, fleet management (also: hazardous material, hazardous materials, dangerous goods, HAZMAT routing)*
+*Credentialing, screening, HAZMAT, fleet management, freight administration, road weather, drayage optimization, HAZMAT security, driver logs, intelligent access, speed compliance, international border (also: hazardous material, hazardous materials, dangerous goods, HAZMAT routing; also: winter maintenance, anti-icing, de-icing, snow removal, weather responsive management)*
 
-- [Service Package mpSH36_CVO01-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO01-01)
-- [Service Package mpSH41_CVO01-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO01-01)
-- [Service Package mpSH75_CVO01-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH75_CVO01-01)
-- [Service Package mpSH36_CVO03-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO03-01)
-- [Service Package mpSH36_CVO03-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO03-02)
-- [Service Package mpSH41_CVO03-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO03-01)
-- [Service Package mpSH36_CVO04-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO04-01)
-- [Service Package mpSH36_CVO04-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO04-02)
-- [Service Package mpSH41_CVO04-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO04-01)
-- [Service Package mpSH3_CVO05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO05-01(PRHTA))
-- [Service Package mpSH5_CVO05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_CVO05-01(PRHTA))
-- [Service Package mpSH36_CVO07-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO07-01)
-- [Service Package mpSH36_CVO07-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO07-02)
-- [Service Package mpSH41_CVO07-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO07-01)
-- [Service Package mpSH36_CVO08-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO08-01)
-- [Service Package mpSH3_CVO08-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO08-01)
-- [Service Package mpSH41_CVO08-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO08-01)
-- [Service Package mpSH3_CVO09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO09-01(PRHTA))
-- [Service Package mpSH41_CVO09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO09-01(PRHTA))
-- [Service Package mpSH1_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_CVO12-01)
-- [Service Package mpSH3_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO12-01)
-- [Service Package mpSH64_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_CVO12-01)
+- [mpSH36_CVO01-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO01-01)
+- [mpSH41_CVO01-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO01-01)
+- [mpSH75_CVO01-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH75_CVO01-01)
+- [mpSH36_CVO03-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO03-01)
+- [mpSH36_CVO03-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO03-02)
+- [mpSH41_CVO03-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO03-01)
+- [mpSH42_CVO03-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH42_CVO03-01)
+- [mpSH51_CVO03-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH51_CVO03-02)
+- [mpSH52_CVO03-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH52_CVO03-02)
+- [mpSH75_CVO03-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH75_CVO03-01)
+- [mpSH36_CVO04-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO04-01)
+- [mpSH36_CVO04-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO04-02)
+- [mpSH41_CVO04-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO04-01)
+- [mpSH51_CVO04-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH51_CVO04-02)
+- [mpSH52_CVO04-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH52_CVO04-02)
+- [mpSH3_CVO05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO05-01(PRHTA))
+- [mpSH5_CVO05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_CVO05-01(PRHTA))
+- [mpSH36_CVO07-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO07-01)
+- [mpSH36_CVO07-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO07-02)
+- [mpSH41_CVO07-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO07-01)
+- [mpSH42_CVO07-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH42_CVO07-01)
+- [mpSH42_CVO07-02](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH42_CVO07-02)
+- [mpSH36_CVO08-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH36_CVO08-01)
+- [mpSH3_CVO08-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO08-01)
+- [mpSH41_CVO08-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO08-01)
+- [mpSH3_CVO09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO09-01(PRHTA))
+- [mpSH41_CVO09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO09-01(PRHTA))
+- [mpSH28_CVO10-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_CVO10-01(PRHTA))
+- [mpSH3_CVO10-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO10-01(PRHTA))
+- [mpSH41_CVO10-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_CVO10-01(PRHTA))
+- [mpSH7_CVO10-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_CVO10-01(PRHTA))
+- [mpSH1_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_CVO12-01)
+- [mpSH3_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_CVO12-01)
+- [mpSH64_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_CVO12-01)
+- [mpSH68_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_CVO12-01)
+- [mpSH92_CVO12-01](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_CVO12-01)
 
 ## Key Elements (23 total)
 
@@ -75,17 +89,18 @@ Freight credentialing, electronic screening, HAZMAT tracking, oversize/overweigh
 - [Functional Requirements: Fleet Credentials and Taxes Management and Reporting](https://www.consystec.com/pr2026proto/web/funreq.htm?id=316)
 - [Functional Requirements: CVCE Weigh-In-Motion](https://www.consystec.com/pr2026proto/web/funreq.htm?id=347)
 - [Functional Requirements: TMC Incident Detection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=378)
+- [Functional Requirements: Fleet Maintenance Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=451)
+- [Functional Requirements: Freight Administration and Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=5)
+- [Functional Requirements: CVAC Credentials and Taxes Administration](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el1)
+- [Functional Requirements: CVAC Credentials and Taxes Administration](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el105)
+- [Functional Requirements: CVAC Credentials and Taxes Administration](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el114)
+- [Functional Requirements: CVCE Citation and Accident Electronic Recording](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el204)
+- [Functional Requirements: CVAC Information Exchange](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el205)
+- [Functional Requirements: CVAC Information Exchange](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el206)
+- [Functional Requirements: CV On-Board Cargo Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el41)
+- [Functional Requirements: CVAC Information Exchange](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el57)
+- [Functional Requirements: CVCE Citation and Accident Electronic Recording](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el58)
+- [Functional Requirements: Fleet Administration](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el61)
+- [Functional Requirements: CVCE Citation and Accident Electronic Recording](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el81)
+- [Functional Requirements: CVAC Credentials and Taxes Administration](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el99)
 
-*... and 14 more*
-
-## Deployment Guidance
-
-When planning a deployment in Commercial Vehicle Operations:
-
-1. **Identify the service packages** that apply to your use case from the list above.
-2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
-3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
-4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
-5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
-
-For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

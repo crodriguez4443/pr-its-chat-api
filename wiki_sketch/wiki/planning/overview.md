@@ -1,7 +1,7 @@
 # PRDOT — Overview
 
 ## Scope
-This architecture contains **104 elements**, **29 stakeholders**, and **74 unique service package types** (586 total instances including stakeholder-specific variants).
+This architecture contains **104 elements**, **28 stakeholders**, and **74 unique service package types** (586 total instances including stakeholder-specific variants).
 
 Additional content: 207 functional requirements, 309 interfaces, 268 data flows, 10 planning documents, 53 standards bundles, 238 solutions/standards, 67 projects.
 
@@ -48,7 +48,6 @@ Existing: 57, Planned: 46, : 1
 - [Rail Operators](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=31)
 - [Region Transit Fare Media Stakeholders](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=116)
 - [Regional Event Coordinators](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=4)
-- [Service Package stakeholder](https://www.consystec.com/pr2026proto/web/stakeholder.htm)
 - [State Emergency Management Agency](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=64)
 - [US Department of Homeland Security](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=72)
 - [US Government Agencies](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=108)
@@ -60,3 +59,15 @@ Existing: 57, Planned: 46, : 1
 - **RFP/RFI questions**: The service area pages list which functional requirements, interfaces, and standards apply. These map directly to RFP specification sections.
 
 Base URL: https://www.consystec.com/pr2026proto/web
+
+## Deployment Guidance (applies to every service area)
+
+When planning a deployment in any service area:
+
+1. **Identify the service packages** that apply to your use case from that service area's page.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

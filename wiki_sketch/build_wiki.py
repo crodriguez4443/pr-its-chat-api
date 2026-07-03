@@ -14,10 +14,6 @@ through thousands of raw chunks.
 
 Usage:
     python build_wiki.py --input processed_content.json --output wiki/
-
-    Optional:
-    --architecture-name "NY State ITS Architecture"
-    --base-url "https://www.consystec.com/nystate2025/web"
 """
 
 import json
@@ -48,19 +44,19 @@ SP_CATEGORIES = {
         "name": "Traffic Management",
         "desc": "Signal control, freeway management, traffic surveillance, incident detection, DMS, connected vehicle applications.",
         "subcategories": {
-            "signal":   {"codes": ["TM01", "TM02", "TM03"], "name": "Traffic Signal Control", "desc": "Signal timing, priority, preemption, adaptive control"},
+            "signal":   {"codes": ["TM01", "TM02", "TM03", "TM26"], "name": "Traffic Signal Control", "desc": "Signal timing, priority, preemption, adaptive control, signal enforcement"},
             "freeway":  {"codes": ["TM04", "TM05", "TM06"], "name": "Freeway Management", "desc": "Ramp metering, HOV/HOT, speed management, lane control"},
             "coord":    {"codes": ["TM07", "TM08"], "name": "Regional Coordination", "desc": "TMC-to-TMC coordination, cross-agency incident sharing"},
-            "dissem":   {"codes": ["TM09", "TM10", "TM13", "TM14", "TM15", "TM16"], "name": "Traffic Info Dissemination", "desc": "DMS, HAR, traveler alerts, parking info, road closure info"},
-            "cv":       {"codes": ["TM17", "TM18", "TM19", "TM20", "TM21", "TM22", "TM23", "TM24", "TM25"], "name": "Connected Vehicle Applications", "desc": "V2I SPaT, MAP, curve warnings, work zone alerts, queue warnings"},
+            "dissem":   {"codes": ["TM09", "TM10", "TM11", "TM13", "TM14", "TM15", "TM16"], "name": "Traffic Info Dissemination", "desc": "DMS, HAR, traveler alerts, parking info, road closure info, road use charging"},
+            "cv":       {"codes": ["TM12", "TM17", "TM18", "TM19", "TM20", "TM21", "TM22", "TM23", "TM24", "TM25"], "name": "Connected Vehicle Applications", "desc": "V2I SPaT, MAP, curve warnings, work zone alerts, queue warnings, dynamic roadway warning"},
         },
     },
     "PT": {
         "name": "Public Transportation",
         "desc": "Transit vehicle tracking, scheduling, passenger info, fare collection, demand response.",
         "subcategories": {
-            "ops":      {"codes": ["PT01", "PT02", "PT03", "PT04"], "name": "Transit Operations", "desc": "CAD/AVL, scheduling, passenger counting, fare collection"},
-            "info":     {"codes": ["PT05", "PT06", "PT07", "PT08", "PT09"], "name": "Transit Traveler Info", "desc": "Real-time arrivals, trip planning, transfer coordination"},
+            "ops":      {"codes": ["PT01", "PT02", "PT03", "PT04", "PT10", "PT11", "PT12", "PT13"], "name": "Transit Operations", "desc": "CAD/AVL, scheduling, passenger counting, fare collection, bus lanes, pedestrian indication, station warnings, turning warnings"},
+            "info":     {"codes": ["PT05", "PT06", "PT07", "PT08", "PT09", "PT16"], "name": "Transit Traveler Info", "desc": "Real-time arrivals, trip planning, transfer coordination, route ID for visually impaired"},
             "demand":   {"codes": ["PT14", "PT15", "PT17"], "name": "Demand Response / MaaS", "desc": "Paratransit, ride-sharing, mobility-as-a-service"},
         },
     },
@@ -68,29 +64,29 @@ SP_CATEGORIES = {
         "name": "Traveler Information",
         "desc": "511 services, third-party apps, multimodal alerts, personalized traveler info.",
         "subcategories": {
-            "all": {"codes": ["TI01", "TI02", "TI04", "TI06", "TI07"], "name": "Traveler Information Services", "desc": "511, third-party data feeds, multimodal alerts, personalized info"},
+            "all": {"codes": ["TI01", "TI02", "TI03", "TI04", "TI05", "TI06", "TI07", "TI08", "TI09"], "name": "Traveler Information Services", "desc": "511, third-party data feeds, multimodal alerts, personalized info, en-route guidance, electronic payment, personal wayfinding, travel services reservation"},
         },
     },
     "PS": {
         "name": "Public Safety",
         "desc": "Incident management, emergency response, HAZMAT, railroad crossings, security monitoring.",
         "subcategories": {
-            "incident": {"codes": ["PS01", "PS02", "PS03"], "name": "Incident & Emergency Management", "desc": "Incident detection, response coordination, HAZMAT routing"},
-            "safety":   {"codes": ["PS06", "PS08", "PS09", "PS10", "PS11", "PS12", "PS13", "PS14"], "name": "Safety & Security Monitoring", "desc": "CCTV, wrong-way detection, bridge monitoring, rail crossings"},
+            "incident": {"codes": ["PS01", "PS02", "PS03", "PS07"], "name": "Incident & Emergency Management", "desc": "Incident detection, response coordination, HAZMAT routing, incident scene safety monitoring"},
+            "safety":   {"codes": ["PS04", "PS05", "PS06", "PS08", "PS09", "PS10", "PS11", "PS12", "PS13", "PS14", "PS15"], "name": "Safety & Security Monitoring", "desc": "CCTV, wrong-way detection, bridge monitoring, rail crossings, mayday notification, vehicle emergency response, stolen vehicle recovery"},
         },
     },
     "MC": {
         "name": "Maintenance & Construction",
         "desc": "Road weather management, maintenance vehicle tracking, work zone management, infrastructure monitoring.",
         "subcategories": {
-            "all": {"codes": ["MC01", "MC02", "MC03", "MC04", "MC05", "MC06", "MC07", "MC08", "MC09", "MC10"], "name": "Maintenance & Construction", "desc": "RWIS, AVL, work zones, infrastructure health monitoring"},
+            "all": {"codes": ["MC01", "MC02", "MC03", "MC04", "MC05", "MC06", "MC07", "MC08", "MC09", "MC10", "MC11", "MC12"], "name": "Maintenance & Construction", "desc": "RWIS, AVL, work zones, infrastructure health monitoring, signal priority, one-way convoy driving"},
         },
     },
     "CVO": {
         "name": "Commercial Vehicle Operations",
         "desc": "Freight credentialing, electronic screening, HAZMAT tracking, oversize/overweight permits.",
         "subcategories": {
-            "all": {"codes": ["CVO01", "CVO03", "CVO04", "CVO05", "CVO06", "CVO07", "CVO08", "CVO09", "CVO12", "CVO14", "CVO15"], "name": "Commercial Vehicle Operations", "desc": "Credentialing, screening, HAZMAT, fleet management"},
+            "all": {"codes": ["CVO01", "CVO02", "CVO03", "CVO04", "CVO05", "CVO06", "CVO07", "CVO08", "CVO09", "CVO10", "CVO11", "CVO12", "CVO13", "CVO14", "CVO15", "CVO16", "CVO17", "CVO18", "CVO19", "CVO20", "CVO21", "CVO22"], "name": "Commercial Vehicle Operations", "desc": "Credentialing, screening, HAZMAT, fleet management, freight administration, road weather, drayage optimization, HAZMAT security, driver logs, intelligent access, speed compliance, international border"},
         },
     },
     "DM": {
@@ -104,35 +100,35 @@ SP_CATEGORIES = {
         "name": "Performance Management",
         "desc": "Regional planning data, scenario modeling, emissions monitoring.",
         "subcategories": {
-            "all": {"codes": ["PM01", "PM02", "PM03", "PM04", "PM05"], "name": "Performance Management", "desc": "Planning data, performance dashboards, emissions tracking"},
+            "all": {"codes": ["PM01", "PM02", "PM03", "PM04", "PM05", "PM06"], "name": "Performance Management", "desc": "Planning data, performance dashboards, emissions tracking, loading zone management"},
         },
     },
     "WX": {
         "name": "Weather",
         "desc": "Road weather information systems, mobile weather observations.",
         "subcategories": {
-            "all": {"codes": ["WX01", "WX02"], "name": "Weather Services", "desc": "RWIS, mobile observations, weather alerts"},
+            "all": {"codes": ["WX01", "WX02", "WX03", "WX04"], "name": "Weather Services", "desc": "RWIS, mobile observations, weather alerts, spot weather impact warning, roadway micro-prediction"},
         },
     },
     "SU": {
         "name": "Support",
         "desc": "Device management, mapping, location services, communications infrastructure.",
         "subcategories": {
-            "all": {"codes": ["SU01", "SU02", "SU03", "SU04", "SU05", "SU07", "SU08"], "name": "Support Services", "desc": "Map management, device management, cybersecurity, communications"},
+            "all": {"codes": ["SU01", "SU02", "SU03", "SU04", "SU05", "SU06", "SU08", "SU09", "SU10", "SU11", "SU12", "SU13", "SU14", "SU15"], "name": "Support Services", "desc": "Map management, device management, cybersecurity, communications, object registration, device certification, center/field/vehicle/personnel maintenance, remote access, VRU device transition"},
         },
     },
     "VS": {
         "name": "Vehicle Safety",
         "desc": "V2V safety, automated driving, platooning, collision avoidance.",
         "subcategories": {
-            "all": {"codes": ["VS05", "VS08", "VS09", "VS11", "VS12", "VS13", "VS16"], "name": "Vehicle Safety & Automation", "desc": "V2V, automated vehicles, platooning, collision avoidance"},
+            "all": {"codes": ["VS01", "VS02", "VS03", "VS04", "VS05", "VS06", "VS07", "VS08", "VS09", "VS10", "VS11", "VS12", "VS13", "VS14", "VS15", "VS16", "VS17", "VS18"], "name": "Vehicle Safety & Automation", "desc": "V2V, automated vehicles, platooning, collision avoidance, autonomous vehicle safety, basic safety, situational awareness, special vehicle alert, stop sign gap assist, road weather alert, restricted lane warnings, cooperative adaptive cruise control, METR, VRU clustering"},
         },
     },
     "ST": {
         "name": "Sustainable Transport",
         "desc": "Congestion pricing, transit incentives, emissions management.",
         "subcategories": {
-            "all": {"codes": ["ST01", "ST02", "ST05", "ST06", "ST09"], "name": "Sustainable Transport", "desc": "Congestion pricing, transit incentives, alternative fuel support"},
+            "all": {"codes": ["ST01", "ST02", "ST03", "ST04", "ST05", "ST06", "ST07", "ST08", "ST09", "ST10"], "name": "Sustainable Transport", "desc": "Congestion pricing, transit incentives, alternative fuel support, eco-traffic metering, roadside lighting, eco-lanes, eco-approach at signals, low emissions zone management"},
         },
     },
 }
@@ -378,6 +374,9 @@ def analyze_architecture(data):
             analysis['elements'].append(entry)
 
         elif ctype == 'stakeholder':
+            # Skip template/placeholder pages that have no ?id= parameter
+            if '?id=' not in entry.get('url', ''):
+                continue
             name_match = re.search(r'Name:\s*(.+?)(?:Description:|Elements|$)', doc['content'])
             entry['name'] = name_match.group(1).strip() if name_match else doc['title']
             analysis['stakeholders'].append(entry)
@@ -639,6 +638,106 @@ def build_traceability(data):
 
 
 # ---------------------------------------------------------------------------
+# Service package -> functional requirement linkage
+# ---------------------------------------------------------------------------
+# Every spinstance page carries a "Functions Linked to Requirements" table that
+# assigns named functions (e.g. "TMC Traffic Management Decision Support") to
+# each participating element. This is the AUTHORITATIVE service-package ->
+# functional-requirement edge. The summary wiki previously surfaced functional
+# requirements only through a keyword scan, with no link back to the packages
+# that implement them — so a query like "decision support service packages"
+# could not be answered from the wiki even though the source states it outright
+# (the decision-support function is named on exactly the packages that deploy
+# it). We mine that table here and emit it bidirectionally on each service area
+# page: each package lists the functions it implements, and each functional
+# requirement lists the in-area packages that implement it.
+
+_FN_BOILERPLATE = 'Specific functions are defined below:'
+
+
+def build_function_links(data):
+    """Mine the 'Functions Linked to Requirements' table from spinstance pages.
+
+    Returns, keyed for merge into `analysis`:
+      sp_functions[code]       = sorted [function name]   # what a package implements
+      fr_implemented_by[name]  = sorted [code]            # the reverse edge
+      fn_name_to_url[name]     = funreq URL               # for linking
+
+    Function names are segmented out of the run-on table greedily against the
+    vocabulary of real functional-requirement page titles (same technique as
+    the interface miner), so every emitted function resolves to a real funreq
+    page — resolve-or-drop, no fabricated links.
+    """
+    # Vocabulary 1: functional-requirement names <- funreq page titles
+    # ("Functional Requirements: <name>" -> "<name>").
+    fn_name_to_url = {}
+    for d in data:
+        if '/funreq.htm?id=' in d['url']:
+            title = d['title'].strip()
+            name = title.split(':', 1)[1].strip() if ':' in title else title
+            if name:
+                fn_name_to_url.setdefault(name, d['url'])
+    fn_names_sorted = sorted(fn_name_to_url, key=len, reverse=True)
+
+    # Vocabulary 2: element names, skipped over while scanning the table.
+    elem_names_sorted = sorted(
+        {d['title'].strip() for d in data
+         if '/element.htm?id=' in d['url'] and d['title'].strip()},
+        key=len, reverse=True,
+    )
+
+    sp_functions = defaultdict(set)
+    fr_implemented_by = defaultdict(set)
+
+    for d in data:
+        if '/spinstance.htm?' not in d['url']:
+            continue
+        code = extract_sp_code(d['title'])
+        if not code:
+            continue
+        content = d['content']
+        i = content.find('Functions Linked to Requirements')
+        if i < 0:
+            continue
+        seg = content[i + len('Functions Linked to Requirements'):]
+        # The table ends where the next major section of the page begins.
+        for marker in ('Interfaces and Standards', 'List of Interfaces',
+                       'Projects Associated', 'Interfaces'):
+            k = seg.find(marker)
+            if k >= 0:
+                seg = seg[:k]
+        # Greedily pull function names out of the run-on text; advance past
+        # element names and the per-element boilerplate phrase in between.
+        text = seg.strip()
+        guard = 0
+        while text and guard < 5000:
+            guard += 1
+            fn = _match_prefix(text, fn_names_sorted)
+            if fn:
+                sp_functions[code].add(fn)
+                fr_implemented_by[fn].add(code)
+                text = text[len(fn):].lstrip()
+                continue
+            if text.startswith(_FN_BOILERPLATE):
+                text = text[len(_FN_BOILERPLATE):].lstrip()
+                continue
+            el = _match_prefix(text, elem_names_sorted)
+            if el:
+                text = text[len(el):].lstrip()
+                continue
+            sp = text.find(' ')
+            if sp < 0:
+                break
+            text = text[sp + 1:]
+
+    return {
+        'sp_functions': {c: sorted(fns) for c, fns in sp_functions.items()},
+        'fr_implemented_by': {n: sorted(cs) for n, cs in fr_implemented_by.items()},
+        'fn_name_to_url': fn_name_to_url,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Wiki page generators
 # ---------------------------------------------------------------------------
 
@@ -688,7 +787,8 @@ Additional content: {n['funreqs']} functional requirements, {n['interfaces']} in
 - **RFP/RFI questions**: The service area pages list which functional requirements, interfaces, and standards apply. These map directly to RFP specification sections.
 
 Base URL: {base_url}
-"""
+
+{_deployment_guidance()}"""
 
 
 def _format_category_summary(analysis):
@@ -716,8 +816,6 @@ def _format_top_stakeholders(analysis):
             continue  # Skip unnamed ones
         lines.append(f"- [{name}]({s['url']})")
 
-    if len(lines) > 40:
-        return '\n'.join(lines[:40]) + f"\n- ... and {len(lines) - 40} more"
     return '\n'.join(lines)
 
 
@@ -790,13 +888,33 @@ def generate_service_area_page(cat_code, analysis, base_url,
             mp_count = len(instances) - len(base_instances)
 
             if base_instances:
-                for inst in base_instances[:3]:
-                    page += f"- [{inst['title']}]({inst['url']})"
+                for inst in base_instances:
+                    # Drop the redundant "Service Package " label from the link
+                    # TEXT only — the id (e.g. mpSH1_TM04-02(Co-Mun)) already
+                    # identifies it, and the URL is unchanged so the runtime can
+                    # still cite it verbatim. ~7K tokens saved across the wiki.
+                    disp = inst['title']
+                    if disp.startswith('Service Package '):
+                        disp = disp[len('Service Package '):]
+                    page += f"- [{disp}]({inst['url']})"
                     if mp_count > 0:
                         page += f" (+{mp_count} stakeholder-specific instances)"
                     page += "\n"
             else:
                 page += f"- {code}: {len(instances)} stakeholder-specific instances\n"
+
+            # Authoritative functions this package's elements perform, linked to
+            # their functional requirement pages. This is the SP -> FR edge mined
+            # from each spinstance's "Functions Linked to Requirements" table; it
+            # lets a capability query (e.g. "decision support") match the package
+            # that deploys it even when the package title/description does not say so.
+            functions = analysis.get('sp_functions', {}).get(code, [])
+            if functions:
+                fn_links = []
+                for fn in functions:
+                    fn_url = analysis.get('fn_name_to_url', {}).get(fn)
+                    fn_links.append(f"[{fn}]({fn_url})" if fn_url else fn)
+                page += f"  - *Implements:* {', '.join(fn_links)}\n"
 
         page += "\n"
 
@@ -805,10 +923,8 @@ def generate_service_area_page(cat_code, analysis, base_url,
         page += f"## Key Elements ({len(relevant_elements)} total)\n\n"
         page += "| Element | Status | Stakeholder |\n"
         page += "|---------|--------|-------------|\n"
-        for el in sorted(relevant_elements, key=lambda x: x['title'])[:30]:
+        for el in sorted(relevant_elements, key=lambda x: x['title']):
             page += f"| [{el['title']}]({el['url']}) | {el.get('status', '?')} | {el.get('stakeholder', '')[:50]} |\n"
-        if len(relevant_elements) > 30:
-            page += f"\n*... and {len(relevant_elements) - 30} more elements*\n"
         page += "\n"
 
     # Interfaces section (real source -> flow -> destination triplets)
@@ -822,14 +938,25 @@ def generate_service_area_page(cat_code, analysis, base_url,
     # Functional requirements section
     if relevant_funreqs:
         page += f"## Related Functional Requirements ({len(relevant_funreqs)} found)\n\n"
-        for fr in relevant_funreqs[:15]:
-            page += f"- [{fr['title']}]({fr['url']})\n"
-        if len(relevant_funreqs) > 15:
-            page += f"\n*... and {len(relevant_funreqs) - 15} more*\n"
+        impl = analysis.get('fr_implemented_by', {})
+        for fr in relevant_funreqs:
+            title = fr['title']
+            name = title.split(':', 1)[1].strip() if ':' in title else title
+            # The reverse SP -> FR edge: name the packages in THIS service area
+            # that deploy this requirement, so the requirement is reachable from
+            # a package query and vice versa.
+            codes_here = [c for c in impl.get(name, [])
+                          if extract_sp_category(c) == cat_code]
+            page += f"- [{title}]({fr['url']})"
+            if codes_here:
+                page += f" — implemented by {', '.join(codes_here)}"
+            page += "\n"
         page += "\n"
 
-    # Deployment guidance
-    page += _deployment_guidance(cat_code)
+    # Deployment guidance is emitted ONCE per variant (in the overview), not on
+    # every service-area page — the steps are identical across areas, so the 12
+    # per-variant copies were ~8K tokens of pure repetition in the always-loaded
+    # context. See _deployment_guidance() / generate_overview().
 
     return page
 
@@ -890,13 +1017,19 @@ def _get_category_keywords(cat_code):
     return keyword_map.get(cat_code, [])
 
 
-def _deployment_guidance(cat_code):
-    """Return a standard deployment guidance section for a service area."""
-    return f"""## Deployment Guidance
+def _deployment_guidance():
+    """Return the generic deployment-guidance section.
 
-When planning a deployment in {SP_CATEGORIES[cat_code]['name']}:
+    Emitted ONCE per variant (in the overview) rather than repeated on every
+    service-area page. The steps are identical across areas, so the old
+    per-page emission cost ~8K tokens/variant of duplicated text in the
+    always-loaded context for no added information.
+    """
+    return """## Deployment Guidance (applies to every service area)
 
-1. **Identify the service packages** that apply to your use case from the list above.
+When planning a deployment in any service area:
+
+1. **Identify the service packages** that apply to your use case from that service area's page.
 2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
 3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
 4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
@@ -966,18 +1099,14 @@ def generate_standards_page(analysis):
 
         if ntcip:
             page += f"### NTCIP Standards ({len(ntcip)})\n"
-            for s in sorted(ntcip, key=lambda x: x['title'])[:20]:
+            for s in sorted(ntcip, key=lambda x: x['title']):
                 page += f"- [{s['title']}]({s['url']})\n"
-            if len(ntcip) > 20:
-                page += f"- ... and {len(ntcip) - 20} more\n"
             page += "\n"
 
         if other:
             page += f"### Other Standards ({len(other)})\n"
-            for s in sorted(other, key=lambda x: x['title'])[:20]:
+            for s in sorted(other, key=lambda x: x['title']):
                 page += f"- [{s['title']}]({s['url']})\n"
-            if len(other) > 20:
-                page += f"- ... and {len(other) - 20} more\n"
             page += "\n"
 
     return page
@@ -1013,10 +1142,7 @@ def generate_index(analysis, arch_name, output_dir, include_standards_page=True)
 
     for cat_code, cat_name, filename, desc in service_area_files:
         codes = sorted(analysis['sp_categories'][cat_code])
-        page += f"- [{cat_name} ({cat_code})]({filename}) — {', '.join(codes[:8])}"
-        if len(codes) > 8:
-            page += f" +{len(codes)-8} more"
-        page += "\n"
+        page += f"- [{cat_name} ({cat_code})]({filename}) — {', '.join(codes)}\n"
 
     page += f"""
 ## Cross-Cutting
@@ -1099,6 +1225,10 @@ def build_wiki(input_file, output_dir, arch_name, base_url):
     print("Mining interfaces + standards from spinstance pages...")
     analysis.update(build_traceability(data))
     print(f"  Parsed interface flows: {analysis['trace_stats']['parsed_triplets']}")
+
+    print("Mining service-package -> functional-requirement links...")
+    analysis.update(build_function_links(data))
+    print(f"  Service packages with linked functions: {len(analysis['sp_functions'])}")
 
     # M1 wrote pages at the top level of output_dir; those are stale now that
     # every variant lives in output_dir/<variant>/. Clear the whole tree so no

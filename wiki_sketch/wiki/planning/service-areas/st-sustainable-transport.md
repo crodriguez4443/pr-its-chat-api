@@ -5,11 +5,18 @@ Congestion pricing, transit incentives, emissions management. (also: road pricin
 ## Service Packages in This Architecture
 
 ### Sustainable Transport
-*Congestion pricing, transit incentives, alternative fuel support (also: road pricing, cordon pricing, value pricing, dynamic pricing, tolling for congestion)*
+*Congestion pricing, transit incentives, alternative fuel support, eco-traffic metering, roadside lighting, eco-lanes, eco-approach at signals, low emissions zone management (also: road pricing, cordon pricing, value pricing, dynamic pricing, tolling for congestion)*
 
-- [Service Package mpSH109_ST05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH109_ST05-01(PRHTA))
-- [Service Package mpSH109_ST05-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH109_ST05-02(PRHTA))
-- [Service Package mpSH1_ST05-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_ST05-02(PRHTA))
+- [mpSH1_ST04-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_ST04-02(Municipal))
+- [mpSH3_ST04-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_ST04-01(PRHTA))
+- [mpSH109_ST05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH109_ST05-01(PRHTA))
+- [mpSH109_ST05-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH109_ST05-02(PRHTA))
+- [mpSH1_ST05-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_ST05-02(PRHTA))
+- [mpSH3_ST05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_ST05-01(PRHTA))
+- [mpSH5_ST05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_ST05-01(PRHTA))
+- [mpSH5_ST05-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_ST05-02(PRHTA))
+- [mpSH83_ST05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_ST05-01(PRHTA))
+- [mpSH83_ST05-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_ST05-02(PRHTA))
 
 ## Key Elements (7 total)
 
@@ -42,14 +49,3 @@ Real information flows between elements in this service area, in the form *Sourc
 - [Functional Requirements: RSE Situation Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=180)
 - [Functional Requirements: TMC Traffic Network Performance Evaluation](https://www.consystec.com/pr2026proto/web/funreq.htm?id=384)
 
-## Deployment Guidance
-
-When planning a deployment in Sustainable Transport:
-
-1. **Identify the service packages** that apply to your use case from the list above.
-2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
-3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
-4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
-5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
-
-For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

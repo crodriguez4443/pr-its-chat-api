@@ -5,16 +5,19 @@ V2V safety, automated driving, platooning, collision avoidance. (also: vehicle t
 ## Service Packages in This Architecture
 
 ### Vehicle Safety & Automation
-*V2V, automated vehicles, platooning, collision avoidance (also: vehicle to vehicle, V2X; also: autonomous vehicle, self-driving, automated driving, ADS, ADAS)*
+*V2V, automated vehicles, platooning, collision avoidance, autonomous vehicle safety, basic safety, situational awareness, special vehicle alert, stop sign gap assist, road weather alert, restricted lane warnings, cooperative adaptive cruise control, METR, VRU clustering (also: vehicle to vehicle, V2X; also: self-driving, automated driving, ADS, ADAS, advanced driver assistance; also: winter maintenance, anti-icing, de-icing, snow removal, weather responsive management)*
 
-- [Service Package mpSH3_VS08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS08-01(PRHTA))
-- [Service Package mpSH5_VS08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS08-01(PRHTA))
-- [Service Package mpSH83_VS08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_VS08-01(PRHTA))
-- [Service Package mpSH3_VS09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS09-01(PRHTA))
-- [Service Package mpSH5_VS09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS09-01(PRHTA))
-- [Service Package mpSH1_VS12-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_VS12-01(Municipal))
-- [Service Package mpSH3_VS12-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS12-02(PRHTA))
-- [Service Package mpSH5_VS12-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS12-01(Municipal))
+- [mpSH3_VS07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS07-01(PRHTA))
+- [mpSH5_VS07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS07-01(PRHTA))
+- [mpSH3_VS08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS08-01(PRHTA))
+- [mpSH5_VS08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS08-01(PRHTA))
+- [mpSH83_VS08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_VS08-01(PRHTA))
+- [mpSH3_VS09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS09-01(PRHTA))
+- [mpSH5_VS09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS09-01(PRHTA))
+- [mpSH1_VS12-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_VS12-01(Municipal))
+- [mpSH3_VS12-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_VS12-02(PRHTA))
+- [mpSH5_VS12-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS12-01(Municipal))
+- [mpSH5_VS12-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_VS12-02(PRHTA))
 
 ## Key Elements (9 total)
 
@@ -86,14 +89,3 @@ Real information flows between elements in this service area, in the form *Sourc
 - [Functional Requirements: Personal Pedestrian Safety](https://www.consystec.com/pr2026proto/web/funreq.htm?id=66)
 - [Functional Requirements: Vehicle Basic Safety Communication](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el252)
 
-## Deployment Guidance
-
-When planning a deployment in Vehicle Safety:
-
-1. **Identify the service packages** that apply to your use case from the list above.
-2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
-3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
-4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
-5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
-
-For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.
