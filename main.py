@@ -198,7 +198,7 @@ wiki_variants = {}                 # variant name -> concatenated markdown blob 
 wiki_pages = {}                    # variant name -> {relpath -> page markdown} (for page-level routing)
 DEFAULT_VARIANT = "technical"      # richest tier; fallback when a role/variant is missing
 WIKI_VARIANTS = ("technical", "planning", "strategic")
-WIKI_DIR = os.path.join(os.path.dirname(__file__), 'wiki', 'wiki')
+WIKI_DIR = os.path.join(os.path.dirname(__file__), 'wiki_sketch', 'wiki')
 
 # --- Page-level wiki routing (see select_wiki_context) ---------------------
 # The whole variant blob (~55-95K tokens) used to be sent on EVERY request even
