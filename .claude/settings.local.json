@@ -4,7 +4,8 @@
       "Bash(git ls-tree *)",
       "WebFetch(domain:ai.google.dev)",
       "WebFetch(domain:consystec.com)",
-      "Bash(git -C wiki_sketch rev-parse --show-toplevel)"
+      "Bash(git -C wiki_sketch rev-parse --show-toplevel)",
+      "Bash(git log *)"
     ]
   }
 }
