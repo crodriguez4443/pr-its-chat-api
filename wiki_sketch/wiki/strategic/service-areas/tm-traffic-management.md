@@ -7,158 +7,84 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 ### Traffic Signal Control
 *Signal timing, priority, preemption, adaptive control, signal enforcement*
 
-- [mpSH112_TM01-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM01-02(Metropistas))
-- [mpSH1_TM01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM01-03(Municipal))
-- [mpSH1_TM01-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM01-03(MunicipalTrafficDPW))
-- [mpSH3_TM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM01-01(PRHTA))
-- [mpSH3_TM01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM01-03(Municipal))
-- [mpSH83_TM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM01-01(PRHTA))
-- [mpSH3_TM02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM02-01(PRHTA))
-- [mpSH5_TM02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM02-01(PRHTA))
-- [mpSH83_TM02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM02-01(PRHTA))
-- [mpSH1_TM03-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM03-02(Municipal))
-- [mpSH1_TM03-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM03-02(MunicipalTrafficDPW))
-- [mpSH1_TM03-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM03-03(Municipal))
-- [mpSH1_TM03-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM03-03(MunicipalTrafficDPW))
-- [mpSH1_TM03-05(Region)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM03-05(Region))
-- [mpSH3_TM03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM03-01(PRHTA))
-- [mpSH3_TM03-05(Region)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM03-05(Region))
+- [Service Package TM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM01-01(PRHTA))
+- [Service Package TM01-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM01-02(Metropistas))
+- [Service Package TM01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM01-03(Municipal))
+- [Service Package TM01-03(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM01-03(MunicipalTraffic))
+- [Service Package TM01-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM01-03(MunicipalTrafficDPW))
+- [Service Package TM02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM02-01(PRHTA))
+- [Service Package TM03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-01(PRHTA))
+- [Service Package TM03-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-02(Municipal))
+- [Service Package TM03-02(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-02(MunicipalTraffic))
+- [Service Package TM03-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-02(MunicipalTrafficDPW))
+- [Service Package TM03-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-03(Municipal))
+- [Service Package TM03-03(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-03(MunicipalTraffic))
+- [Service Package TM03-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-03(MunicipalTrafficDPW))
+- [Service Package TM03-05(Region)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM03-05(Region))
 
 ### Freeway Management
 *Ramp metering, HOV/HOT, speed management, lane control (also: ramp signal, ramp control; also: high occupancy vehicle, carpool lane, high occupancy toll, managed lane, express lane; also: variable speed limit, VSL, speed harmonization, dynamic speed, speed advisory)*
 
-- [mpSH1_TM04-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM04-02(Municipal))
-- [mpSH1_TM04-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM04-02(MunicipalTrafficDPW))
-- [mpSH3_TM04-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM04-01(PRHTA))
-- [mpSH5_TM04-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM04-01(PRHTA))
-- [mpSH5_TM04-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM04-02(Municipal))
-- [mpSH5_TM04-02(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM04-02(MunicipalTraffic))
-- [mpSH5_TM04-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM04-02(MunicipalTrafficDPW))
-- [mpSH112_TM05-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM05-02(Metropistas))
-- [mpSH3_TM05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM05-01(PRHTA))
-- [mpSH112_TM06-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM06-02(Metropistas))
-- [mpSH1_TM06-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM06-03(Municipal))
-- [mpSH1_TM06-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM06-03(MunicipalTrafficDPW))
-- [mpSH3_TM06-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM06-01(PRHTA))
-- [mpSH6_TM06-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TM06-02(Metropistas))
+- [Service Package TM04-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM04-01(PRHTA))
+- [Service Package TM04-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM04-02(Municipal))
+- [Service Package TM04-02(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM04-02(MunicipalTraffic))
+- [Service Package TM04-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM04-02(MunicipalTrafficDPW))
+- [Service Package TM05-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM05-01(PRHTA))
+- [Service Package TM05-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM05-02(Metropistas))
+- [Service Package TM06-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM06-01(PRHTA))
+- [Service Package TM06-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM06-02(Metropistas))
+- [Service Package TM06-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM06-03(Municipal))
+- [Service Package TM06-03(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM06-03(MunicipalTraffic))
+- [Service Package TM06-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM06-03(MunicipalTrafficDPW))
 
 ### Regional Coordination
 *TMC-to-TMC coordination, cross-agency incident sharing (also: highway advisory radio, traveler advisory radio; also: traffic management center, traffic operations center, TOC, ATMS, advanced traffic management system)*
 
-- [mpSH112_TM07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM07-01(PRHTA))
-- [mpSH112_TM07-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM07-02(Metropistas))
-- [mpSH112_TM07-05(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM07-05(Municipal))
-- [mpSH1_TM07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM07-01(PRHTA))
-- [mpSH1_TM07-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM07-02(Metropistas))
-- [mpSH1_TM07-05(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM07-05(Municipal))
-- [mpSH1_TM07-05(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM07-05(MunicipalTrafficDPW))
-- [mpSH3_TM07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM07-01(PRHTA))
-- [mpSH3_TM07-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM07-02(Metropistas))
-- [mpSH3_TM07-05(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM07-05(Municipal))
-- [mpSH83_TM07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM07-01(PRHTA))
-- [mpSH83_TM07-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM07-02(Metropistas))
-- [mpSH112_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM08-01(PRHTA))
-- [mpSH112_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM08-04(PRHTA))
-- [mpSH1_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-01(PRHTA))
-- [mpSH1_TM08-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-02(PRHTA))
-- [mpSH1_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-04(PRHTA))
-- [mpSH1_TM08-07(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-07(PRHTA))
-- [mpSH1_TM08-08(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-08(Municipal))
-- [mpSH1_TM08-08(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-08(MunicipalTrafficDPW))
-- [mpSH1_TM08-09(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-09(Municipal))
-- [mpSH1_TM08-09(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM08-09(MunicipalTrafficDPW))
-- [mpSH21_TM08-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_TM08-02(PRHTA))
-- [mpSH21_TM08-05(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_TM08-05(PRHTA))
-- [mpSH28_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TM08-01(PRHTA))
-- [mpSH28_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TM08-04(PRHTA))
-- [mpSH28_TM08-07(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TM08-07(PRHTA))
-- [mpSH28_TM08-09(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TM08-09(Municipal))
-- [mpSH28_TM08-09(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TM08-09(MunicipalTraffic))
-- [mpSH28_TM08-09(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TM08-09(MunicipalTrafficDPW))
-- [mpSH3_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-01(PRHTA))
-- [mpSH3_TM08-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-02(PRHTA))
-- [mpSH3_TM08-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-03(PRHTA))
-- [mpSH3_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-04(PRHTA))
-- [mpSH3_TM08-05(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-05(PRHTA))
-- [mpSH3_TM08-06(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-06(PRHTA))
-- [mpSH3_TM08-07(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-07(PRHTA))
-- [mpSH3_TM08-09(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM08-09(Municipal))
-- [mpSH4_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH4_TM08-04(PRHTA))
-- [mpSH4_TM08-09(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH4_TM08-09(Municipal))
-- [mpSH4_TM08-09(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH4_TM08-09(MunicipalTraffic))
-- [mpSH4_TM08-09(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH4_TM08-09(MunicipalTrafficDPW))
-- [mpSH5_TM08-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM08-03(PRHTA))
-- [mpSH5_TM08-06(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM08-06(PRHTA))
-- [mpSH64_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TM08-01(PRHTA))
-- [mpSH64_TM08-05(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TM08-05(PRHTA))
-- [mpSH64_TM08-08(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TM08-08(Municipal))
-- [mpSH64_TM08-08(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TM08-08(MunicipalTraffic))
-- [mpSH64_TM08-08(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TM08-08(MunicipalTrafficDPW))
-- [mpSH68_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TM08-01(PRHTA))
-- [mpSH68_TM08-05(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TM08-05(PRHTA))
-- [mpSH68_TM08-08(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TM08-08(Municipal))
-- [mpSH68_TM08-08(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TM08-08(MunicipalTraffic))
-- [mpSH68_TM08-08(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TM08-08(MunicipalTrafficDPW))
-- [mpSH6_TM08-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TM08-03(PRHTA))
-- [mpSH6_TM08-06(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TM08-06(PRHTA))
-- [mpSH7_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TM08-01(PRHTA))
-- [mpSH7_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TM08-04(PRHTA))
-- [mpSH7_TM08-07(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TM08-07(PRHTA))
-- [mpSH7_TM08-09(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TM08-09(Municipal))
-- [mpSH7_TM08-09(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TM08-09(MunicipalTraffic))
-- [mpSH7_TM08-09(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TM08-09(MunicipalTrafficDPW))
-- [mpSH83_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM08-01(PRHTA))
-- [mpSH83_TM08-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM08-03(PRHTA))
-- [mpSH83_TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM08-04(PRHTA))
-- [mpSH83_TM08-06(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM08-06(PRHTA))
-- [mpSH83_TM08-07(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM08-07(PRHTA))
-- [mpSH92_TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TM08-01(PRHTA))
-- [mpSH92_TM08-05(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TM08-05(PRHTA))
-- [mpSH92_TM08-08(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TM08-08(Municipal))
-- [mpSH92_TM08-08(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TM08-08(MunicipalTraffic))
-- [mpSH92_TM08-08(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TM08-08(MunicipalTrafficDPW))
+- [Service Package TM07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM07-01(PRHTA))
+- [Service Package TM07-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM07-02(Metropistas))
+- [Service Package TM07-05(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM07-05(Municipal))
+- [Service Package TM07-05(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM07-05(MunicipalTraffic))
+- [Service Package TM07-05(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM07-05(MunicipalTrafficDPW))
+- [Service Package TM08-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-01(PRHTA))
+- [Service Package TM08-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-02(PRHTA))
+- [Service Package TM08-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-03(PRHTA))
+- [Service Package TM08-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-04(PRHTA))
+- [Service Package TM08-05(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-05(PRHTA))
+- [Service Package TM08-06(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-06(PRHTA))
+- [Service Package TM08-07(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-07(PRHTA))
+- [Service Package TM08-08(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-08(Municipal))
+- [Service Package TM08-08(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-08(MunicipalTraffic))
+- [Service Package TM08-08(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-08(MunicipalTrafficDPW))
+- [Service Package TM08-09(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-09(Municipal))
+- [Service Package TM08-09(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-09(MunicipalTraffic))
+- [Service Package TM08-09(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM08-09(MunicipalTrafficDPW))
 
 ### Traffic Info Dissemination
 *DMS, HAR, traveler alerts, parking info, road closure info, road use charging (also: VMS, CMS, dynamic message sign, variable message sign, changeable message sign; also: highway advisory radio, traveler advisory radio)*
 
-- [mpSH112_TM09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM09-01(PRHTA))
-- [mpSH1_TM09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM09-01(PRHTA))
-- [mpSH3_TM09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM09-01(PRHTA))
-- [mpSH112_TM10-01(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM10-01(Metropistas))
-- [mpSH41_TM10-01(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_TM10-01(Metropistas))
-- [mpSH5_TM10-01(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM10-01(Metropistas))
-- [mpSH75_TM10-01(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH75_TM10-01(Metropistas))
-- [mpSH112_TM14-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TM14-02(Metropistas))
-- [mpSH1_TM14-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM14-03(Municipal))
-- [mpSH1_TM14-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM14-03(MunicipalTrafficDPW))
-- [mpSH31_TM14-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM14-01(PRHTA))
-- [mpSH31_TM14-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM14-02(Metropistas))
-- [mpSH31_TM14-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM14-03(Municipal))
-- [mpSH31_TM14-03(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM14-03(MunicipalTraffic))
-- [mpSH31_TM14-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM14-03(MunicipalTrafficDPW))
-- [mpSH3_TM14-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM14-01(PRHTA))
-- [mpSH1_TM15-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM15-02(Municipal))
-- [mpSH1_TM15-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM15-02(MunicipalTrafficDPW))
-- [mpSH31_TM15-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM15-01(PRHTA))
-- [mpSH31_TM15-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM15-02(Municipal))
-- [mpSH31_TM15-02(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM15-02(MunicipalTraffic))
-- [mpSH31_TM15-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH31_TM15-02(MunicipalTrafficDPW))
-- [mpSH3_TM15-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM15-01(PRHTA))
+- [Service Package TM09-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM09-01(PRHTA))
+- [Service Package TM10-01(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM10-01(Metropistas))
+- [Service Package TM14-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM14-01(PRHTA))
+- [Service Package TM14-02(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM14-02(Metropistas))
+- [Service Package TM14-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM14-03(Municipal))
+- [Service Package TM14-03(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM14-03(MunicipalTraffic))
+- [Service Package TM14-03(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM14-03(MunicipalTrafficDPW))
+- [Service Package TM15-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM15-01(PRHTA))
+- [Service Package TM15-02(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM15-02(Municipal))
+- [Service Package TM15-02(MunicipalTraffic)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM15-02(MunicipalTraffic))
+- [Service Package TM15-02(MunicipalTrafficDPW)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM15-02(MunicipalTrafficDPW))
 
 ### Connected Vehicle Applications
 *V2I SPaT, MAP, curve warnings, work zone alerts, queue warnings, dynamic roadway warning (also: construction zone, road work, lane closure, work zone management, WZM; also: vehicle to infrastructure, V2X, C-V2X, DSRC, connected vehicle; also: signal phase and timing, MAP message, intersection geometry)*
 
-- [mpSH1_TM17-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TM17-01(Municipal))
-- [mpSH3_TM18-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM18-01(PRHTA))
-- [mpSH3_TM19-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM19-01(PRHTA))
-- [mpSH3_TM20-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM20-01(PRHTA))
-- [mpSH3_TM22-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM22-01(PRHTA))
-- [mpSH3_TM25-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TM25-01(PRHTA))
-- [mpSH41_TM25-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH41_TM25-01(PRHTA))
-- [mpSH5_TM25-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TM25-01(PRHTA))
-- [mpSH83_TM25-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TM25-01(PRHTA))
+- [Service Package TM17-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM17-01(Municipal))
+- [Service Package TM18-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM18-01(PRHTA))
+- [Service Package TM19-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM19-01(PRHTA))
+- [Service Package TM20-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM20-01(PRHTA))
+- [Service Package TM22-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM22-01(PRHTA))
+- [Service Package TM25-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TM25-01(PRHTA))
 
-## Key Elements (31 total)
+## Key Elements (36 total)
 
 | Element | Status | Stakeholder |
 |---------|--------|-------------|
@@ -173,6 +99,7 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 | [Municipal ITS Field Equipment](https://www.consystec.com/pr2026proto/web/element.htm?id=45) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal Local Transit Operations Centers](https://www.consystec.com/pr2026proto/web/element.htm?id=69) | Existing | Municipal Local Transit Agencies |
 | [Municipal Public Safety Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=89) | Existing | Municipal Public Safety Agencies |
+| [Municipal Public Works Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=47) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal SMCs](https://www.consystec.com/pr2026proto/web/element.htm?id=51) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal Website](https://www.consystec.com/pr2026proto/web/element.htm?id=52) | Existing | Municipal Traffic and Maintenance Agencies |
 | [National Weather Service](https://www.consystec.com/pr2026proto/web/element.htm?id=96) | Existing | NOAA |
@@ -183,9 +110,13 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 | [PRHTA Bridge Control/Warning Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=289) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA Connected Vehicle Equipment](https://www.consystec.com/pr2026proto/web/element.htm?id=268) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA ITS Field Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=264) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Information Services](https://www.consystec.com/pr2026proto/web/element.htm?id=115) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Maintenance and Construction Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=128) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Public Information Office](https://www.consystec.com/pr2026proto/web/element.htm?id=153) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA TMC](https://www.consystec.com/pr2026proto/web/element.htm?id=154) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA Traffic Management Performance Analysis Archive](https://www.consystec.com/pr2026proto/web/element.htm?id=269) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [Private Motor Carrier Vehicles](https://www.consystec.com/pr2026proto/web/element.htm?id=41) | Existing | Private Motor Carriers |
+| [Private Third Party Information Providers](https://www.consystec.com/pr2026proto/web/element.htm?id=254) | Existing | Private Traffic Data Providers |
 | [Private Travelers Personal Computing Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=187) | Existing | Private Travelers |
 | [Private Travelers Vehicles](https://www.consystec.com/pr2026proto/web/element.htm?id=252) | Existing | Private Travelers |
 | [Private Weather Information Provider](https://www.consystec.com/pr2026proto/web/element.htm?id=189) | Existing | Private Weather Information Provider |
@@ -194,7 +125,7 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 | [Special Event Coordinators](https://www.consystec.com/pr2026proto/web/element.htm?id=214) | Existing | Regional Event Coordinators |
 | [State Emergency Management Agency Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=102) | Existing | State Emergency Management Agency |
 
-## Related Functional Requirements (66 found)
+## Related Functional Requirements (81 found)
 
 - [Functional Requirements: TMC Lighting System Control](https://www.consystec.com/pr2026proto/web/funreq.htm?id=101)
 - [Functional Requirements: RSE Traffic Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=104)
@@ -206,6 +137,7 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 - [Functional Requirements: TMC Regional Traffic Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=124)
 - [Functional Requirements: TMC Traffic Information Dissemination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=13)
 - [Functional Requirements: TMC Basic Surveillance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=14)
+- [Functional Requirements: TIC Emergency Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=142)
 - [Functional Requirements: TMC Evacuation Support](https://www.consystec.com/pr2026proto/web/funreq.htm?id=144)
 - [Functional Requirements: Parking Area Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=162)
 - [Functional Requirements: Roadway Traffic Metering](https://www.consystec.com/pr2026proto/web/funreq.htm?id=17)
@@ -241,6 +173,7 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 - [Functional Requirements: MCM Work Zone Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=53)
 - [Functional Requirements: TIC Traveler Information Broadcast](https://www.consystec.com/pr2026proto/web/funreq.htm?id=55)
 - [Functional Requirements: Roadway Signal Control](https://www.consystec.com/pr2026proto/web/funreq.htm?id=60)
+- [Functional Requirements: EV On-Board En Route Support](https://www.consystec.com/pr2026proto/web/funreq.htm?id=65)
 - [Functional Requirements: Personal Pedestrian Safety](https://www.consystec.com/pr2026proto/web/funreq.htm?id=66)
 - [Functional Requirements: TMC Work Zone Traffic Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=69)
 - [Functional Requirements: TMC Intersection Safety](https://www.consystec.com/pr2026proto/web/funreq.htm?id=71)
@@ -248,18 +181,42 @@ Signal control, freeway management, traffic surveillance, incident detection, DM
 - [Functional Requirements: TMC In-Vehicle Signing Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=76)
 - [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=83)
 - [Functional Requirements: RSE Intersection Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=90)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=95)
 - [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el104)
+- [Functional Requirements: EV On-Board En Route Support](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el109)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el153)
 - [Functional Requirements: TMC Regional Traffic Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el173)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el187)
 - [Functional Requirements: MCM Work Zone Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el247)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el254)
 - [Functional Requirements: Roadway Basic Surveillance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el261)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el263)
 - [Functional Requirements: RSE Intersection Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el268)
 - [Functional Requirements: Vehicle Traveler Information Reception](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el275)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el295)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el300)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el304)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el305)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el306)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el311)
+- [Functional Requirements: EV On-Board En Route Support](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el44)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el46)
+- [Functional Requirements: EV On-Board En Route Support](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el49)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el52)
 - [Functional Requirements: Fleet Administration](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el61)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el68)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el70)
 - [Functional Requirements: Roadway Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el82)
 
+## Deployment Guidance
+
+When planning a deployment in Traffic Management:
+
+1. **Identify the service packages** that apply to your use case from the list above.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

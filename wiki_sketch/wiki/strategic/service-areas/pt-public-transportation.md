@@ -7,123 +7,61 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 ### Transit Operations
 *CAD/AVL, scheduling, passenger counting, fare collection, bus lanes, pedestrian indication, station warnings, turning warnings (also: computer aided dispatch, automatic vehicle location, vehicle tracking, bus tracking, GPS tracking; also: fare payment, smartcard, smart card, contactless payment, fare card)*
 
-- [mpSH113_PT01-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT01-01(MBA))
-- [mpSH113_PT01-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT01-01(TrenUrbano))
-- [mpSH114_PT01-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT01-01(TrenUrbano))
-- [mpSH115_PT01-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT01-01(BRT))
-- [mpSH21_PT01-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT01-01(Municipal))
-- [mpSH21_PT01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT01-01(MunicipalTransit))
-- [mpSH113_PT02-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT02-01(BRT))
-- [mpSH113_PT02-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT02-01(MBA))
-- [mpSH113_PT02-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT02-01(TrenUrbano))
-- [mpSH114_PT02-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT02-01(BRT))
-- [mpSH114_PT02-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT02-01(TrenUrbano))
-- [mpSH115_PT02-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT02-01(BRT))
-- [mpSH1_PT02-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_PT02-01(Municipal))
-- [mpSH21_PT02-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT02-01(BRT))
-- [mpSH21_PT02-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT02-01(Municipal))
-- [mpSH21_PT02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT02-01(MunicipalTransit))
-- [mpSH3_PT02-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PT02-01(MBA))
-- [mpSH3_PT02-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PT02-01(Municipal))
-- [mpSH113_PT03-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT03-01(MBA))
-- [mpSH1_PT03-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_PT03-01(Municipal))
-- [mpSH21_PT03-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT03-01(Municipal))
-- [mpSH21_PT03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT03-01(MunicipalTransit))
-- [mpSH3_PT03-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PT03-01(MBA))
-- [mpSH3_PT03-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PT03-01(Municipal))
-- [mpSH113_PT04-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT04-01(MBA))
-- [mpSH113_PT04-01(Regional)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT04-01(Regional))
-- [mpSH114_PT04-01(Regional)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT04-01(Regional))
-- [mpSH114_PT04-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT04-01(TrenUrbano))
-- [mpSH115_PT04-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT04-01(BRT))
-- [mpSH115_PT04-01(Regional)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT04-01(Regional))
-- [mpSH116_PT04-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH116_PT04-01(BRT))
-- [mpSH116_PT04-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH116_PT04-01(MBA))
-- [mpSH116_PT04-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH116_PT04-01(Municipal))
-- [mpSH116_PT04-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH116_PT04-01(MunicipalTransit))
-- [mpSH116_PT04-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH116_PT04-01(TrenUrbano))
-- [mpSH21_PT04-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT04-01(Municipal))
-- [mpSH21_PT04-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT04-01(MunicipalTransit))
-- [mpSH26_PT04-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PT04-01(Municipal))
-- [mpSH26_PT04-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PT04-01(MunicipalTransit))
+- [Service Package PT01-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT01-01(BRT))
+- [Service Package PT01-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT01-01(MBA))
+- [Service Package PT01-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT01-01(Municipal))
+- [Service Package PT01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT01-01(MunicipalTransit))
+- [Service Package PT01-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT01-01(TrenUrbano))
+- [Service Package PT02-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT02-01(BRT))
+- [Service Package PT02-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT02-01(MBA))
+- [Service Package PT02-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT02-01(Municipal))
+- [Service Package PT02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT02-01(MunicipalTransit))
+- [Service Package PT02-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT02-01(TrenUrbano))
+- [Service Package PT03-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT03-01(MBA))
+- [Service Package PT03-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT03-01(Municipal))
+- [Service Package PT03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT03-01(MunicipalTransit))
+- [Service Package PT04-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT04-01(BRT))
+- [Service Package PT04-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT04-01(MBA))
+- [Service Package PT04-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT04-01(Municipal))
+- [Service Package PT04-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT04-01(MunicipalTransit))
+- [Service Package PT04-01(Regional)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT04-01(Regional))
+- [Service Package PT04-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT04-01(TrenUrbano))
 
 ### Transit Traveler Info
 *Real-time arrivals, trip planning, transfer coordination, route ID for visually impaired (also: journey planner, route planner, multimodal planner, trip planner, itinerary)*
 
-- [mpSH113_PT05-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT05-01(MBA))
-- [mpSH114_PT05-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT05-01(TrenUrbano))
-- [mpSH115_PT05-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT05-01(BRT))
-- [mpSH21_PT05-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT05-01(BRT))
-- [mpSH21_PT05-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT05-01(MBA))
-- [mpSH21_PT05-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT05-01(Municipal))
-- [mpSH21_PT05-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT05-01(MunicipalTransit))
-- [mpSH21_PT05-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT05-01(TrenUrbano))
-- [mpSH64_PT05-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_PT05-01(BRT))
-- [mpSH64_PT05-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_PT05-01(MBA))
-- [mpSH64_PT05-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_PT05-01(Municipal))
-- [mpSH64_PT05-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_PT05-01(MunicipalTransit))
-- [mpSH64_PT05-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_PT05-01(TrenUrbano))
-- [mpSH68_PT05-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_PT05-01(BRT))
-- [mpSH68_PT05-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_PT05-01(MBA))
-- [mpSH68_PT05-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_PT05-01(Municipal))
-- [mpSH68_PT05-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_PT05-01(MunicipalTransit))
-- [mpSH68_PT05-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_PT05-01(TrenUrbano))
-- [mpSH92_PT05-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_PT05-01(BRT))
-- [mpSH92_PT05-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_PT05-01(MBA))
-- [mpSH92_PT05-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_PT05-01(Municipal))
-- [mpSH92_PT05-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_PT05-01(MunicipalTransit))
-- [mpSH92_PT05-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_PT05-01(TrenUrbano))
-- [mpSH113_PT06-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT06-01(MBA))
-- [mpSH114_PT06-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT06-01(TrenUrbano))
-- [mpSH115_PT06-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT06-01(BRT))
-- [mpSH21_PT06-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT06-01(Municipal))
-- [mpSH21_PT06-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT06-01(MunicipalTransit))
-- [mpSH113_PT07-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT07-01(MBA))
-- [mpSH114_PT07-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT07-01(TrenUrbano))
-- [mpSH115_PT07-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT07-01(BRT))
-- [mpSH21_PT07-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT07-01(Municipal))
-- [mpSH21_PT07-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT07-01(MunicipalTransit))
-- [mpSH113_PT08-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT08-01(BRT))
-- [mpSH113_PT08-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT08-01(MBA))
-- [mpSH113_PT08-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT08-01(TrenUrbano))
-- [mpSH114_PT08-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT08-01(BRT))
-- [mpSH114_PT08-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT08-01(MBA))
-- [mpSH114_PT08-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT08-01(TrenUrbano))
-- [mpSH115_PT08-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT08-01(BRT))
-- [mpSH115_PT08-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT08-01(MBA))
-- [mpSH115_PT08-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT08-01(TrenUrbano))
-- [mpSH21_PT08-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT08-01(BRT))
-- [mpSH21_PT08-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT08-01(MBA))
-- [mpSH21_PT08-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT08-01(Municipal))
-- [mpSH21_PT08-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT08-01(MunicipalTransit))
-- [mpSH21_PT08-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT08-01(TrenUrbano))
-- [mpSH5_PT08-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_PT08-01(Municipal))
-- [mpSH5_PT08-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_PT08-01(MunicipalTransit))
-- [mpSH113_PT09-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT09-01(MBA))
-- [mpSH1_PT09-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_PT09-01(MBA))
-- [mpSH1_PT09-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_PT09-01(Municipal))
-- [mpSH21_PT09-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT09-01(Municipal))
-- [mpSH21_PT09-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT09-01(MunicipalTransit))
-- [mpSH3_PT09-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PT09-01(MBA))
-- [mpSH3_PT09-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PT09-01(Municipal))
+- [Service Package PT05-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT05-01(BRT))
+- [Service Package PT05-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT05-01(MBA))
+- [Service Package PT05-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT05-01(Municipal))
+- [Service Package PT05-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT05-01(MunicipalTransit))
+- [Service Package PT05-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT05-01(TrenUrbano))
+- [Service Package PT06-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT06-01(BRT))
+- [Service Package PT06-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT06-01(MBA))
+- [Service Package PT06-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT06-01(Municipal))
+- [Service Package PT06-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT06-01(MunicipalTransit))
+- [Service Package PT06-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT06-01(TrenUrbano))
+- [Service Package PT07-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT07-01(BRT))
+- [Service Package PT07-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT07-01(MBA))
+- [Service Package PT07-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT07-01(Municipal))
+- [Service Package PT07-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT07-01(MunicipalTransit))
+- [Service Package PT07-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT07-01(TrenUrbano))
+- [Service Package PT08-01(BRT)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT08-01(BRT))
+- [Service Package PT08-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT08-01(MBA))
+- [Service Package PT08-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT08-01(Municipal))
+- [Service Package PT08-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT08-01(MunicipalTransit))
+- [Service Package PT08-01(TrenUrbano)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT08-01(TrenUrbano))
+- [Service Package PT09-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT09-01(MBA))
+- [Service Package PT09-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT09-01(Municipal))
+- [Service Package PT09-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT09-01(MunicipalTransit))
 
 ### Demand Response / MaaS
 *Paratransit, ride-sharing, mobility-as-a-service (also: highway advisory radio, traveler advisory radio; also: demand response, dial-a-ride, microtransit, on-demand transit, mobility on demand)*
 
-- [mpSH113_PT14-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT14-01(MBA))
-- [mpSH113_PT14-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH113_PT14-01(Municipal))
-- [mpSH114_PT14-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT14-01(MBA))
-- [mpSH114_PT14-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH114_PT14-01(Municipal))
-- [mpSH115_PT14-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT14-01(MBA))
-- [mpSH115_PT14-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH115_PT14-01(Municipal))
-- [mpSH21_PT14-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT14-01(MBA))
-- [mpSH21_PT14-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT14-01(Municipal))
-- [mpSH21_PT14-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PT14-01(MunicipalTransit))
-- [mpSH60_PT14-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH60_PT14-01(MBA))
-- [mpSH60_PT14-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH60_PT14-01(Municipal))
-- [mpSH60_PT14-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH60_PT14-01(MunicipalTransit))
+- [Service Package PT14-01(MBA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT14-01(MBA))
+- [Service Package PT14-01(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT14-01(Municipal))
+- [Service Package PT14-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PT14-01(MunicipalTransit))
 
-## Key Elements (36 total)
+## Key Elements (38 total)
 
 | Element | Status | Stakeholder |
 |---------|--------|-------------|
@@ -148,11 +86,13 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 | [Municipal Local Transit Traveler Information Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=70) | Planned | Municipal Local Transit Agencies |
 | [Municipal Local Transit Vehicles](https://www.consystec.com/pr2026proto/web/element.htm?id=71) | Existing | Municipal Local Transit Agencies |
 | [Municipal Public Safety Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=89) | Existing | Municipal Public Safety Agencies |
+| [Municipal Public Works Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=47) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal SMCs](https://www.consystec.com/pr2026proto/web/element.htm?id=51) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal Website](https://www.consystec.com/pr2026proto/web/element.htm?id=52) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Other Local Transit Operations Centers](https://www.consystec.com/pr2026proto/web/element.htm?id=291) | Planned | Municipal Local Transit Agencies |
 | [PR Police Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=106) | Existing | PR Police |
 | [PRHTA ITS Field Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=264) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Information Services](https://www.consystec.com/pr2026proto/web/element.htm?id=115) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA TMC](https://www.consystec.com/pr2026proto/web/element.htm?id=154) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [Private Travelers Personal Computing Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=187) | Existing | Private Travelers |
 | [Regional Transit Fare Media](https://www.consystec.com/pr2026proto/web/element.htm?id=307) | Existing | Region Transit Fare Media Stakeholders |
@@ -164,7 +104,7 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 | [Tren Urbano Station ITS Equipment](https://www.consystec.com/pr2026proto/web/element.htm?id=312) | Existing | Tren Urbano |
 | [Tren Urbano Transit Vehicles](https://www.consystec.com/pr2026proto/web/element.htm?id=299) | Planned | Tren Urbano |
 
-## Related Functional Requirements (60 found)
+## Related Functional Requirements (75 found)
 
 - [Functional Requirements: TMC Multi-Modal Coordination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=111)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=116)
@@ -190,6 +130,7 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 - [Functional Requirements: Emergency Secure Area Surveillance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=299)
 - [Functional Requirements: MCM Vehicle Maintenance Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=325)
 - [Functional Requirements: Transit Vehicle On-Board Maintenance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=334)
+- [Functional Requirements: Transit Vehicle Security](https://www.consystec.com/pr2026proto/web/funreq.htm?id=336)
 - [Functional Requirements: Parking Coordination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=337)
 - [Functional Requirements: Traveler Security](https://www.consystec.com/pr2026proto/web/funreq.htm?id=345)
 - [Functional Requirements: TMC Demand Management Coordination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=376)
@@ -200,6 +141,7 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 - [Functional Requirements: Transit Center Vehicle Tracking](https://www.consystec.com/pr2026proto/web/funreq.htm?id=392)
 - [Functional Requirements: Transit Center Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=393)
 - [Functional Requirements: Transit Garage Maintenance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=394)
+- [Functional Requirements: Transit Center Vehicle Assignment](https://www.consystec.com/pr2026proto/web/funreq.htm?id=396)
 - [Functional Requirements: Transit Center Operator Assignment](https://www.consystec.com/pr2026proto/web/funreq.htm?id=397)
 - [Functional Requirements: MCM Reduced Speed Zone Warning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=41)
 - [Functional Requirements: Transit Center Park and Ride Operations](https://www.consystec.com/pr2026proto/web/funreq.htm?id=425)
@@ -211,14 +153,23 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 - [Functional Requirements: Freight Administration and Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=5)
 - [Functional Requirements: TIC Traveler Information Broadcast](https://www.consystec.com/pr2026proto/web/funreq.htm?id=55)
 - [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=83)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=95)
 - [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el104)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el153)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el187)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el254)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el263)
 - [Functional Requirements: Transit Stop Information Services](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el273)
 - [Functional Requirements: Transit Center Multi-Modal Coordination](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el291)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el295)
+- [Functional Requirements: Transit Vehicle On-Board Fare Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el296)
 - [Functional Requirements: Transit Center Fare Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el297)
 - [Functional Requirements: Transit Center Fare Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el298)
+- [Functional Requirements: Transit Vehicle On-Board Fare Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el299)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el300)
+- [Functional Requirements: Transit Vehicle On-Board Fare Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el303)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el304)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el305)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el306)
 - [Functional Requirements: Transit Stop Information Services](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el308)
@@ -226,4 +177,19 @@ Transit vehicle tracking, scheduling, passenger info, fare collection, demand re
 - [Functional Requirements: Transit Center Fare Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el310)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el311)
 - [Functional Requirements: Transit Stop Information Services](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el312)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el46)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el52)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el68)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el70)
 
+## Deployment Guidance
+
+When planning a deployment in Public Transportation:
+
+1. **Identify the service packages** that apply to your use case from the list above.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

@@ -22,7 +22,7 @@
 - [Weather (WX)](service-areas/wx-weather.md) — WX01, WX02, WX03
 
 ## Cross-Cutting
-- [stakeholders.md](stakeholders.md) — 28 stakeholders by type: DOTs, MPOs, transit, toll authorities, local, private
+- [stakeholders.md](stakeholders.md) — 35 stakeholders by type: DOTs, MPOs, transit, toll authorities, local, private
 
 ## How the LLM Should Use This Wiki
 1. Read this index to find the relevant page(s)

@@ -7,18 +7,14 @@ Regional planning data, scenario modeling, emissions monitoring.
 ### Performance Management
 *Planning data, performance dashboards, emissions tracking, loading zone management*
 
-- [mpSH21_PM01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(MunicipalTransit))
-- [mpSH21_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(Transit))
-- [mpSH3_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM01-01(Transit))
-- [mpSH21_PM02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(MunicipalTransit))
-- [mpSH21_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(Transit))
-- [mpSH3_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM02-01(Transit))
-- [mpSH21_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(MunicipalTransit))
-- [mpSH21_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(Transit))
-- [mpSH26_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(MunicipalTransit))
-- [mpSH26_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(Transit))
+- [Service Package PM01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM01-01(MunicipalTransit))
+- [Service Package PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM01-01(Transit))
+- [Service Package PM02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM02-01(MunicipalTransit))
+- [Service Package PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM02-01(Transit))
+- [Service Package PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM03-01(MunicipalTransit))
+- [Service Package PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM03-01(Transit))
 
-## Key Elements (6 total)
+## Key Elements (7 total)
 
 | Element | Status | Stakeholder |
 |---------|--------|-------------|
@@ -28,17 +24,18 @@ Regional planning data, scenario modeling, emissions monitoring.
 | [Municipal Local Transit Payment Device](https://www.consystec.com/pr2026proto/web/element.htm?id=292) | Planned | Municipal Local Transit Agencies |
 | [Municipal Local Transit Stations and Shelters](https://www.consystec.com/pr2026proto/web/element.htm?id=273) | Planned | Municipal Local Transit Agencies |
 | [Municipal Local Transit Traveler Information Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=70) | Planned | Municipal Local Transit Agencies |
+| [PRHTA Information Services](https://www.consystec.com/pr2026proto/web/element.htm?id=115) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 
 ## Interfaces (6 data flows)
 
 Real information flows between elements in this service area, in the form *Source Element → information flow → Destination Element*. Each links to its interface specification.
 
-- Financial Institution → settlement → Municipal Local Transit Operations Centers — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=60-69)
-- Municipal Local Transit Operations Centers → parking area transit information_ud → Municipal Local Transit Stations and Shelters — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-273)
-- Municipal Local Transit Operations Centers → parking payment instructions → Municipal Local Transit Parking Systems ((None-Data) - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-290)
-- Municipal Local Transit Operations Centers → payment request → Financial Institution — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=60-69)
-- Municipal Local Transit Parking Systems → parking payment transactions → Municipal Local Transit Operations Centers ((None-Data) - Secure Internet (ITS)) — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-290)
-- Municipal Local Transit Parking Systems → request for payment → Municipal Local Transit Payment Device — [interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=290-292)
+- Interface: Financial Institution → settlement → Municipal Local Transit Operations Centers — [settlement interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=60-69)
+- Interface: Municipal Local Transit Operations Centers → parking area transit information_ud → Municipal Local Transit Stations and Shelters — [parking area transit information_ud interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-273)
+- Interface: Municipal Local Transit Operations Centers → parking payment instructions → Municipal Local Transit Parking Systems ((None-Data) - Secure Internet (ITS)) — [parking payment instructions interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-290)
+- Interface: Municipal Local Transit Operations Centers → payment request → Financial Institution — [payment request interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=60-69)
+- Interface: Municipal Local Transit Parking Systems → parking payment transactions → Municipal Local Transit Operations Centers ((None-Data) - Secure Internet (ITS)) — [parking payment transactions interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=69-290)
+- Interface: Municipal Local Transit Parking Systems → request for payment → Municipal Local Transit Payment Device — [request for payment interface](https://www.consystec.com/pr2026proto/web/interface.htm?id=290-292)
 
 ## Applicable Standards (1)
 
@@ -59,3 +56,14 @@ Communication and data standards referenced by the interfaces above.
 - [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 - [Functional Requirements: Roadway Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el82)
 
+## Deployment Guidance
+
+When planning a deployment in Performance Management:
+
+1. **Identify the service packages** that apply to your use case from the list above.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

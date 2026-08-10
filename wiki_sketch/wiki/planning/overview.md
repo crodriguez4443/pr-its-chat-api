@@ -1,12 +1,12 @@
 # PRDOT — Overview
 
 ## Scope
-This architecture contains **104 elements**, **28 stakeholders**, and **74 unique service package types** (586 total instances including stakeholder-specific variants).
+This architecture contains **114 elements**, **35 stakeholders**, and **74 unique service package types** (226 total instances including stakeholder-specific variants).
 
-Additional content: 207 functional requirements, 309 interfaces, 268 data flows, 10 planning documents, 53 standards bundles, 238 solutions/standards, 67 projects.
+Additional content: 248 functional requirements, 309 interfaces, 268 data flows, 10 planning documents, 54 standards bundles, 245 solutions/standards, 67 projects.
 
 ## Element Status Distribution
-Existing: 57, Planned: 46, : 1
+Existing: 67, Planned: 46, : 1
 
 ## Service Area Categories Present
 - **Commercial Vehicle Operations** (CVO): 9 service package types — Freight credentialing, electronic screening, HAZMAT tracking, oversize/overweight permits.
@@ -24,10 +24,13 @@ Existing: 57, Planned: 46, : 1
 
 ## Key Agencies / Stakeholders
 - [Airport Authorities](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=60)
+- [American Association of Motor Vehicle Administrators](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=52)
 - [Archive Data Users](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=20)
+- [BRT - Bus Rapid Transit](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=115)
 - [Electric Vehicle Charging Organizations](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=109)
 - [Federal Motor Carrier Safety Administration](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=42)
 - [Financial Institution](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=26)
+- [IFTA](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=51)
 - [MBA - Metropolitan Bus Authority](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=113)
 - [Media](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=6)
 - [Metropistas](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=112)
@@ -39,16 +42,20 @@ Existing: 57, Planned: 46, : 1
 - [PR Department of Motor Vehicles](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=75)
 - [PR Metropolitan Planning Organization](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=74)
 - [PR Police](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=68)
+- [PR Police Commercial Vehicle Enforcement](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=36)
+- [PRHTA - Puerto Rico Highway and Transportation Authority](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=3)
 - [Private Customs Brokers](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=70)
 - [Private Maintenance Contractors](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=84)
 - [Private Motor Carriers](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=41)
 - [Private Tow/Wrecker Providers](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=29)
+- [Private Traffic Data Providers](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=83)
 - [Private Travelers](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=5)
 - [Private Weather Information Provider](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=7)
 - [Rail Operators](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=31)
 - [Region Transit Fare Media Stakeholders](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=116)
 - [Regional Event Coordinators](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=4)
 - [State Emergency Management Agency](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=64)
+- [Tren Urbano](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=114)
 - [US Department of Homeland Security](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=72)
 - [US Government Agencies](https://www.consystec.com/pr2026proto/web/stakeholder.htm?id=108)
 
@@ -58,16 +65,4 @@ Existing: 57, Planned: 46, : 1
 - **Deployment questions** ("What do I need for a DMS deployment?"): Read the service area page for context, then search for specific functional requirements and standards.
 - **RFP/RFI questions**: The service area pages list which functional requirements, interfaces, and standards apply. These map directly to RFP specification sections.
 
-Base URL: https://www.consystec.com/pr2026proto/web
-
-## Deployment Guidance (applies to every service area)
-
-When planning a deployment in any service area:
-
-1. **Identify the service packages** that apply to your use case from that service area's page.
-2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
-3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
-4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
-5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
-
-For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.
+Base URL: https://www.consystec.com/pr/web

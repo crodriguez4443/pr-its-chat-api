@@ -7,53 +7,18 @@
 ### Traveler Information Services
 *511, third-party data feeds, multimodal alerts, personalized info, en-route guidance, electronic payment, personal wayfinding, travel services reservation (also: traveler information system, travel info, road conditions, traffic conditions, travel advisory)*
 
-- [mpSH112_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TI01-01(PRHTA))
-- [mpSH1_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TI01-01(PRHTA))
-- [mpSH1_TI01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TI01-03(Municipal))
-- [mpSH1_TI01-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TI01-04(Municipal))
-- [mpSH21_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_TI01-01(PRHTA))
-- [mpSH21_TI01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_TI01-03(Municipal))
-- [mpSH3_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI01-01(PRHTA))
-- [mpSH3_TI01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI01-02(PRHTA))
-- [mpSH5_TI01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI01-02(PRHTA))
-- [mpSH5_TI01-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI01-04(Municipal))
-- [mpSH64_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TI01-01(PRHTA))
-- [mpSH64_TI01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TI01-03(Municipal))
-- [mpSH68_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TI01-01(PRHTA))
-- [mpSH68_TI01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_TI01-03(Municipal))
-- [mpSH6_TI01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TI01-02(PRHTA))
-- [mpSH6_TI01-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TI01-04(Municipal))
-- [mpSH83_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TI01-01(PRHTA))
-- [mpSH83_TI01-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TI01-04(Municipal))
-- [mpSH92_TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TI01-01(PRHTA))
-- [mpSH92_TI01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_TI01-03(Municipal))
-- [mpSH112_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_TI02-01(PRHTA))
-- [mpSH1_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TI02-01(PRHTA))
-- [mpSH1_TI02-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TI02-03(Municipal))
-- [mpSH1_TI02-04(State)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_TI02-04(State))
-- [mpSH21_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_TI02-01(PRHTA))
-- [mpSH21_TI02-04(State)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_TI02-04(State))
-- [mpSH28_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH28_TI02-01(PRHTA))
-- [mpSH3_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI02-01(PRHTA))
-- [mpSH3_TI02-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI02-02(PRHTA))
-- [mpSH3_TI02-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI02-03(Municipal))
-- [mpSH3_TI02-04(State)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI02-04(State))
-- [mpSH5_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI02-01(PRHTA))
-- [mpSH5_TI02-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI02-02(PRHTA))
-- [mpSH5_TI02-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI02-03(Municipal))
-- [mpSH64_TI02-04(State)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH64_TI02-04(State))
-- [mpSH6_TI02-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TI02-02(PRHTA))
-- [mpSH6_TI02-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH6_TI02-03(Municipal))
-- [mpSH7_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH7_TI02-01(PRHTA))
-- [mpSH83_TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TI02-01(PRHTA))
-- [mpSH83_TI02-04(State)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TI02-04(State))
-- [mpSH3_TI03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI03-01(PRHTA))
-- [mpSH5_TI03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI03-01(PRHTA))
-- [mpSH83_TI03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH83_TI03-01(PRHTA))
-- [mpSH3_TI07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_TI07-01(PRHTA))
-- [mpSH5_TI07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH5_TI07-01(PRHTA))
+- [Service Package TI01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI01-01(PRHTA))
+- [Service Package TI01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI01-02(PRHTA))
+- [Service Package TI01-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI01-03(Municipal))
+- [Service Package TI01-04(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI01-04(Municipal))
+- [Service Package TI02-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI02-01(PRHTA))
+- [Service Package TI02-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI02-02(PRHTA))
+- [Service Package TI02-03(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI02-03(Municipal))
+- [Service Package TI02-04(State)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI02-04(State))
+- [Service Package TI03-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI03-01(PRHTA))
+- [Service Package TI07-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/TI07-01(PRHTA))
 
-## Key Elements (16 total)
+## Key Elements (21 total)
 
 | Element | Status | Stakeholder |
 |---------|--------|-------------|
@@ -62,21 +27,27 @@
 | [Municipal Local Transit Operations Centers](https://www.consystec.com/pr2026proto/web/element.htm?id=69) | Existing | Municipal Local Transit Agencies |
 | [Municipal Public Information Office](https://www.consystec.com/pr2026proto/web/element.htm?id=46) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal Public Safety Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=89) | Existing | Municipal Public Safety Agencies |
+| [Municipal Public Works Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=47) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal SMCs](https://www.consystec.com/pr2026proto/web/element.htm?id=51) | Existing | Municipal Traffic and Maintenance Agencies |
 | [Municipal Website](https://www.consystec.com/pr2026proto/web/element.htm?id=52) | Existing | Municipal Traffic and Maintenance Agencies |
 | [National Weather Service](https://www.consystec.com/pr2026proto/web/element.htm?id=96) | Existing | NOAA |
 | [PR Police Dispatch](https://www.consystec.com/pr2026proto/web/element.htm?id=106) | Existing | PR Police |
 | [PR Travel and Tourism Website](https://www.consystec.com/pr2026proto/web/element.htm?id=104) | Existing | State Emergency Management Agency |
 | [PRHTA ITS Field Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=264) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Information Services](https://www.consystec.com/pr2026proto/web/element.htm?id=115) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Maintenance and Construction Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=128) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [PRHTA Public Information Office](https://www.consystec.com/pr2026proto/web/element.htm?id=153) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA TMC](https://www.consystec.com/pr2026proto/web/element.htm?id=154) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
+| [Private Third Party Information Providers](https://www.consystec.com/pr2026proto/web/element.htm?id=254) | Existing | Private Traffic Data Providers |
 | [Private Travelers Personal Computing Devices](https://www.consystec.com/pr2026proto/web/element.htm?id=187) | Existing | Private Travelers |
 | [Private Travelers Vehicles](https://www.consystec.com/pr2026proto/web/element.htm?id=252) | Existing | Private Travelers |
 | [Private Weather Support Services System](https://www.consystec.com/pr2026proto/web/element.htm?id=248) | Existing | Private Weather Information Provider |
 | [State Emergency Management Agency Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=102) | Existing | State Emergency Management Agency |
 
-## Related Functional Requirements (24 found)
+## Related Functional Requirements (35 found)
 
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=116)
+- [Functional Requirements: TIC Emergency Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=142)
 - [Functional Requirements: TIC Situation Data Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=172)
 - [Functional Requirements: Personal Traveler Information Reception](https://www.consystec.com/pr2026proto/web/funreq.htm?id=175)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=177)
@@ -91,13 +62,34 @@
 - [Functional Requirements: TIC Traveler Information Broadcast](https://www.consystec.com/pr2026proto/web/funreq.htm?id=55)
 - [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=83)
 - [Functional Requirements: Personal Trip Planning and Route Guidance](https://www.consystec.com/pr2026proto/web/funreq.htm?id=9)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=95)
 - [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el104)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el153)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el187)
 - [Functional Requirements: MCM Work Zone Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el247)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el254)
 - [Functional Requirements: TIC Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el263)
 - [Functional Requirements: Vehicle Traveler Information Reception](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el275)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el295)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el300)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el304)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el305)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el306)
 - [Functional Requirements: Personal Interactive Traveler Information](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el311)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el46)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el52)
+- [Functional Requirements: TIC Connected Vehicle Traveler Info Distribution](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el68)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el70)
 
+## Deployment Guidance
+
+When planning a deployment in Traveler Information:
+
+1. **Identify the service packages** that apply to your use case from the list above.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

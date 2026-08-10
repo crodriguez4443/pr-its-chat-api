@@ -7,18 +7,14 @@ Regional planning data, scenario modeling, emissions monitoring.
 ### Performance Management
 *Planning data, performance dashboards, emissions tracking, loading zone management*
 
-- [mpSH21_PM01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(MunicipalTransit))
-- [mpSH21_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM01-01(Transit))
-- [mpSH3_PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM01-01(Transit))
-- [mpSH21_PM02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(MunicipalTransit))
-- [mpSH21_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM02-01(Transit))
-- [mpSH3_PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_PM02-01(Transit))
-- [mpSH21_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(MunicipalTransit))
-- [mpSH21_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_PM03-01(Transit))
-- [mpSH26_PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(MunicipalTransit))
-- [mpSH26_PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH26_PM03-01(Transit))
+- [Service Package PM01-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM01-01(MunicipalTransit))
+- [Service Package PM01-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM01-01(Transit))
+- [Service Package PM02-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM02-01(MunicipalTransit))
+- [Service Package PM02-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM02-01(Transit))
+- [Service Package PM03-01(MunicipalTransit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM03-01(MunicipalTransit))
+- [Service Package PM03-01(Transit)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/PM03-01(Transit))
 
-## Key Elements (6 total)
+## Key Elements (7 total)
 
 | Element | Status | Stakeholder |
 |---------|--------|-------------|
@@ -28,6 +24,7 @@ Regional planning data, scenario modeling, emissions monitoring.
 | [Municipal Local Transit Payment Device](https://www.consystec.com/pr2026proto/web/element.htm?id=292) | Planned | Municipal Local Transit Agencies |
 | [Municipal Local Transit Stations and Shelters](https://www.consystec.com/pr2026proto/web/element.htm?id=273) | Planned | Municipal Local Transit Agencies |
 | [Municipal Local Transit Traveler Information Systems](https://www.consystec.com/pr2026proto/web/element.htm?id=70) | Planned | Municipal Local Transit Agencies |
+| [PRHTA Information Services](https://www.consystec.com/pr2026proto/web/element.htm?id=115) | Existing | PRHTA - Puerto Rico Highway and Transportation Aut |
 
 ## Related Functional Requirements (10 found)
 
@@ -42,3 +39,14 @@ Regional planning data, scenario modeling, emissions monitoring.
 - [Functional Requirements: TIC Trip Planning](https://www.consystec.com/pr2026proto/web/funreq.htm?id=96)
 - [Functional Requirements: Roadway Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el82)
 
+## Deployment Guidance
+
+When planning a deployment in Performance Management:
+
+1. **Identify the service packages** that apply to your use case from the list above.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

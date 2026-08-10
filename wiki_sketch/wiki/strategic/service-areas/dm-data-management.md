@@ -7,35 +7,13 @@ ITS data archiving, performance measurement, data warehousing.
 ### Data Management
 *ITS data archiving, performance measurement, NPMRDS (also: national performance management research data set, probe data, travel time data, speed data)*
 
-- [mpSH112_DM01-05(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH112_DM01-05(Metropistas))
-- [mpSH1_DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_DM01-01(PRHTA))
-- [mpSH1_DM01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_DM01-02(PRHTA))
-- [mpSH1_DM01-06(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_DM01-06(Municipal))
-- [mpSH1_DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH1_DM01-07(MPO))
-- [mpSH20_DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-01(PRHTA))
-- [mpSH20_DM01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-02(PRHTA))
-- [mpSH20_DM01-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-03(PRHTA))
-- [mpSH20_DM01-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-04(PRHTA))
-- [mpSH20_DM01-05(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-05(Metropistas))
-- [mpSH20_DM01-06(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-06(Municipal))
-- [mpSH20_DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH20_DM01-07(MPO))
-- [mpSH21_DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_DM01-01(PRHTA))
-- [mpSH21_DM01-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH21_DM01-03(PRHTA))
-- [mpSH3_DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-01(PRHTA))
-- [mpSH3_DM01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-02(PRHTA))
-- [mpSH3_DM01-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-03(PRHTA))
-- [mpSH3_DM01-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-04(PRHTA))
-- [mpSH3_DM01-05(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-05(Metropistas))
-- [mpSH3_DM01-06(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-06(Municipal))
-- [mpSH3_DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH3_DM01-07(MPO))
-- [mpSH68_DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_DM01-01(PRHTA))
-- [mpSH68_DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH68_DM01-07(MPO))
-- [mpSH74_DM01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH74_DM01-02(PRHTA))
-- [mpSH74_DM01-05(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH74_DM01-05(Metropistas))
-- [mpSH74_DM01-06(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH74_DM01-06(Municipal))
-- [mpSH74_DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH74_DM01-07(MPO))
-- [mpSH75_DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH75_DM01-01(PRHTA))
-- [mpSH92_DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/mpSH92_DM01-07(MPO))
+- [Service Package DM01-01(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-01(PRHTA))
+- [Service Package DM01-02(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-02(PRHTA))
+- [Service Package DM01-03(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-03(PRHTA))
+- [Service Package DM01-04(PRHTA)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-04(PRHTA))
+- [Service Package DM01-05(Metropistas)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-05(Metropistas))
+- [Service Package DM01-06(Municipal)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-06(Municipal))
+- [Service Package DM01-07(MPO)](https://www.consystec.com/pr2026proto/web/spinstance.htm?id=/DM01-07(MPO))
 
 ## Key Elements (20 total)
 
@@ -62,7 +40,7 @@ ITS data archiving, performance measurement, data warehousing.
 | [PRHTA Traffic Management Performance Analysis Archive](https://www.consystec.com/pr2026proto/web/element.htm?id=269) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
 | [PRHTA Transit Database](https://www.consystec.com/pr2026proto/web/element.htm?id=155) | Planned | PRHTA - Puerto Rico Highway and Transportation Aut |
 
-## Related Functional Requirements (19 found)
+## Related Functional Requirements (25 found)
 
 - [Functional Requirements: RSE Traffic Monitoring](https://www.consystec.com/pr2026proto/web/funreq.htm?id=104)
 - [Functional Requirements: TIC Situation Data Management](https://www.consystec.com/pr2026proto/web/funreq.htm?id=172)
@@ -78,9 +56,26 @@ ITS data archiving, performance measurement, data warehousing.
 - [Functional Requirements: Transit Center Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=393)
 - [Functional Requirements: TMC Road Weather Advisories and Warnings](https://www.consystec.com/pr2026proto/web/funreq.htm?id=428)
 - [Functional Requirements: TMC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=429)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=95)
 - [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el172)
 - [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el177)
 - [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el248)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el295)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el300)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el304)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el46)
 - [Functional Requirements: MCM Environmental Information Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el47)
+- [Functional Requirements: TIC Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el70)
 - [Functional Requirements: Roadway Data Collection](https://www.consystec.com/pr2026proto/web/funreq.htm?id=_el82)
 
+## Deployment Guidance
+
+When planning a deployment in Data Management:
+
+1. **Identify the service packages** that apply to your use case from the list above.
+2. **Review the elements** — these are the systems and devices you will need. Check their Status (Existing vs Planned) to understand what is already deployed.
+3. **Look up the functional requirements** — these define WHAT each element must do. They map directly to RFP/RFI specification sections.
+4. **Check the interfaces** — these define HOW elements communicate. Each interface specifies data flows and applicable standards.
+5. **Reference the standards** — for each interface, the architecture specifies which standards (NTCIP, TMDD, SAE, IEEE, etc.) should be used.
+
+For a DOT preparing an RFI/RFP, the functional requirements are your specification backbone. Each requirement can be traced from service package → element → functional requirement → interface → standard.

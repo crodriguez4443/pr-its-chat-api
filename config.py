@@ -41,16 +41,16 @@ DOT_NAME = os.getenv("DOT_NAME", "PRDOT")
 # this is the full base URL including the /web suffix.
 #
 # Example NY:  https://www.consystec.com/nystate2025/web
-# Example PR:  https://consystec.com/pr2026proto/web
+# Example PR:  https://consystec.com/pr/web
 #
 # content_processor.py reads this when generating URLs for the search index.
-ARCHITECTURE_BASE_URL = "https://www.consystec.com/pr2026proto/web"
+ARCHITECTURE_BASE_URL = "https://www.consystec.com/pr/web"
 os.environ["ARCHITECTURE_BASE_URL"] = ARCHITECTURE_BASE_URL
 
 # --- Gemini models ----------------------------------------------------------
 # Override per deployment if cost profile differs.
-GEMINI_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3-flash-preview")
-GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-3.1-pro-preview")
+GEMINI_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.6-flash")
+GEMINI_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-3.6-flash")
 # Fallback used when GEMINI_PRO_MODEL returns 503 after retries.
 GEMINI_PRO_FALLBACK_MODEL = os.getenv("GEMINI_PRO_FALLBACK_MODEL", "gemini-3-flash-preview")
 
